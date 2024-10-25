@@ -1255,6 +1255,8 @@ class Baru extends CI_Controller
 	public function update($id)
 	{
 		$allowed_types = ['image/jpeg', 'image/jpg', 'image/png'];
+
+		
 		if (
 			!empty($_FILES['sp_kepala']['tmp_name'])
 			&& !empty($_FILES['sp_pemilik']['tmp_name'])
@@ -2062,7 +2064,7 @@ class Baru extends CI_Controller
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-				// Hapus file lama
+	
 				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_kepala_lama'));
 				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('pas_foto_lama'));
 
@@ -2133,7 +2135,6 @@ class Baru extends CI_Controller
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-				// Hapus file lama
 				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_pemilik_lama'));
 				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('ktp_pemilik_lama'));
 
@@ -2155,7 +2156,6 @@ class Baru extends CI_Controller
 			!empty($_FILES['sp_pemilik']['tmp_name'])
 			&& !empty($_FILES['pas_foto']['tmp_name'])
 		) {
-			// Pemeriksaan tipe file menggunakan $allowed_types yang sudah ada
 			if (
 				!in_array($_FILES['sp_pemilik']['type'], $allowed_types) ||
 				!in_array($_FILES['pas_foto']['type'], $allowed_types)
@@ -2169,7 +2169,6 @@ class Baru extends CI_Controller
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-				// Hapus file lama
 				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_pemilik_lama'));
 				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('pas_foto_lama'));
 
@@ -2204,7 +2203,6 @@ class Baru extends CI_Controller
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-				// Hapus file lama
 				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('surat_pernyataan_lama'));
 				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('pas_foto_lama'));
 
@@ -2226,7 +2224,6 @@ class Baru extends CI_Controller
 			!empty($_FILES['surat_pernyataan']['tmp_name'])
 			&& !empty($_FILES['ktp_pemilik']['tmp_name'])
 		) {
-			// Pemeriksaan tipe file menggunakan $allowed_types yang sudah ada
 			if (
 				!in_array($_FILES['surat_pernyataan']['type'], $allowed_types) ||
 				!in_array($_FILES['ktp_pemilik']['type'], $allowed_types)
@@ -2286,7 +2283,6 @@ class Baru extends CI_Controller
 				];
 			}
 		} elseif (!empty($_FILES['sp_pemilik']['tmp_name'])) {
-			// Pemeriksaan tipe file menggunakan $allowed_types yang sudah ada
 			if (!in_array($_FILES['sp_pemilik']['type'], $allowed_types)) {
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
