@@ -70,7 +70,8 @@ class Cetak2 extends CI_Controller
 		$templatePath = FCPATH . 'template/surat/surat_izin.docx';
 		$templateProcessor = new TemplateProcessor($templatePath);
 
-		$templateProcessor->setValue('jenis', htmlspecialchars(strtoupper($data['dataop']->jenis) ?? ''));
+		$templateProcessor->setValue('jenis', htmlspecialchars($data['dataop']->jenis ?? ''));
+		$templateProcessor->setValue('jenisHead', htmlspecialchars(strtoupper($data['dataop']->jenis) ?? ''));
 		$templateProcessor->setValue('pasar', htmlspecialchars($data['datapasar'][0]->nama ?? ''));
 
 		$tahunIni = date('Y');
