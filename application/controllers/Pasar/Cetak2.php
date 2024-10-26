@@ -59,10 +59,10 @@ class Cetak2 extends CI_Controller
 
 		$data = [
 			'dataop' => $this->M_cetak->tampilData($id)->row(),
-			'datakios' => $this->M_cetak->tampilKios()->row(),
+			'datakios' => $this->M_cetak->tampilKios($id)->row(),
 			'datapasar' => $this->M_cetak->tampilPasar()->result(),
 			'datatarif' => $this->M_cetak->tampiltarif()->result(),
-			'datapimpinan' => $this->M_cetak->tampilPimpinan()->result(),
+			'datapimpinan' => $this->M_cetak->tampilPimpinan(),
 			'datapegawai' => $this->M_cetak->tampilPegawai()->result(),
 			'print' => $this->M_cetak->tampilData($id)->result()
 		];
@@ -70,19 +70,29 @@ class Cetak2 extends CI_Controller
 		$templatePath = FCPATH . 'template/surat/surat_izin.docx';
 		$templateProcessor = new TemplateProcessor($templatePath);
 
-		$templateProcessor->setValue('nomor_kios', htmlspecialchars($data['datakios']->nomor ?? ''));
-
-
 		$templateProcessor->setValue('jenis', htmlspecialchars(strtoupper($data['dataop']->jenis) ?? ''));
 		$templateProcessor->setValue('pasar', htmlspecialchars($data['datapasar'][0]->nama ?? ''));
 
 		$tahunIni = date('Y');
 		$templateProcessor->setValue('tahun', $tahunIni);
+		$templateProcessor->setValue('namaBlok', htmlspecialchars($data['datakios']->nama_blok ?? ''));
 
-		foreach ($data['datapimpinan'] as $index => $key) {
-			$templateProcessor->setValue('pimpinan_' . ($index + 1), htmlspecialchars($key->nama_pegawai ?? ''));
-			$templateProcessor->setValue('nip_' . ($index + 1), htmlspecialchars($key->nip ?? ''));
+		$templateProcessor->setValue('nomor_kios', htmlspecialchars($data['datakios']->no_blok ?? ''));
+		$templateProcessor->setValue('panjang', htmlspecialchars($data['datakios']->panjang ?? ''));
+		$templateProcessor->setValue('lebar', htmlspecialchars($data['datakios']->lebar ?? ''));
+		$templateProcessor->setValue('dagangan', htmlspecialchars($data['dataop']->jenis_dagangan ?? ''));
+
+		foreach ($data['datapasar'] as $key) {
+			if ($key->id_pasar == $data['dataop']->id_pasar) {
+				$templateProcessor->setValue('komplek', htmlspecialchars($key->nama_pasar));
+				break;
+			}
 		}
+
+		$templateProcessor->setValue('pimpinan_', htmlspecialchars(strtoupper($data['datapimpinan']->nama_pegawai) ?? ''));
+		$templateProcessor->setValue('nip_', htmlspecialchars($data['datapimpinan']->nip ?? ''));
+
+
 
 		foreach ($data['print'] as $key) {
 
@@ -91,6 +101,47 @@ class Cetak2 extends CI_Controller
 			$templateProcessor->setValue('nama', htmlspecialchars(strtoupper($key->nama) ?? ''));
 			$templateProcessor->setValue('alamat', htmlspecialchars(strtoupper($key->alamat) ?? ''));
 		}
+
+
+		$tgl_mulai = date('d F Y', strtotime($data["dataop"]->tgl_daftar));
+		$tgl_akhir = date('d F Y', strtotime($data["dataop"]->tgl_daftar . ' +2 years -1 day'));
+
+		$bulan = array(
+			'January' => 'Januari',
+			'February' => 'Februari',
+			'March' => 'Maret',
+			'April' => 'April',
+			'May' => 'Mei',
+			'June' => 'Juni',
+			'July' => 'Juli',
+			'August' => 'Agustus',
+			'September' => 'September',
+			'October' => 'Oktober',
+			'November' => 'November',
+			'December' => 'Desember'
+		);
+
+		$tgl_mulai = strtr($tgl_mulai, $bulan);
+		$tgl_akhir = strtr($tgl_akhir, $bulan);
+		$tgl_signature = strtr(date('d F Y'), $bulan);
+
+		$templateProcessor->setValue('tgl_mulai', htmlspecialchars($tgl_mulai ?? ''));
+		$templateProcessor->setValue('tgl_akhir', htmlspecialchars($tgl_akhir ?? ''));
+		$templateProcessor->setValue('tgl_signature', htmlspecialchars($tgl_signature ?? ''));
+
+
+		foreach ($data['datatarif'] as $key) {
+			if ($key->id_tarif == $data['datakios']->id_tarif) {
+				$tarifTotal = $key->tarif * $data['datakios']->panjang * $data['datakios']->lebar;
+
+				$retribusiKebersihan = $tarifTotal / 10;
+
+				$templateProcessor->setValue('tarif', $tarifTotal);
+				$templateProcessor->setValue('retribuisi',$retribusiKebersihan);
+				break;
+			}
+		}
+
 
 
 		$outputPath = FCPATH . 'documents/surat_izin_' . $id . '.docx';
