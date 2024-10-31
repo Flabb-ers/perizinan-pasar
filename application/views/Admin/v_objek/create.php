@@ -11,8 +11,7 @@
 						<div class="box-body">
 							<form class="" action="<?php echo site_url('Admin/Objek/create') ?>" method="post">
 								<div class="modal-body">
-									<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
-
+								<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
 									<div class="form-group row">
 										<div class="col-md-6 mb-6 mb-sm-0">
 											<label>NPWRD</label>

@@ -46,7 +46,6 @@ class Objek extends CI_Controller
 			redirect('Admin/Objek/index');
 		}
 
-
 		$data = [
 			'judul' => 'Data Objek',
 			'subjudul' => 'Tambah Data Objek',

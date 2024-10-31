@@ -64,13 +64,12 @@
 <div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<form method="post" action="<?php echo site_url('Admin/Op/importOp'); ?>" enctype="multipart/form-data">
+		<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
 				</div>
 				<div class="modal-body">
-
-
 					<label>Pilih file excel</label>
 					<div class="form-group">
 						<input type="file" name="file_excel" required="required">
@@ -100,13 +99,12 @@
 <div class="modal fade" id="importExcel2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<form method="post" action="<?php echo site_url('Admin/Op/importWp'); ?>" enctype="multipart/form-data">
+		<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
 				</div>
 				<div class="modal-body">
-
-
 					<label>Pilih file excel</label>
 					<div class="form-group">
 						<input type="file" name="file_excel" required="required">
@@ -123,7 +121,6 @@
 					</div>
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 					<button type="submit" name="submit" class="btn btn-primary">Import</button>
-
 				</div>
 			</div>
 		</form>

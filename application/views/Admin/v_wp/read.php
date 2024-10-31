@@ -72,33 +72,29 @@ if ($this->session->flashdata('message')) {
 </div>
 <div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
-		<form method="post" action="<?php echo site_url('Admin/Wp/importWp'); ?>" enctype="multipart/form-data">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
-				</div>
-				<div class="modal-body">
-
-
-					<label>Pilih file excel</label>
-					<div class="form-group">
-						<input type="file" name="file_excel" required="required">
-					</div>
-
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-info btn-sm dropdown-toggle" type="button"
-						id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-						aria-expanded="false"><i class="fa fa-download"></i>Download</button>
-					<div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
-						<a class="dropdown-item" href="<?php echo site_url('Admin/Wp/download_Kpasar'); ?>" target="_blank">Kode Pasar</a>
-						<a class="dropdown-item" href="<?php echo site_url('Admin/Wp/download_template'); ?>" target="_blank">Template</a>
-					</div>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="submit" name="submit" class="btn btn-primary">Import</button>
-
-				</div>
-			</div>
-		</form>
+	<form method="post" action="<?php echo site_url('Admin/Wp/importWp'); ?>" enctype="multipart/form-data">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
+                </div>
+                <div class="modal-body">
+                    <label>Pilih file excel</label>
+                    <div class="form-group">
+                        <input type="file" name="file_excel" required="required">
+                    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-info btn-sm dropdown-toggle" type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false"><i class="fa fa-download"></i>Download</button>
+                    <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="<?php echo site_url('Admin/Wp/download_Kpasar'); ?>" target="_blank">Kode Pasar</a>
+                        <a class="dropdown-item" href="<?php echo site_url('Admin/Wp/download_template'); ?>" target="_blank">Template</a>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" name="submit" class="btn btn-primary">Import</button>
+                </div>
+            </div>
+        </form>
 	</div>
 </div>

@@ -150,6 +150,8 @@ class M_op extends CI_Model
 		return $this->db->get_where('tbl_op', ['id_objek_pajak' => $id]);
 	}
 
+
+
 	public function tampilData2($id)
 	{
 		$this->db->select('tbl_op.*, tbl_pengajuan.*, tbl_jenis.*,tbl_kios.*, tbl_pasar.*, tbl_tarif.*');
@@ -459,6 +461,11 @@ class M_op extends CI_Model
 		} else {
 			return 0;
 		}
+	}
+
+	public function addImportWp($data)
+	{
+		$this->db->insert_batch('tbl_objek', $data);
 	}
 
 
