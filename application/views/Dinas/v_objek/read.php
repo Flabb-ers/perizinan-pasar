@@ -79,9 +79,9 @@
 						id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
 						aria-expanded="false"><i class="fa fa-download"></i>Download</button>
 					<div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
-						<a class="dropdown-item" href="<?php echo site_url('Dinas/Objek/download_Kios'); ?>" target="_blank">Kode Kios</a>
-						<a class="dropdown-item" href="<?php echo site_url('Dinas/Objek/download_Jenis'); ?>" target="_blank">Kode Jenis</a>
-						<a class="dropdown-item" href="<?php echo site_url('Dinas/Objek/download_template'); ?>" target="_blank">Template</a>
+						<a class="dropdown-item" href="<?php echo site_url('Dinas/Op/download_Kios'); ?>" target="_blank">Kode Kios</a>
+						<a class="dropdown-item" href="<?php echo site_url('Dinas/Op/download_Jenis'); ?>" target="_blank">Kode Jenis</a>
+						<a class="dropdown-item" href="<?php echo site_url('Dinas/Op/download_template'); ?>" target="_blank">Template</a>
 					</div>
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 					<button type="submit" name="submit" class="btn btn-primary">Import</button>

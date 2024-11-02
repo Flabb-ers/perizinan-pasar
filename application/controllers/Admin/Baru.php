@@ -56,38 +56,45 @@ class Baru extends CI_Controller
 
 	public function update($id)
 	{
+		$allowed_types = ['image/jpeg', 'image/jpg', 'image/png'];
 
-		if (!empty($_FILES['sp_kepala']['tmp_name']) && !empty($_FILES['sp_pemilik']['tmp_name']) && !empty($_FILES['surat_pernyataan']['tmp_name']) && !empty($_FILES['ktp_pemilik']['tmp_name']) && !empty($_FILES['pas_foto']['tmp_name'])) {
-			if ($_FILES['sp_kepala']['type'] != "image/jpeg" && $_FILES['sp_kepala']['type'] != "image/jpg" && $_FILES['sp_kepala']['type'] != "image/png" && $_FILES['sp_pemilik']['type'] != "image/jpeg" && $_FILES['sp_pemilik']['type'] != "image/jpg" && $_FILES['sp_pemilik']['type'] != "image/png" && $_FILES['surat_pernyataan']['type'] != "image/jpeg" && $_FILES['surat_pernyataan']['type'] != "image/jpg" && $_FILES['surat_pernyataan']['type'] != "image/png" && $_FILES['ktp_pemilik']['type'] != "image/jpeg" && $_FILES['ktp_pemilik']['type'] != "image/jpg" && $_FILES['ktp_pemilik']['type'] != "image/png" && $_FILES['pas_foto']['type'] != "image/jpeg" && $_FILES['pas_foto']['type'] != "image/jpg" && $_FILES['pas_foto']['type'] != "image/png") {
+
+		if (
+			!empty($_FILES['sp_kepala']['tmp_name'])
+			&& !empty($_FILES['sp_pemilik']['tmp_name'])
+			&& !empty($_FILES['surat_pernyataan']['tmp_name'])
+			&& !empty($_FILES['ktp_pemilik']['tmp_name'])
+			&& !empty($_FILES['pas_foto']['tmp_name'])
+		) {
+			if (
+				!in_array($_FILES['sp_kepala']['type'], $allowed_types) ||
+				!in_array($_FILES['sp_pemilik']['type'], $allowed_types) ||
+				!in_array($_FILES['surat_pernyataan']['type'], $allowed_types) ||
+				!in_array($_FILES['ktp_pemilik']['type'], $allowed_types) ||
+				!in_array($_FILES['pas_foto']['type'], $allowed_types)
+			) {
+
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$sp_kepala =
-					UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
-				$sp_pemilik =
-					UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
-				$surat_pernyataan =
-					UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
-				$ktp_pemilik =
-					UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
-				$pas_foto =
-					UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
+				$sp_kepala = UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
+				$sp_pemilik = UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
+				$surat_pernyataan = UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
+				$ktp_pemilik = UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
+				$pas_foto = UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_kepala_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_pemilik_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('surat_pernyataan_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('ktp_pemilik_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('pas_foto_lama')));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_kepala_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_pemilik_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('surat_pernyataan_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('ktp_pemilik_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('pas_foto_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
 					'tanggal' => $this->input->post('tanggal'),
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
@@ -102,1176 +109,1086 @@ class Baru extends CI_Controller
 					'pas_foto' => $pas_foto,
 				];
 			}
-		} elseif (!empty($_FILES['sp_kepala']['tmp_name']) && !empty($_FILES['sp_pemilik']['tmp_name']) && !empty($_FILES['surat_pernyataan']['tmp_name']) && !empty($_FILES['ktp_pemilik']['tmp_name'])) {
-			if ($_FILES['sp_kepala']['type'] != "image/jpeg" && $_FILES['sp_kepala']['type'] != "image/jpg" && $_FILES['sp_kepala']['type'] != "image/png" && $_FILES['sp_pemilik']['type'] != "image/jpeg" && $_FILES['sp_pemilik']['type'] != "image/jpg" && $_FILES['sp_pemilik']['type'] != "image/png" && $_FILES['surat_pernyataan']['type'] != "image/jpeg" && $_FILES['surat_pernyataan']['type'] != "image/jpg" && $_FILES['surat_pernyataan']['type'] != "image/png" && $_FILES['ktp_pemilik']['type'] != "image/jpeg" && $_FILES['ktp_pemilik']['type'] != "image/jpg" && $_FILES['ktp_pemilik']['type'] != "image/png") {
+		} elseif (
+			!empty($_FILES['sp_kepala']['tmp_name'])
+			&& !empty($_FILES['sp_pemilik']['tmp_name'])
+			&& !empty($_FILES['surat_pernyataan']['tmp_name'])
+			&& !empty($_FILES['ktp_pemilik']['tmp_name'])
+		) {
+
+			if (
+				!in_array($_FILES['sp_kepala']['type'], $allowed_types) ||
+				!in_array($_FILES['sp_pemilik']['type'], $allowed_types) ||
+				!in_array($_FILES['surat_pernyataan']['type'], $allowed_types) ||
+				!in_array($_FILES['ktp_pemilik']['type'], $allowed_types)
+			) {
+
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$sp_kepala =
-					UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
-				$sp_pemilik =
-					UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
-				$surat_pernyataan =
-					UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
-				$ktp_pemilik =
-					UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
-
+				$sp_kepala = UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
+				$sp_pemilik = UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
+				$surat_pernyataan = UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
+				$ktp_pemilik = UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_kepala_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_pemilik_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('surat_pernyataan_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('ktp_pemilik_lama')));
-
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_kepala_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_pemilik_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('surat_pernyataan_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('ktp_pemilik_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'sp_kepala' => $sp_kepala,
 					'sp_pemilik' => $sp_pemilik,
 					'surat_pernyataan' => $surat_pernyataan,
 					'ktp_pemilik' => $ktp_pemilik,
-
 				];
 			}
-		} elseif (!empty($_FILES['sp_kepala']['tmp_name']) && !empty($_FILES['sp_pemilik']['tmp_name']) && !empty($_FILES['surat_pernyataan']['tmp_name']) && !empty($_FILES['pas_foto']['tmp_name'])) {
-			if ($_FILES['sp_kepala']['type'] != "image/jpeg" && $_FILES['sp_kepala']['type'] != "image/jpg" && $_FILES['sp_kepala']['type'] != "image/png" && $_FILES['sp_pemilik']['type'] != "image/jpeg" && $_FILES['sp_pemilik']['type'] != "image/jpg" && $_FILES['sp_pemilik']['type'] != "image/png" && $_FILES['surat_pernyataan']['type'] != "image/jpeg" && $_FILES['surat_pernyataan']['type'] != "image/jpg" && $_FILES['surat_pernyataan']['type'] != "image/png" && $_FILES['pas_foto']['type'] != "image/jpeg" && $_FILES['pas_foto']['type'] != "image/jpg" && $_FILES['pas_foto']['type'] != "image/png") {
+		} elseif (
+			!empty($_FILES['sp_kepala']['tmp_name'])
+			&& !empty($_FILES['sp_pemilik']['tmp_name'])
+			&& !empty($_FILES['surat_pernyataan']['tmp_name'])
+			&& !empty($_FILES['pas_foto']['tmp_name'])
+		) {
+
+			if (
+				!in_array($_FILES['sp_kepala']['type'], $allowed_types) ||
+				!in_array($_FILES['sp_pemilik']['type'], $allowed_types) ||
+				!in_array($_FILES['surat_pernyataan']['type'], $allowed_types) ||
+				!in_array($_FILES['pas_foto']['type'], $allowed_types)
+			) {
+
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$sp_kepala =
-					UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
-				$sp_pemilik =
-					UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
-				$surat_pernyataan =
-					UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
-				$pas_foto =
-					UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
+				$sp_kepala = UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
+				$sp_pemilik = UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
+				$surat_pernyataan = UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
+				$pas_foto = UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_kepala_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_pemilik_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('surat_pernyataan_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('pas_foto_lama')));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_kepala_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_pemilik_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('surat_pernyataan_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('pas_foto_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'sp_kepala' => $sp_kepala,
 					'sp_pemilik' => $sp_pemilik,
 					'surat_pernyataan' => $surat_pernyataan,
 					'pas_foto' => $pas_foto,
 				];
 			}
-		} elseif (!empty($_FILES['sp_kepala']['tmp_name']) && !empty($_FILES['sp_pemilik']['tmp_name']) && !empty($_FILES['ktp_pemilik']['tmp_name']) && !empty($_FILES['pas_foto']['tmp_name'])) {
-			if ($_FILES['sp_kepala']['type'] != "image/jpeg" && $_FILES['sp_kepala']['type'] != "image/jpg" && $_FILES['sp_kepala']['type'] != "image/png" && $_FILES['sp_pemilik']['type'] != "image/jpeg" && $_FILES['sp_pemilik']['type'] != "image/jpg" && $_FILES['sp_pemilik']['type'] != "image/png" && $_FILES['ktp_pemilik']['type'] != "image/jpeg" && $_FILES['ktp_pemilik']['type'] != "image/jpg" && $_FILES['ktp_pemilik']['type'] != "image/png" && $_FILES['pas_foto']['type'] != "image/jpeg" && $_FILES['pas_foto']['type'] != "image/jpg" && $_FILES['pas_foto']['type'] != "image/png") {
+		} elseif (
+			!empty($_FILES['sp_kepala']['tmp_name'])
+			&& !empty($_FILES['sp_pemilik']['tmp_name'])
+			&& !empty($_FILES['ktp_pemilik']['tmp_name'])
+			&& !empty($_FILES['pas_foto']['tmp_name'])
+		) {
+
+			if (
+				!in_array($_FILES['sp_kepala']['type'], $allowed_types) ||
+				!in_array($_FILES['sp_pemilik']['type'], $allowed_types) ||
+				!in_array($_FILES['ktp_pemilik']['type'], $allowed_types) ||
+				!in_array($_FILES['pas_foto']['type'], $allowed_types)
+			) {
+
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$sp_kepala =
-					UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
-				$sp_pemilik =
-					UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
-				$ktp_pemilik =
-					UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
-				$pas_foto =
-					UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
+				$sp_kepala = UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
+				$sp_pemilik = UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
+				$ktp_pemilik = UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
+				$pas_foto = UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_kepala_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_pemilik_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('ktp_pemilik_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('pas_foto_lama')));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_kepala_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_pemilik_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('ktp_pemilik_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('pas_foto_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'sp_kepala' => $sp_kepala,
 					'sp_pemilik' => $sp_pemilik,
 					'ktp_pemilik' => $ktp_pemilik,
 					'pas_foto' => $pas_foto,
 				];
 			}
-		} elseif (!empty($_FILES['sp_kepala']['tmp_name']) && !empty($_FILES['surat_pernyataan']['tmp_name']) && !empty($_FILES['ktp_pemilik']['tmp_name']) && !empty($_FILES['pas_foto']['tmp_name'])) {
-			if ($_FILES['sp_kepala']['type'] != "image/jpeg" && $_FILES['sp_kepala']['type'] != "image/jpg" && $_FILES['sp_kepala']['type'] != "image/png" && $_FILES['surat_pernyataan']['type'] != "image/jpeg" && $_FILES['surat_pernyataan']['type'] != "image/jpg" && $_FILES['surat_pernyataan']['type'] != "image/png" && $_FILES['ktp_pemilik']['type'] != "image/jpeg" && $_FILES['ktp_pemilik']['type'] != "image/jpg" && $_FILES['ktp_pemilik']['type'] != "image/png" && $_FILES['pas_foto']['type'] != "image/jpeg" && $_FILES['pas_foto']['type'] != "image/jpg" && $_FILES['pas_foto']['type'] != "image/png") {
+		} elseif (
+			!empty($_FILES['sp_kepala']['tmp_name'])
+			&& !empty($_FILES['surat_pernyataan']['tmp_name'])
+			&& !empty($_FILES['ktp_pemilik']['tmp_name'])
+			&& !empty($_FILES['pas_foto']['tmp_name'])
+		) {
+
+			if (
+				!in_array($_FILES['sp_kepala']['type'], $allowed_types) ||
+				!in_array($_FILES['surat_pernyataan']['type'], $allowed_types) ||
+				!in_array($_FILES['ktp_pemilik']['type'], $allowed_types) ||
+				!in_array($_FILES['pas_foto']['type'], $allowed_types)
+			) {
+
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$sp_kepala =
-					UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
-				$surat_pernyataan =
-					UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
-				$ktp_pemilik =
-					UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
-				$pas_foto =
-					UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
+				$sp_kepala = UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
+				$surat_pernyataan = UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
+				$ktp_pemilik = UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
+				$pas_foto = UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_kepala_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('surat_pernyataan_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('ktp_pemilik_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('pas_foto_lama')));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_kepala_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('surat_pernyataan_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('ktp_pemilik_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('pas_foto_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'sp_kepala' => $sp_kepala,
 					'surat_pernyataan' => $surat_pernyataan,
 					'ktp_pemilik' => $ktp_pemilik,
 					'pas_foto' => $pas_foto,
 				];
 			}
-		} elseif (!empty($_FILES['sp_pemilik']['tmp_name']) && !empty($_FILES['surat_pernyataan']['tmp_name']) && !empty($_FILES['ktp_pemilik']['tmp_name']) && !empty($_FILES['pas_foto']['tmp_name'])) {
-			if ($_FILES['sp_pemilik']['type'] != "image/jpeg" && $_FILES['sp_pemilik']['type'] != "image/jpg" && $_FILES['sp_pemilik']['type'] != "image/png" && $_FILES['surat_pernyataan']['type'] != "image/jpeg" && $_FILES['surat_pernyataan']['type'] != "image/jpg" && $_FILES['surat_pernyataan']['type'] != "image/png" && $_FILES['ktp_pemilik']['type'] != "image/jpeg" && $_FILES['ktp_pemilik']['type'] != "image/jpg" && $_FILES['ktp_pemilik']['type'] != "image/png" && $_FILES['pas_foto']['type'] != "image/jpeg" && $_FILES['pas_foto']['type'] != "image/jpg" && $_FILES['pas_foto']['type'] != "image/png") {
+		} elseif (
+			!empty($_FILES['sp_pemilik']['tmp_name'])
+			&& !empty($_FILES['surat_pernyataan']['tmp_name'])
+			&& !empty($_FILES['ktp_pemilik']['tmp_name'])
+			&& !empty($_FILES['pas_foto']['tmp_name'])
+		) {
+
+			if (
+				!in_array($_FILES['sp_pemilik']['type'], $allowed_types) ||
+				!in_array($_FILES['surat_pernyataan']['type'], $allowed_types) ||
+				!in_array($_FILES['ktp_pemilik']['type'], $allowed_types) ||
+				!in_array($_FILES['pas_foto']['type'], $allowed_types)
+			) {
+
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$sp_pemilik =
-					UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
-				$surat_pernyataan =
-					UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
-				$ktp_pemilik =
-					UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
-				$pas_foto =
-					UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
+				$sp_pemilik = UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
+				$surat_pernyataan = UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
+				$ktp_pemilik = UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
+				$pas_foto = UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_pemilik_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('surat_pernyataan_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('ktp_pemilik_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('pas_foto_lama')));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_pemilik_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('surat_pernyataan_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('ktp_pemilik_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('pas_foto_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'sp_pemilik' => $sp_pemilik,
 					'surat_pernyataan' => $surat_pernyataan,
 					'ktp_pemilik' => $ktp_pemilik,
 					'pas_foto' => $pas_foto,
 				];
 			}
-		} elseif (!empty($_FILES['sp_kepala']['tmp_name']) && !empty($_FILES['sp_pemilik']['tmp_name']) && !empty($_FILES['surat_pernyataan']['tmp_name'])) {
-			if ($_FILES['sp_kepala']['type'] != "image/jpeg" && $_FILES['sp_kepala']['type'] != "image/jpg" && $_FILES['sp_kepala']['type'] != "image/png" && $_FILES['sp_pemilik']['type'] != "image/jpeg" && $_FILES['sp_pemilik']['type'] != "image/jpg" && $_FILES['sp_pemilik']['type'] != "image/png" && $_FILES['surat_pernyataan']['type'] != "image/jpeg" && $_FILES['surat_pernyataan']['type'] != "image/jpg" && $_FILES['surat_pernyataan']['type'] != "image/png" && $_FILES['ktp_pemilik']['type'] != "image/jpeg" && $_FILES['ktp_pemilik']['type'] != "image/jpg" && $_FILES['ktp_pemilik']['type'] != "image/png" && $_FILES['pas_foto']['type'] != "image/jpeg" && $_FILES['pas_foto']['type'] != "image/jpg" && $_FILES['pas_foto']['type'] != "image/png") {
+		} elseif (
+			!empty($_FILES['sp_kepala']['tmp_name'])
+			&& !empty($_FILES['sp_pemilik']['tmp_name'])
+			&& !empty($_FILES['surat_pernyataan']['tmp_name'])
+		) {
+
+			if (
+				!in_array($_FILES['sp_kepala']['type'], $allowed_types) ||
+				!in_array($_FILES['sp_pemilik']['type'], $allowed_types) ||
+				!in_array($_FILES['surat_pernyataan']['type'], $allowed_types)
+			) {
+
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$sp_kepala =
-					UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
-				$sp_pemilik =
-					UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
-				$surat_pernyataan =
-					UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
+				$sp_kepala = UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
+				$sp_pemilik = UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
+				$surat_pernyataan = UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_kepala_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_pemilik_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('surat_pernyataan_lama')));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_kepala_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_pemilik_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('surat_pernyataan_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'sp_kepala' => $sp_kepala,
 					'sp_pemilik' => $sp_pemilik,
 					'surat_pernyataan' => $surat_pernyataan,
 				];
 			}
-		} elseif (!empty($_FILES['sp_kepala']['tmp_name']) && !empty($_FILES['sp_pemilik']['tmp_name']) && !empty($_FILES['ktp_pemilik']['tmp_name'])) {
-			if ($_FILES['sp_kepala']['type'] != "image/jpeg" && $_FILES['sp_kepala']['type'] != "image/jpg" && $_FILES['sp_kepala']['type'] != "image/png" && $_FILES['sp_pemilik']['type'] != "image/jpeg" && $_FILES['sp_pemilik']['type'] != "image/jpg" && $_FILES['sp_pemilik']['type'] != "image/png" && $_FILES['ktp_pemilik']['type'] != "image/jpeg" && $_FILES['ktp_pemilik']['type'] != "image/jpg" && $_FILES['ktp_pemilik']['type'] != "image/png") {
+		} elseif (
+			!empty($_FILES['sp_kepala']['tmp_name'])
+			&& !empty($_FILES['sp_pemilik']['tmp_name'])
+			&& !empty($_FILES['ktp_pemilik']['tmp_name'])
+		) {
+
+			if (
+				!in_array($_FILES['sp_kepala']['type'], $allowed_types) ||
+				!in_array($_FILES['sp_pemilik']['type'], $allowed_types) ||
+				!in_array($_FILES['ktp_pemilik']['type'], $allowed_types)
+			) {
+
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$sp_kepala =
-					UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
-				$sp_pemilik =
-					UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
-				$ktp_pemilik =
-					UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
+				$sp_kepala = UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
+				$sp_pemilik = UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
+				$ktp_pemilik = UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_kepala_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_pemilik_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('ktp_pemilik_lama')));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_kepala_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_pemilik_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('ktp_pemilik_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'sp_kepala' => $sp_kepala,
 					'sp_pemilik' => $sp_pemilik,
 					'ktp_pemilik' => $ktp_pemilik,
 				];
 			}
-		} elseif (!empty($_FILES['sp_kepala']['tmp_name']) && !empty($_FILES['sp_pemilik']['tmp_name']) && !empty($_FILES['pas_foto']['tmp_name'])) {
-			if ($_FILES['sp_kepala']['type'] != "image/jpeg" && $_FILES['sp_kepala']['type'] != "image/jpg" && $_FILES['sp_kepala']['type'] != "image/png" && $_FILES['sp_pemilik']['type'] != "image/jpeg" && $_FILES['sp_pemilik']['type'] != "image/jpg" && $_FILES['sp_pemilik']['type'] != "image/png" && $_FILES['pas_foto']['type'] != "image/jpeg" && $_FILES['pas_foto']['type'] != "image/jpg" && $_FILES['pas_foto']['type'] != "image/png") {
+		} elseif (
+			!empty($_FILES['sp_kepala']['tmp_name'])
+			&& !empty($_FILES['sp_pemilik']['tmp_name'])
+			&& !empty($_FILES['pas_foto']['tmp_name'])
+		) {
+
+			if (
+				!in_array($_FILES['sp_kepala']['type'], $allowed_types) ||
+				!in_array($_FILES['sp_pemilik']['type'], $allowed_types) ||
+				!in_array($_FILES['pas_foto']['type'], $allowed_types)
+			) {
+
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$sp_kepala =
-					UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
-				$sp_pemilik =
-					UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
-				$pas_foto =
-					UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
+				$sp_kepala = UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
+				$sp_pemilik = UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
+				$pas_foto = UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_kepala_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_pemilik_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('pas_foto_lama')));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_kepala_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_pemilik_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('pas_foto_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'sp_kepala' => $sp_kepala,
 					'sp_pemilik' => $sp_pemilik,
 					'pas_foto' => $pas_foto,
 				];
 			}
-		} elseif (!empty($_FILES['sp_kepala']['tmp_name']) && !empty($_FILES['surat_pernyataan']['tmp_name']) && !empty($_FILES['ktp_pemilik']['tmp_name'])) {
-			if ($_FILES['sp_kepala']['type'] != "image/jpeg" && $_FILES['sp_kepala']['type'] != "image/jpg" && $_FILES['sp_kepala']['type'] != "image/png" && $_FILES['surat_pernyataan']['type'] != "image/jpeg" && $_FILES['surat_pernyataan']['type'] != "image/jpg" && $_FILES['surat_pernyataan']['type'] != "image/png" && $_FILES['ktp_pemilik']['type'] != "image/jpeg" && $_FILES['ktp_pemilik']['type'] != "image/jpg" && $_FILES['ktp_pemilik']['type'] != "image/png") {
+		} elseif (
+			!empty($_FILES['sp_kepala']['tmp_name'])
+			&& !empty($_FILES['surat_pernyataan']['tmp_name'])
+			&& !empty($_FILES['ktp_pemilik']['tmp_name'])
+		) {
+
+			if (
+				!in_array($_FILES['sp_kepala']['type'], $allowed_types) ||
+				!in_array($_FILES['surat_pernyataan']['type'], $allowed_types) ||
+				!in_array($_FILES['ktp_pemilik']['type'], $allowed_types)
+			) {
+
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$sp_kepala =
-					UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
-				$surat_pernyataan =
-					UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
-				$ktp_pemilik =
-					UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
+				$sp_kepala = UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
+				$surat_pernyataan = UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
+				$ktp_pemilik = UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_kepala_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('surat_pernyataan_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('ktp_pemilik_lama')));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_kepala_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('surat_pernyataan_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('ktp_pemilik_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'sp_kepala' => $sp_kepala,
 					'surat_pernyataan' => $surat_pernyataan,
 					'ktp_pemilik' => $ktp_pemilik,
 				];
 			}
-		} elseif (!empty($_FILES['sp_kepala']['tmp_name']) && !empty($_FILES['surat_pernyataan']['tmp_name']) && !empty($_FILES['pas_foto']['tmp_name'])) {
-			if ($_FILES['sp_kepala']['type'] != "image/jpeg" && $_FILES['sp_kepala']['type'] != "image/jpg" && $_FILES['sp_kepala']['type'] != "image/png" && $_FILES['surat_pernyataan']['type'] != "image/jpeg" && $_FILES['surat_pernyataan']['type'] != "image/jpg" && $_FILES['surat_pernyataan']['type'] != "image/png" && $_FILES['pas_foto']['type'] != "image/jpeg" && $_FILES['pas_foto']['type'] != "image/jpg" && $_FILES['pas_foto']['type'] != "image/png") {
+		} elseif (
+			!empty($_FILES['sp_kepala']['tmp_name'])
+			&& !empty($_FILES['surat_pernyataan']['tmp_name'])
+			&& !empty($_FILES['pas_foto']['tmp_name'])
+		) {
+
+			if (
+				!in_array($_FILES['sp_kepala']['type'], $allowed_types) ||
+				!in_array($_FILES['surat_pernyataan']['type'], $allowed_types) ||
+				!in_array($_FILES['pas_foto']['type'], $allowed_types)
+			) {
+
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$sp_kepala =
-					UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
-				$surat_pernyataan =
-					UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
-				$pas_foto =
-					UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
+				$sp_kepala = UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
+				$surat_pernyataan = UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
+				$pas_foto = UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_kepala_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('surat_pernyataan_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('pas_foto_lama')));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_kepala_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('surat_pernyataan_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('pas_foto_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'sp_kepala' => $sp_kepala,
 					'surat_pernyataan' => $surat_pernyataan,
 					'pas_foto' => $pas_foto,
 				];
 			}
-		} elseif (!empty($_FILES['sp_kepala']['tmp_name']) && !empty($_FILES['ktp_pemilik']['tmp_name']) && !empty($_FILES['pas_foto']['tmp_name'])) {
-			if ($_FILES['sp_kepala']['type'] != "image/jpeg" && $_FILES['sp_kepala']['type'] != "image/jpg" && $_FILES['sp_kepala']['type'] != "image/png" && $_FILES['ktp_pemilik']['type'] != "image/jpeg" && $_FILES['ktp_pemilik']['type'] != "image/jpg" && $_FILES['ktp_pemilik']['type'] != "image/png" && $_FILES['pas_foto']['type'] != "image/jpeg" && $_FILES['pas_foto']['type'] != "image/jpg" && $_FILES['pas_foto']['type'] != "image/png") {
+		} elseif (
+			!empty($_FILES['sp_kepala']['tmp_name'])
+			&& !empty($_FILES['ktp_pemilik']['tmp_name'])
+			&& !empty($_FILES['pas_foto']['tmp_name'])
+		) {
+
+			if (
+				!in_array($_FILES['sp_kepala']['type'], $allowed_types) ||
+				!in_array($_FILES['ktp_pemilik']['type'], $allowed_types) ||
+				!in_array($_FILES['pas_foto']['type'], $allowed_types)
+			) {
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$sp_kepala =
-					UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
-				$ktp_pemilik =
-					UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
-				$pas_foto =
-					UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
+				$sp_kepala = UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
+				$ktp_pemilik = UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
+				$pas_foto = UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_kepala_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('ktp_pemilik_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('pas_foto_lama')));
+				// Hapus file lama
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_kepala_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('ktp_pemilik_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('pas_foto_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'sp_kepala' => $sp_kepala,
 					'ktp_pemilik' => $ktp_pemilik,
 					'pas_foto' => $pas_foto,
 				];
 			}
-		} elseif (!empty($_FILES['sp_pemilik']['tmp_name']) && !empty($_FILES['surat_pernyataan']['tmp_name']) && !empty($_FILES['ktp_pemilik']['tmp_name'])) {
-			if ($_FILES['sp_pemilik']['type'] != "image/jpeg" && $_FILES['sp_pemilik']['type'] != "image/jpg" && $_FILES['sp_pemilik']['type'] != "image/png" && $_FILES['surat_pernyataan']['type'] != "image/jpeg" && $_FILES['surat_pernyataan']['type'] != "image/jpg" && $_FILES['surat_pernyataan']['type'] != "image/png" && $_FILES['ktp_pemilik']['type'] != "image/jpeg" && $_FILES['ktp_pemilik']['type'] != "image/jpg" && $_FILES['ktp_pemilik']['type'] != "image/png") {
+		} elseif (
+			!empty($_FILES['sp_pemilik']['tmp_name'])
+			&& !empty($_FILES['surat_pernyataan']['tmp_name'])
+			&& !empty($_FILES['ktp_pemilik']['tmp_name'])
+		) {
+			if (
+				!in_array($_FILES['sp_pemilik']['type'], $allowed_types) ||
+				!in_array($_FILES['surat_pernyataan']['type'], $allowed_types) ||
+				!in_array($_FILES['ktp_pemilik']['type'], $allowed_types)
+			) {
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$sp_pemilik =
-					UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
-				$surat_pernyataan =
-					UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
-				$ktp_pemilik =
-					UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
+				$sp_pemilik = UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
+				$surat_pernyataan = UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
+				$ktp_pemilik = UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_pemilik_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('surat_pernyataan_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('ktp_pemilik_lama')));
+				// Hapus file lama
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_pemilik_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('surat_pernyataan_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('ktp_pemilik_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'sp_pemilik' => $sp_pemilik,
 					'surat_pernyataan' => $surat_pernyataan,
 					'ktp_pemilik' => $ktp_pemilik,
 				];
 			}
-		} elseif (!empty($_FILES['sp_pemilik']['tmp_name']) && !empty($_FILES['surat_pernyataan']['tmp_name']) && !empty($_FILES['pas_foto']['tmp_name'])) {
-			if ($_FILES['sp_pemilik']['type'] != "image/jpeg" && $_FILES['sp_pemilik']['type'] != "image/jpg" && $_FILES['sp_pemilik']['type'] != "image/png" && $_FILES['surat_pernyataan']['type'] != "image/jpeg" && $_FILES['surat_pernyataan']['type'] != "image/jpg" && $_FILES['surat_pernyataan']['type'] != "image/png" && $_FILES['pas_foto']['type'] != "image/jpeg" && $_FILES['pas_foto']['type'] != "image/jpg" && $_FILES['pas_foto']['type'] != "image/png") {
+		} elseif (
+			!empty($_FILES['sp_pemilik']['tmp_name'])
+			&& !empty($_FILES['surat_pernyataan']['tmp_name'])
+			&& !empty($_FILES['pas_foto']['tmp_name'])
+		) {
+			if (
+				!in_array($_FILES['sp_pemilik']['type'], $allowed_types) ||
+				!in_array($_FILES['surat_pernyataan']['type'], $allowed_types) ||
+				!in_array($_FILES['pas_foto']['type'], $allowed_types)
+			) {
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$sp_pemilik =
-					UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
-				$surat_pernyataan =
-					UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
-				$pas_foto =
-					UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
+				$sp_pemilik = UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
+				$surat_pernyataan = UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
+				$pas_foto = UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_pemilik_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('surat_pernyataan_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('pas_foto_lama')));
+				// Hapus file lama
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_pemilik_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('surat_pernyataan_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('pas_foto_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'sp_pemilik' => $sp_pemilik,
 					'surat_pernyataan' => $surat_pernyataan,
 					'pas_foto' => $pas_foto,
 				];
 			}
-		} elseif (!empty($_FILES['sp_pemilik']['tmp_name']) && !empty($_FILES['ktp_pemilik']['tmp_name']) && !empty($_FILES['pas_foto']['tmp_name'])) {
-			if ($_FILES['sp_pemilik']['type'] != "image/jpeg" && $_FILES['sp_pemilik']['type'] != "image/jpg" && $_FILES['sp_pemilik']['type'] != "image/png" && $_FILES['ktp_pemilik']['type'] != "image/jpeg" && $_FILES['ktp_pemilik']['type'] != "image/jpg" && $_FILES['ktp_pemilik']['type'] != "image/png" && $_FILES['pas_foto']['type'] != "image/jpeg" && $_FILES['pas_foto']['type'] != "image/jpg" && $_FILES['pas_foto']['type'] != "image/png") {
+		} elseif (
+			!empty($_FILES['sp_pemilik']['tmp_name'])
+			&& !empty($_FILES['ktp_pemilik']['tmp_name'])
+			&& !empty($_FILES['pas_foto']['tmp_name'])
+		) {
+			if (
+				!in_array($_FILES['sp_pemilik']['type'], $allowed_types) ||
+				!in_array($_FILES['ktp_pemilik']['type'], $allowed_types) ||
+				!in_array($_FILES['pas_foto']['type'], $allowed_types)
+			) {
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$sp_pemilik =
-					UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
-				$ktp_pemilik =
-					UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
-				$pas_foto =
-					UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
+				$sp_pemilik = UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
+				$ktp_pemilik = UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
+				$pas_foto = UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_pemilik_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('ktp_pemilik_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('pas_foto_lama')));
+				// Hapus file lama
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_pemilik_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('ktp_pemilik_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('pas_foto_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'sp_pemilik' => $sp_pemilik,
 					'ktp_pemilik' => $ktp_pemilik,
 					'pas_foto' => $pas_foto,
 				];
 			}
-		} elseif (!empty($_FILES['surat_pernyataan']['tmp_name']) && !empty($_FILES['ktp_pemilik']['tmp_name']) && !empty($_FILES['pas_foto']['tmp_name'])) {
-			if ($_FILES['surat_pernyataan']['type'] != "image/jpeg" && $_FILES['surat_pernyataan']['type'] != "image/jpg" && $_FILES['surat_pernyataan']['type'] != "image/png" && $_FILES['ktp_pemilik']['type'] != "image/jpeg" && $_FILES['ktp_pemilik']['type'] != "image/jpg" && $_FILES['ktp_pemilik']['type'] != "image/png" && $_FILES['pas_foto']['type'] != "image/jpeg" && $_FILES['pas_foto']['type'] != "image/jpg" && $_FILES['pas_foto']['type'] != "image/png") {
+		} elseif (
+			!empty($_FILES['surat_pernyataan']['tmp_name'])
+			&& !empty($_FILES['ktp_pemilik']['tmp_name'])
+			&& !empty($_FILES['pas_foto']['tmp_name'])
+		) {
+			if (
+				!in_array($_FILES['surat_pernyataan']['type'], $allowed_types) ||
+				!in_array($_FILES['ktp_pemilik']['type'], $allowed_types) ||
+				!in_array($_FILES['pas_foto']['type'], $allowed_types)
+			) {
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$surat_pernyataan =
-					UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
-				$ktp_pemilik =
-					UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
-				$pas_foto =
-					UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
+				$surat_pernyataan = UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
+				$ktp_pemilik = UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
+				$pas_foto = UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('surat_pernyataan_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('ktp_pemilik_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('pas_foto_lama')));
+				// Hapus file lama
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('surat_pernyataan_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('ktp_pemilik_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('pas_foto_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'surat_pernyataan' => $surat_pernyataan,
 					'ktp_pemilik' => $ktp_pemilik,
 					'pas_foto' => $pas_foto,
 				];
 			}
-		} elseif (!empty($_FILES['sp_kepala']['tmp_name']) && !empty($_FILES['sp_pemilik']['tmp_name'])) {
-			if ($_FILES['sp_kepala']['type'] != "image/jpeg" && $_FILES['sp_kepala']['type'] != "image/jpg" && $_FILES['sp_kepala']['type'] != "image/png" && $_FILES['sp_pemilik']['type'] != "image/jpeg" && $_FILES['sp_pemilik']['type'] != "image/jpg" && $_FILES['sp_pemilik']['type'] != "image/png") {
+		} elseif (
+			!empty($_FILES['sp_kepala']['tmp_name'])
+			&& !empty($_FILES['sp_pemilik']['tmp_name'])
+		) {
+			if (
+				!in_array($_FILES['sp_kepala']['type'], $allowed_types) ||
+				!in_array($_FILES['sp_pemilik']['type'], $allowed_types)
+			) {
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$sp_kepala =
-					UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
-				$sp_pemilik =
-					UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
+				$sp_kepala = UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
+				$sp_pemilik = UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_kepala_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_pemilik_lama')));
+				// Hapus file lama
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_kepala_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_pemilik_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'sp_kepala' => $sp_kepala,
 					'sp_pemilik' => $sp_pemilik,
 				];
 			}
-		} elseif (!empty($_FILES['sp_kepala']['tmp_name']) && !empty($_FILES['surat_pernyataan']['tmp_name'])) {
-			if ($_FILES['sp_kepala']['type'] != "image/jpeg" && $_FILES['sp_kepala']['type'] != "image/jpg" && $_FILES['sp_kepala']['type'] != "image/png" && $_FILES['surat_pernyataan']['type'] != "image/jpeg" && $_FILES['surat_pernyataan']['type'] != "image/jpg" && $_FILES['surat_pernyataan']['type'] != "image/png") {
+		} elseif (
+			!empty($_FILES['sp_kepala']['tmp_name'])
+			&& !empty($_FILES['surat_pernyataan']['tmp_name'])
+		) {
+			if (
+				!in_array($_FILES['sp_kepala']['type'], $allowed_types) ||
+				!in_array($_FILES['surat_pernyataan']['type'], $allowed_types)
+			) {
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$sp_kepala =
-					UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
-				$surat_pernyataan =
-					UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
+				$sp_kepala = UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
+				$surat_pernyataan = UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_kepala_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('surat_pernyataan_lama')));
+				// Hapus file lama
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_kepala_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('surat_pernyataan_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'sp_kepala' => $sp_kepala,
 					'surat_pernyataan' => $surat_pernyataan,
 				];
 			}
-		} elseif (!empty($_FILES['sp_kepala']['tmp_name']) && !empty($_FILES['ktp_pemilik']['tmp_name'])) {
-			if ($_FILES['sp_kepala']['type'] != "image/jpeg" && $_FILES['sp_kepala']['type'] != "image/jpg" && $_FILES['sp_kepala']['type'] != "image/png" && $_FILES['ktp_pemilik']['type'] != "image/jpeg" && $_FILES['ktp_pemilik']['type'] != "image/jpg" && $_FILES['ktp_pemilik']['type'] != "image/png") {
+		} elseif (
+			!empty($_FILES['sp_kepala']['tmp_name'])
+			&& !empty($_FILES['ktp_pemilik']['tmp_name'])
+		) {
+			if (
+				!in_array($_FILES['sp_kepala']['type'], $allowed_types) ||
+				!in_array($_FILES['ktp_pemilik']['type'], $allowed_types)
+			) {
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$sp_kepala =
-					UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
-				$ktp_pemilik =
-					UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
+				$sp_kepala = UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
+				$ktp_pemilik = UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_kepala_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('ktp_pemilik_lama')));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_kepala_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('ktp_pemilik_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'sp_kepala' => $sp_kepala,
 					'ktp_pemilik' => $ktp_pemilik,
 				];
 			}
-		} elseif (!empty($_FILES['sp_kepala']['tmp_name']) && !empty($_FILES['pas_foto']['tmp_name'])) {
-			if ($_FILES['sp_kepala']['type'] != "image/jpeg" && $_FILES['sp_kepala']['type'] != "image/jpg" && $_FILES['sp_kepala']['type'] != "image/png" && $_FILES['pas_foto']['type'] != "image/jpeg" && $_FILES['pas_foto']['type'] != "image/jpg" && $_FILES['pas_foto']['type'] != "image/png") {
+		} elseif (
+			!empty($_FILES['sp_kepala']['tmp_name'])
+			&& !empty($_FILES['pas_foto']['tmp_name'])
+		) {
+			if (
+				!in_array($_FILES['sp_kepala']['type'], $allowed_types) ||
+				!in_array($_FILES['pas_foto']['type'], $allowed_types)
+			) {
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$sp_kepala =
-					UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
-				$pas_foto =
-					UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
+				$sp_kepala = UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
+				$pas_foto = UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
 
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_kepala_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('pas_foto_lama')));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_kepala_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('pas_foto_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'sp_kepala' => $sp_kepala,
 					'pas_foto' => $pas_foto,
 				];
 			}
-		} elseif (!empty($_FILES['sp_pemilik']['tmp_name']) && !empty($_FILES['surat_pernyataan']['tmp_name'])) {
-			if ($_FILES['sp_pemilik']['type'] != "image/jpeg" && $_FILES['sp_pemilik']['type'] != "image/jpg" && $_FILES['sp_pemilik']['type'] != "image/png" && $_FILES['surat_pernyataan']['type'] != "image/jpeg" && $_FILES['surat_pernyataan']['type'] != "image/jpg" && $_FILES['surat_pernyataan']['type'] != "image/png") {
+		} elseif (
+			!empty($_FILES['sp_pemilik']['tmp_name'])
+			&& !empty($_FILES['surat_pernyataan']['tmp_name'])
+		) {
+			// Pemeriksaan tipe file menggunakan $allowed_types yang sudah ada
+			if (
+				!in_array($_FILES['sp_pemilik']['type'], $allowed_types) ||
+				!in_array($_FILES['surat_pernyataan']['type'], $allowed_types)
+			) {
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$sp_pemilik =
-					UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
-				$surat_pernyataan =
-					UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
+				$sp_pemilik = UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
+				$surat_pernyataan = UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_pemilik_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('surat_pernyataan_lama')));
+				// Hapus file lama
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_pemilik_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('surat_pernyataan_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'sp_pemilik' => $sp_pemilik,
 					'surat_pernyataan' => $surat_pernyataan,
 				];
 			}
-		} elseif (!empty($_FILES['sp_pemilik']['tmp_name']) && !empty($_FILES['ktp_pemilik']['tmp_name'])) {
-			if ($_FILES['sp_pemilik']['type'] != "image/jpeg" && $_FILES['sp_pemilik']['type'] != "image/jpg" && $_FILES['sp_pemilik']['type'] != "image/png" && $_FILES['ktp_pemilik']['type'] != "image/jpeg" && $_FILES['ktp_pemilik']['type'] != "image/jpg" && $_FILES['ktp_pemilik']['type'] != "image/png") {
+		} elseif (
+			!empty($_FILES['sp_pemilik']['tmp_name'])
+			&& !empty($_FILES['ktp_pemilik']['tmp_name'])
+		) {
+			if (
+				!in_array($_FILES['sp_pemilik']['type'], $allowed_types) ||
+				!in_array($_FILES['ktp_pemilik']['type'], $allowed_types)
+			) {
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$sp_pemilik =
-					UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
-				$ktp_pemilik =
-					UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
+				$sp_pemilik = UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
+				$ktp_pemilik = UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_pemilik_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('ktp_pemilik_lama')));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_pemilik_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('ktp_pemilik_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'sp_pemilik' => $sp_pemilik,
 					'ktp_pemilik' => $ktp_pemilik,
 				];
 			}
-		} elseif (!empty($_FILES['sp_pemilik']['tmp_name']) && !empty($_FILES['pas_foto']['tmp_name'])) {
-			if ($_FILES['sp_pemilik']['type'] != "image/jpeg" && $_FILES['sp_pemilik']['type'] != "image/jpg" && $_FILES['sp_pemilik']['type'] != "image/png" && $_FILES['pas_foto']['type'] != "image/jpeg" && $_FILES['pas_foto']['type'] != "image/jpg" && $_FILES['pas_foto']['type'] != "image/png") {
+		} elseif (
+			!empty($_FILES['sp_pemilik']['tmp_name'])
+			&& !empty($_FILES['pas_foto']['tmp_name'])
+		) {
+			if (
+				!in_array($_FILES['sp_pemilik']['type'], $allowed_types) ||
+				!in_array($_FILES['pas_foto']['type'], $allowed_types)
+			) {
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$sp_pemilik =
-					UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
-				$pas_foto =
-					UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
+				$sp_pemilik = UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
+				$pas_foto = UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_pemilik_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('pas_foto_lama')));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_pemilik_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('pas_foto_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'sp_pemilik' => $sp_pemilik,
 					'pas_foto' => $pas_foto,
 				];
 			}
-		} elseif (!empty($_FILES['surat_pernyataan']['tmp_name']) && !empty($_FILES['pas_foto']['tmp_name'])) {
-			if ($_FILES['surat_pernyataan']['type'] != "image/jpeg" && $_FILES['surat_pernyataan']['type'] != "image/jpg" && $_FILES['surat_pernyataan']['type'] != "image/png" && $_FILES['pas_foto']['type'] != "image/jpeg" && $_FILES['pas_foto']['type'] != "image/jpg" && $_FILES['pas_foto']['type'] != "image/png") {
+		} elseif (
+			!empty($_FILES['surat_pernyataan']['tmp_name'])
+			&& !empty($_FILES['pas_foto']['tmp_name'])
+		) {
+			if (
+				!in_array($_FILES['surat_pernyataan']['type'], $allowed_types) ||
+				!in_array($_FILES['pas_foto']['type'], $allowed_types)
+			) {
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$surat_pernyataan =
-					UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
-				$pas_foto =
-					UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
+				$surat_pernyataan = UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
+				$pas_foto = UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('surat_pernyataan_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('pas_foto_lama')));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('surat_pernyataan_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('pas_foto_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'surat_pernyataan' => $surat_pernyataan,
 					'pas_foto' => $pas_foto,
 				];
 			}
-		} elseif (!empty($_FILES['surat_pernyataan']['tmp_name']) && !empty($_FILES['ktp_pemilik']['tmp_name'])) {
-			if ($_FILES['surat_pernyataan']['type'] != "image/jpeg" && $_FILES['surat_pernyataan']['type'] != "image/jpg" && $_FILES['surat_pernyataan']['type'] != "image/png" && $_FILES['ktp_pemilik']['type'] != "image/jpeg" && $_FILES['ktp_pemilik']['type'] != "image/jpg" && $_FILES['ktp_pemilik']['type'] != "image/png") {
+		} elseif (
+			!empty($_FILES['surat_pernyataan']['tmp_name'])
+			&& !empty($_FILES['ktp_pemilik']['tmp_name'])
+		) {
+			if (
+				!in_array($_FILES['surat_pernyataan']['type'], $allowed_types) ||
+				!in_array($_FILES['ktp_pemilik']['type'], $allowed_types)
+			) {
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$surat_pernyataan =
-					UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
-				$ktp_pemilik =
-					UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
+				$surat_pernyataan = UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
+				$ktp_pemilik = UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('surat_pernyataan_lama')));
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('ktp_pemilik_lama')));
+				// Hapus file lama
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('surat_pernyataan_lama'));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('ktp_pemilik_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'surat_pernyataan' => $surat_pernyataan,
 					'ktp_pemilik' => $ktp_pemilik,
 				];
 			}
 		} elseif (!empty($_FILES['sp_kepala']['tmp_name'])) {
-			if ($_FILES['sp_kepala']['type'] != "image/jpeg" && $_FILES['sp_kepala']['type'] != "image/jpg" && $_FILES['sp_kepala']['type'] != "image/png") {
+			// Pemeriksaan tipe file menggunakan $allowed_types yang sudah ada
+			if (!in_array($_FILES['sp_kepala']['type'], $allowed_types)) {
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$sp_kepala =
-					UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
+				$sp_kepala = UploadImg($_FILES['sp_kepala'], './template/img/syarat/', 'sp_kepala', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_kepala_lama')));
+				// Hapus file lama
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_kepala_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'sp_kepala' => $sp_kepala,
 				];
 			}
 		} elseif (!empty($_FILES['sp_pemilik']['tmp_name'])) {
-			if ($_FILES['sp_pemilik']['type'] != "image/jpeg" && $_FILES['sp_pemilik']['type'] != "image/jpg" && $_FILES['sp_pemilik']['type'] != "image/png") {
+			if (!in_array($_FILES['sp_pemilik']['type'], $allowed_types)) {
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$sp_pemilik =
-					UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
+				$sp_pemilik = UploadImg($_FILES['sp_pemilik'], './template/img/syarat/', 'sp_pemilik', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
+				// Hapus file lama
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('sp_pemilik_lama'));
 
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('sp_pemilik_lama')));
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'sp_pemilik' => $sp_pemilik,
 				];
 			}
 		} elseif (!empty($_FILES['surat_pernyataan']['tmp_name'])) {
-			if ($_FILES['surat_pernyataan']['type'] != "image/jpeg" && $_FILES['surat_pernyataan']['type'] != "image/jpg" && $_FILES['surat_pernyataan']['type'] != "image/png") {
+			if (!in_array($_FILES['surat_pernyataan']['type'], $allowed_types)) {
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$surat_pernyataan =
-					UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
+				$surat_pernyataan = UploadImg($_FILES['surat_pernyataan'], './template/img/syarat/', 'surat_pernyataan', 500);
 
 				$tanggal = date('Y-m-d');
 				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('surat_pernyataan_lama')));
+				// Hapus file lama
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('surat_pernyataan_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'surat_pernyataan' => $surat_pernyataan,
 				];
 			}
 		} elseif (!empty($_FILES['ktp_pemilik']['tmp_name'])) {
-			if ($_FILES['ktp_pemilik']['type'] != "image/jpeg" && $_FILES['ktp_pemilik']['type'] != "image/jpg" && $_FILES['ktp_pemilik']['type'] != "image/png") {
+			$allowed_types = ['image/jpeg', 'image/jpg', 'image/png'];
+
+			if (!in_array($_FILES['ktp_pemilik']['type'], $allowed_types)) {
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$ktp_pemilik =
-					UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
-
+				$ktp_pemilik = UploadImg($_FILES['ktp_pemilik'], './template/img/syarat/', 'ktp_pemilik', 500);
 				$tanggal = date('Y-m-d');
-				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('ktp_pemilik_lama')));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('ktp_pemilik_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'ktp_pemilik' => $ktp_pemilik,
 				];
 			}
 		} elseif (!empty($_FILES['pas_foto']['tmp_name'])) {
-			if ($_FILES['pas_foto']['type'] != "image/jpeg" && $_FILES['pas_foto']['type'] != "image/jpg" && $_FILES['pas_foto']['type'] != "image/png") {
+
+			if (!in_array($_FILES['pas_foto']['type'], $allowed_types)) {
 				echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 				redirect($this->redirect, 'refresh');
 			} else {
-				$pas_foto =
-					UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
-
+				$pas_foto = UploadImg($_FILES['pas_foto'], './template/img/syarat/', 'pas_foto', 500);
 				$tanggal = date('Y-m-d');
-				$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
 
-
-				unlink(FCPATH . ('template/img/syarat/' . $this->input->post('pas_foto_lama')));
+				unlink(FCPATH . 'template/img/syarat/' . $this->input->post('pas_foto_lama'));
 
 				$data = [
-
 					'id_kios' => $this->input->post('id_kios'),
 					'nama' => $this->input->post('nama'),
-
-					'tanggal' => $this->input->post('tanggal'),
 					'tanggal' => $tanggal,
-					'batas_berlaku' => $batas_berlaku,
 					'alamat' => $this->input->post('alamat'),
 					'nik' => $this->input->post('nik'),
 					'pekerjaan' => $this->input->post('pekerjaan'),
 					'no_telp' => $this->input->post('no_telp'),
 					'email' => $this->input->post('email'),
 					'npwrd' => $this->input->post('npwrd'),
-
-
-
 					'pas_foto' => $pas_foto,
 				];
 			}
 		} else {
 			$data = array(
-
 				'id_kios' => $this->input->post('id_kios'),
 				'nama' => $this->input->post('nama'),
-
 				'tanggal' => $this->input->post('tanggal'),
 				'alamat' => $this->input->post('alamat'),
 				'nik' => $this->input->post('nik'),
@@ -1291,7 +1208,7 @@ class Baru extends CI_Controller
 		$this->M_baru->editData($id, $data);
 		$this->session->set_flashdata('pesan', '<div class= "alert alert-success"> 
 	Data Berhasil Ditambahkan</div>');
-		redirect('Admin/baru/index');
+		redirect('/Admin/Baru');
 	}
 
 	public function hapus($id)

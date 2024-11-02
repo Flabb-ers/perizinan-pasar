@@ -56,7 +56,6 @@ class Cetak2 extends CI_Controller
 
 	public function print($id)
 	{
-
 		$data = [
 			'dataop' => $this->M_cetak->tampilData($id)->row(),
 			'datakios' => $this->M_cetak->tampilKios($id)->row(),
@@ -77,7 +76,6 @@ class Cetak2 extends CI_Controller
 		$tahunIni = date('Y');
 		$templateProcessor->setValue('tahun', $tahunIni);
 		$templateProcessor->setValue('namaBlok', htmlspecialchars($data['datakios']->nama_blok ?? ''));
-
 		$templateProcessor->setValue('nomor_kios', htmlspecialchars($data['datakios']->no_blok ?? ''));
 		$templateProcessor->setValue('panjang', htmlspecialchars($data['datakios']->panjang ?? ''));
 		$templateProcessor->setValue('lebar', htmlspecialchars($data['datakios']->lebar ?? ''));
@@ -93,16 +91,24 @@ class Cetak2 extends CI_Controller
 		$templateProcessor->setValue('pimpinan_', htmlspecialchars(strtoupper($data['datapimpinan']->nama_pegawai) ?? ''));
 		$templateProcessor->setValue('nip_', htmlspecialchars($data['datapimpinan']->nip ?? ''));
 
-
-
 		foreach ($data['print'] as $key) {
-
 			$templateProcessor->setValue('nik', htmlspecialchars(strtoupper($key->nik) ?? ''));
 			$templateProcessor->setValue('npwrd', htmlspecialchars($key->npwrd ?? ''));
 			$templateProcessor->setValue('nama', htmlspecialchars(strtoupper($key->nama) ?? ''));
 			$templateProcessor->setValue('alamat', htmlspecialchars(strtoupper($key->alamat) ?? ''));
 		}
 
+		$imagePath = FCPATH . 'template/img/gambarop/' . $data['dataop']->pas_foto;
+		if (file_exists($imagePath)) {
+			$templateProcessor->setImageValue('pas_foto', [
+				'path' => $imagePath,
+				'width' => 50,
+				'height' => 70,
+				'ratio' => false
+			]);
+		} else {
+			$templateProcessor->setValue('pas_foto', 'Tidak ada gambar');
+		}
 
 		$tgl_mulai = date('d F Y', strtotime($data["dataop"]->tgl_daftar));
 		$tgl_akhir = date('d F Y', strtotime($data["dataop"]->tgl_daftar . ' +2 years -1 day'));
@@ -130,23 +136,18 @@ class Cetak2 extends CI_Controller
 		$templateProcessor->setValue('tgl_akhir', htmlspecialchars($tgl_akhir ?? ''));
 		$templateProcessor->setValue('tgl_signature', htmlspecialchars($tgl_signature ?? ''));
 
-
 		foreach ($data['datatarif'] as $key) {
 			if ($key->id_tarif == $data['datakios']->id_tarif) {
 				$tarifTotal = $key->tarif * $data['datakios']->panjang * $data['datakios']->lebar;
-
 				$retribusiKebersihan = $tarifTotal / 10;
 
-				$templateProcessor->setValue('tarif', $tarifTotal);
-				$templateProcessor->setValue('retribuisi',$retribusiKebersihan);
+				$templateProcessor->setValue('tarif', number_format($tarifTotal, 0, ',', '.'));
+				$templateProcessor->setValue('retribusi', number_format($retribusiKebersihan, 0, ',', '.'));
 				break;
 			}
 		}
 
-
-
 		$outputPath = FCPATH . 'documents/surat_izin_' . $id . '.docx';
-
 		$templateProcessor->saveAs($outputPath);
 
 		if (!file_exists($outputPath)) {
@@ -158,8 +159,6 @@ class Cetak2 extends CI_Controller
 		header("Content-Length: " . filesize($outputPath));
 
 		readfile($outputPath);
-
-		// Hapus file hasil setelah diunduh (opsional)
 		unlink($outputPath);
 	}
 }

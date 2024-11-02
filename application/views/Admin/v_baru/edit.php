@@ -18,14 +18,10 @@
 										<label>Nama Pasar</label>
 										<select class="form-control" name="id_kios" id="id_kios" style="width: 100%;" readonly>
 											<option value="">---Pilih Kios---</option>
-											<?php
-											foreach ($datakios as $key) {
-											?>
-
+											<?php foreach ($datakios as $key) { ?>
 												<option value="<?= $key->id_kios ?>" <?php if ($key->id_kios == $databaru->id_kios) {
 																							echo "selected";
 																						} ?>><?php echo $key->nama_pasar ?></option>
-
 											<?php } ?>
 										</select>
 									</div>
@@ -33,96 +29,59 @@
 										<label>Kios</label>
 										<select class="form-control" name="id_kios" id="id_kios" style="width: 100%;" readonly>
 											<option value="">---Pilih Kios---</option>
-											<?php
-											foreach ($datakios as $key) {
-											?>
-
+											<?php foreach ($datakios as $key) { ?>
 												<option value="<?= $key->id_kios ?>" <?php if ($key->id_kios == $databaru->id_kios) {
 																							echo "selected";
 																						} ?>><?php echo $key->jenis . ' ' . $key->nama_blok . ' No ' . $key->no_blok ?></option>
-
 											<?php } ?>
 										</select>
 									</div>
 								</div>
+
+								<!-- Similar field structures as in 'Pasar' form, including images and file upload fields -->
 								<div class="form-group row">
 									<div class="col-md-6 mb-6 mb-sm-0">
-										<label>Nama Wajib Pajak</label>
-										<input type="text" value="<?php echo $databaru->nama ?>" name="nama" pattern="[A-Za-z ]+" class="form-control" readonly>
-									</div>
-									<div class="col-md-6">
-										<label>NPWRD</label>
-										<input type="text" value="<?php echo $databaru->npwrd ?>" name="npwrd" pattern="[A-Za-z ]+" class="form-control" readonly>
-									</div>
-								</div>
-
-								<div class="form-group row">
-
-									<div class="col-md-6 mb-6 mb-sm-0">
-										<label>NIK</label>
-										<input type="text" name="nik" pattern="[0-9]{16}" value="<?php echo $databaru->nik ?>" class="form-control" readonly>
-									</div>
-									<div class="col-md-6">
-										<label>Alamat</label>
-										<input type="text" name="alamat" value="<?php echo $databaru->alamat ?>" class="form-control" readonly>
-									</div>
-								</div>
-								<div class="form-group row">
-									<div class="col-md-6 mb-6 mb-sm-0">
-										<label>No Telp</label>
-										<input type="text" name="no_telp" value="<?php echo $databaru->no_telp ?>" class="form-control" readonly>
-									</div>
-									<div class="col-md-6">
-										<label>Email</label>
-										<input type="email" name="email" value="<?php echo $databaru->email ?>" class="form-control" readonly>
-									</div>
-								</div>
-								<div class="form-group row">
-									<div class="col-md-6 mb-6 mb-sm-0">
-										<label>Jenis Dagangan</label>
-										<input type="text" name="id_jenis" value="<?php echo $databaru->jenis_dagangan ?>" class="form-control" readonly>
-									</div>
-									<div class="col-md-6">
-										<label>Tanggal Pengajuan</label>
-										<input type="text" name="tanggal" value="<?php echo $databaru->tanggal ?>" class="form-control" readonly>
-									</div>
-								</div>
-
-
-
-								<div class="form-group row">
-									<div class="col-md-6 mb-6 mb-sm-0">
-										<label>Surat Permohonan Kepala Pasar</label><br>
-										<input type="file" name="sp_kepala" class="form-control" required>
+										<label>Pas Foto</label><br>
+										<?php if (!empty($databaru->pas_foto)) { ?>
+											<img src="<?= base_url('./template/img/syarat/' . $databaru->pas_foto); ?>" class="img-rounded" width="100px">
+										<?php } ?>
+										<input type="file" name="pas_foto" class="form-control">
+										<input type="hidden" name="pas_foto_lama" value="<?php echo $databaru->pas_foto ?>" class="form-control">
 									</div>
 									<div class="col-md-6">
 										<label>Surat Permohonan Pemohon</label><br>
-										<input type="file" name="sp_pemilik" class="form-control" required>
+										<?php if (!empty($databaru->sp_pemilik)) { ?>
+											<img src="<?= base_url('./template/img/syarat/' . $databaru->sp_pemilik); ?>" class="img-rounded" width="100px">
+										<?php } ?>
+										<input type="file" name="sp_pemilik" class="form-control">
+										<input type="hidden" name="sp_pemilik_lama" value="<?php echo $databaru->sp_pemilik ?>" class="form-control">
 									</div>
 								</div>
-
 
 								<div class="form-group row">
 									<div class="col-md-6 mb-6 mb-sm-0">
 										<label>Surat Pernyataan</label><br>
-										<input type="file" name="surat_pernyataan" class="form-control" required>
+										<?php if (!empty($databaru->surat_pernyataan)) { ?>
+											<img src="<?= base_url('./template/img/syarat/' . $databaru->surat_pernyataan); ?>" class="img-rounded" width="100px">
+										<?php } ?>
+										<input type="file" name="surat_pernyataan" class="form-control">
+										<input type="hidden" name="surat_pernyataan_lama" value="<?php echo $databaru->surat_pernyataan ?>" class="form-control">
 									</div>
 									<div class="col-md-6">
 										<label>KTP Pemilik</label><br>
-										<input type="file" name="ktp_pemilik" class="form-control" required>
+										<?php if (!empty($databaru->ktp_pemilik)) { ?>
+											<img src="<?= base_url('./template/img/syarat/' . $databaru->ktp_pemilik); ?>" class="img-rounded" width="100px">
+										<?php } ?>
+										<input type="file" name="ktp_pemilik" class="form-control">
+										<input type="hidden" name="ktp_pemilik_lama" value="<?php echo $databaru->ktp_pemilik ?>" class="form-control">
 									</div>
 								</div>
 
 								<div class="form-group row">
-									<div class="col-md-6 mb-6 mb-sm-0">
-										<label>Pas Foto</label><br>
-										<input type="file" name="pas_foto" class="form-control" required>
-									</div>
-									<div class="col-md-6">
+									<div class="col-md-12">
 										<label class=" text-danger">Keterangan:<br>1. Semua persyaratan wajib diisi<br>2. Format yang digunakan adalah jpeg/jpg/png</label>
 									</div>
 								</div>
-
 
 								<a href="<?php echo site_url('Admin/Baru') ?>"><button name="simpan" type="submit" class="btn btn-primary">Submit</button></a>
 								<button type="reset" name="reset" class="btn btn-danger">Reset</button>
@@ -144,20 +103,20 @@
 
 	</div>
 </div>
-	<script src="<?php echo base_url('template/js/jquery-3.2.1.min.js') ?>"></script>
-	<script type="text/javascript">
-		$(document).ready(function() {
-			const status_npwrd = document.getElementById("status_npwrd");
-			const npwrd = document.getElementById("npwrd");
+<script src="<?php echo base_url('template/js/jquery-3.2.1.min.js') ?>"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		const status_npwrd = document.getElementById("status_npwrd");
+		const npwrd = document.getElementById("npwrd");
 
-			status_npwrd.addEventListener("change", function() {
-				if (status_npwrd.value === "Sudah") {
-					npwrd.style.display = "block";
-				} else {
-					npwrd.style.display = "none";
-				}
-			});
-
-
+		status_npwrd.addEventListener("change", function() {
+			if (status_npwrd.value === "Sudah") {
+				npwrd.style.display = "block";
+			} else {
+				npwrd.style.display = "none";
+			}
 		});
-	</script>
+
+
+	});
+</script>

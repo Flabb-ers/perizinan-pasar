@@ -11,6 +11,7 @@
 						<div class="box-body">
 							<form class="" action="<?php echo site_url('Admin/Op/save') ?>" method="post">
 								<div class="modal-body">
+								<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
 									<input type="hidden" name="id_objek" value="<?php echo $dataobjek->id_objek ?>" class="form-control">
 									<div class="form-group row">
 										<div class="col-md-6 mb-6 mb-sm-0">
