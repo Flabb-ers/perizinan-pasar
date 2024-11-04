@@ -1,79 +1,80 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Pasar extends CI_Controller {
+class Pasar extends CI_Controller
+{
 
-	 public function __construct()
-	 {
-	 	parent::__construct();
-	 	$this->load->model('M_pasar');
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->model('M_pasar');
 
-	 	if ($this->session->userdata('level')!=='Admin') {
- 		redirect('Auth/index');
-	 	}
-	 }
+		if ($this->session->userdata('level') !== 'Admin') {
+			redirect('Auth/index');
+		}
+	}
 
 	public function index()
 	{
-		$data = [ 
-			'judul'=>'Data Pasar',
-			'subjudul'=>'Data Pasar',
-			'datapasar'=>$this->M_pasar->read()
+		$data = [
+			'judul' => 'Data Pasar',
+			'subjudul' => 'Data Pasar',
+			'datapasar' => $this->M_pasar->read()
 		];
-		
-		 //$this->load->view('pasar/v_read',$data);
-		$this->template->load('pages/index','admin/v_pasar/read', $data); 
+
+		//$this->load->view('pasar/v_read',$data);
+		$this->template->load('pages/index', 'admin/v_pasar/read', $data);
 	}
 
 	public function create()
 	{
 
-	 	if (isset($_POST['simpan'])) {
-	 		$data = [
-	 		'nama_pasar' => $this->input->post('nama_pasar'),
-	 		'tipe_pasar' => $this->input->post('tipe_pasar'),
-	 		
-	 		];
+		if (isset($_POST['simpan'])) {
+			$data = [
+				'nama_pasar' => $this->input->post('nama_pasar'),
+				'tipe_pasar' => $this->input->post('tipe_pasar'),
 
-	 		$this->M_pasar->addData($data);
-	 		$this->session->set_flashdata('pesan', '<div class= "alert alert-success"> 
+			];
+
+			$this->M_pasar->addData($data);
+			$this->session->set_flashdata('pesan', '<div class= "alert alert-success"> 
 	 			Data Berhasil Ditambahkan</div>');
-	 		redirect('admin/pasar/index');
-	 	}
+			redirect('admin/pasar/index');
+		}
 
- 		$data = [
- 		'judul'=>'Data Pasar',
-		'subjudul'=>'Tambah Data Pasar',
- 		];
- 		
- 		$this->template->load('pages/index','admin/v_pasar/create', $data); 
+		$data = [
+			'judul' => 'Data Pasar',
+			'subjudul' => 'Tambah Data Pasar',
+		];
+
+		$this->template->load('pages/index', 'admin/v_pasar/create', $data);
 	}
 
- 	public function edit ($id)
-	{	
+	public function edit($id)
+	{
 
 		if (isset($_POST['edit'])) {
-	 		$data = [
-	 		'nama_pasar' => $this->input->post('nama_pasar'),
-	 		'tipe_pasar' => $this->input->post('tipe_pasar'),
-	 		
-	 		// 'jml_kios' => $this->input->post('jml_kios'),
-	 		// 'jml_los' => $this->input->post('jml_los'),
-	 		];
+			$data = [
+				'nama_pasar' => $this->input->post('nama_pasar'),
+				'tipe_pasar' => $this->input->post('tipe_pasar'),
 
-	 		$this->M_pasar->editData($id, $data);
-	 		$this->session->set_flashdata('pesan', '<div class= "alert alert-success"> 
+				// 'jml_kios' => $this->input->post('jml_kios'),
+				// 'jml_los' => $this->input->post('jml_los'),
+			];
+
+			$this->M_pasar->editData($id, $data);
+			$this->session->set_flashdata('pesan', '<div class= "alert alert-success"> 
 	 			Data Berhasil Diubah</div>');
-	 		redirect('admin/pasar/index');
-	 	}
+			redirect('admin/pasar/index');
+		}
 
-		$data = [ 
-			'judul'=>'Data Pasar',
-			'subjudul'=>'Edit Data Pasar',
-			'datapasar'=>$this->M_pasar->tampilData($id)->row()
+		$data = [
+			'judul' => 'Data Pasar',
+			'subjudul' => 'Edit Data Pasar',
+			'datapasar' => $this->M_pasar->tampilData($id)->row()
 		];
-		
-		$this->template->load('pages/index','admin/v_pasar/edit', $data); 
+
+		$this->template->load('pages/index', 'admin/v_pasar/edit', $data);
 	}
 
 	public function hapus($id)
@@ -81,51 +82,51 @@ class Pasar extends CI_Controller {
 		$this->M_pasar->hapusData($id);
 		$this->session->set_flashdata('pesan', '<div class= "alert alert-success"> 
 	 			Data Berhasil Dihapus</div>');
-	 		redirect('admin/pasar/index');
+		redirect('admin/pasar/index');
 	}
 
 	public function cari($id)
 	{
-	if (isset($_POST['cari'])) {
-	 		$data = [
-	 		'nama_pasar' => $this->input->post('nama_pasar'),
-	 		'nama_blok' => $this->input->post('nama_blok'),
-	 		'no_kl' => $this->input->post('no_kl')
-	 		];
+		if (isset($_POST['cari'])) {
+			$data = [
+				'nama_pasar' => $this->input->post('nama_pasar'),
+				'nama_blok' => $this->input->post('nama_blok'),
+				'no_kl' => $this->input->post('no_kl')
+			];
 
-	 		$this->M_pasar->editData($id, $data);
-	 		redirect('admin/pasar/index');
-	 	}
+			$this->M_pasar->editData($id, $data);
+			redirect('admin/pasar/index');
+		}
 
-		$data = [ 
-			'judul'=>'Data Pasar',
-			'subjudul'=>'Edit Data Pasar',
-			'datapasar'=>$this->M_pasar->tampilDetail($id)->row()
+		$data = [
+			'judul' => 'Data Pasar',
+			'subjudul' => 'Edit Data Pasar',
+			'datapasar' => $this->M_pasar->tampilDetail($id)->row()
 		];
-		
-		$this->template->load('pages/index','admin/v_pasar/', $data); 
+
+		$this->template->load('pages/index', 'admin/v_pasar/', $data);
 	}
 
 	public function print()
 	{
 
-		$data = [ 
-			'judul'=>'Data Pasar',
-			'subjudul'=>'Edit Data Pasar',
-			'datapasar'=>$this->M_pasar->read()
+		$data = [
+			'judul' => 'Data Pasar',
+			'subjudul' => 'Edit Data Pasar',
+			'datapasar' => $this->M_pasar->read()
 		];
 
-	 		$this->load->view('admin/v_pasar/print', $data); 
+		$this->load->view('admin/v_pasar/print', $data);
 	}
 
 	public function cetak_pdf()
 	{
 		$this->load->library('dompdf_gen');
 
-		$data = [ 
-			'judul'=>'Data Pasar',
-			'subjudul'=>'Edit Data Pasar',
-			'datapasar'=>$this->M_pasar->read()
+		$data = [
+			'judul' => 'Data Pasar',
+			'subjudul' => 'Edit Data Pasar',
+			'datapasar' => $this->M_pasar->read()
 		];
 		$this->load->view('admin/v_pasar/cetak_pdf', $data);
 
@@ -137,15 +138,14 @@ class Pasar extends CI_Controller {
 		//comfort ke pdf
 		$this->dompdf->load_html($html);
 		$this->dompdf->render();
-		$this->dompdf->stream("Data Pasar Kab Purworejo", array('Attachment'=>0));
-		
+		$this->dompdf->stream("Data Pasar Kab Purworejo", array('Attachment' => 0));
 	}
 
 	public function excel()
 	{
 		$data['pasar'] = $this->M_pasar->read('tbl_pasar');
-		require(APPPATH. 'PHPExcel-1.8/Classes/PHPExcel.php');
-		require(APPPATH. 'PHPExcel-1.8/Classes/PHPExcel/Writer/Excel2007.php');
+		require(APPPATH . 'PHPExcel-1.8/Classes/PHPExcel.php');
+		require(APPPATH . 'PHPExcel-1.8/Classes/PHPExcel/Writer/Excel2007.php');
 
 		$object = new PHPExcel();
 
@@ -155,7 +155,7 @@ class Pasar extends CI_Controller {
 
 		$object->setActiveSheetIndex(0);
 
-		$object->getActiveSheet()->setCellValue('B1','DATA PASAR KABUPATEN PURWOREJO');
+		$object->getActiveSheet()->setCellValue('B1', 'DATA PASAR KABUPATEN PURWOREJO');
 		$object->getActiveSheet()->setCellValue('A3', 'NO');
 		$object->getActiveSheet()->setCellValue('B3', 'NAMA PASAR');
 		$object->getActiveSheet()->setCellValue('C3', 'TIPE PASAR');
@@ -164,27 +164,81 @@ class Pasar extends CI_Controller {
 		$no = 1;
 
 		foreach ($data['pasar'] as $key) {
-			$object->getActiveSheet()->setCellValue('A'.$baris, $no++);
-			$object->getActiveSheet()->setCellValue('B'.$baris, $key->nama_pasar);
-			$object->getActiveSheet()->setCellValue('C'.$baris, $key->tipe_pasar);
+			$object->getActiveSheet()->setCellValue('A' . $baris, $no++);
+			$object->getActiveSheet()->setCellValue('B' . $baris, $key->nama_pasar);
+			$object->getActiveSheet()->setCellValue('C' . $baris, $key->tipe_pasar);
 
 			$baris++;
 		}
 
-		$filename = "Data_Pasar".'.xls';
+		$filename = "Data_Pasar" . '.xls';
 
 
 		$object->getActiveSheet()->setTitle("Data Pasar");
 		header('Content-Type: application/vnd.ms-excel');
-		header('Content-Disposition: attachment;filename="'.$filename.'"');
+		header('Content-Disposition: attachment;filename="' . $filename . '"');
 		header('Cache_Control: max-age=0');
 
-		$writer=PHPExcel_IOFactory::createwriter($object, 'Excel2007');
+		$writer = PHPExcel_IOFactory::createwriter($object, 'Excel2007');
 		ob_end_clean();
 		$writer->save('php://output');
 
 		exit;
-
 	}
 
+
+	public function download_template()
+	{
+		$templateFilePath = './assets/file/template/template_pasar.xlsx';
+
+		$outputFileName = 'template_pasar.xlsx';
+
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="' . $outputFileName . '"');
+		header('Cache-Control: max-age=0');
+
+		readfile($templateFilePath);
+	}
+
+
+	public function import()
+	{
+		$file = $_FILES['file_excel']['name'];
+		$extension = pathinfo($file, PATHINFO_EXTENSION);
+
+		if ($extension == 'xls') {
+			$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+		} elseif ($extension == 'xlsx') {
+			$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+		} else {
+			$reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+		}
+
+		$spreadsheet = $reader->load($_FILES['file_excel']['tmp_name']);
+		$sheetdata = $spreadsheet->getActiveSheet()->toArray();
+		$sheetcount = count($sheetdata);
+
+		if ($sheetcount > 1) {
+			$data = array();
+			for ($i = 1; $i < $sheetcount; $i++) {
+				$nama_pasar = $sheetdata[$i][1];
+				$tipe_pasar = $sheetdata[$i][2];
+
+				$data[] = array(
+					'nama_pasar' => $nama_pasar,
+					'tipe_pasar' => $tipe_pasar,
+				);
+			}
+
+			$insertdata = $this->M_pasar->addDataImport($data);
+
+			if ($insertdata) {
+				$this->session->set_flashdata('pesan', '<div class="alert alert-success">Data Berhasil Diimpor</div>');
+			} else {
+				$this->session->set_flashdata('pesan', '<div class="alert alert-danger">Data Gagal Diimpor, Tolong Ulangi</div>');
+			}
+
+			redirect('admin/pasar/index');
+		}
+	}
 }

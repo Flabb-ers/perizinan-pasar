@@ -1,5 +1,4 @@
 <div class="container-fluid">
-	<!-- DataTales Example -->
 	<div class="card shadow mb-6">
 		<div class="card-header py-3">
 			<h6 class="m-0 font-weight-bold text-primary">Tambah Data Objek Retribusi</h6>
@@ -11,7 +10,7 @@
 						<div class="box-body">
 							<form class="" action="<?php echo site_url('Admin/Op/save') ?>" method="post">
 								<div class="modal-body">
-								<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+									<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
 									<input type="hidden" name="id_objek" value="<?php echo $dataobjek->id_objek ?>" class="form-control">
 									<div class="form-group row">
 										<div class="col-md-6 mb-6 mb-sm-0">
@@ -26,10 +25,11 @@
 
 										<input type="hidden" name="nama" id="nama" class="form-control">
 										<input type="hidden" name="id_jenis" id="id_jenis" class="form-control">
-										<!--  <input type="text" name="id_wajib_pajak" id="id_wajib_pajak" 
-        <?php foreach ($datawp as $key) { ?>
-        value="<?= $key->id_wajib_pajak ?>" <?= $key->nama ?> class="form-control" >
-        <?php } ?> -->
+										<!-- ddisini -->
+										<!-- <?php foreach ($datawp as $key) { ?>
+											<input type="text" name="id_wajib_pajak" id="id_wajib_pajak"
+												value="<?= $key->id_wajib_pajak ?>" <?= $key->nama ?> class="form-control">
+										<?php } ?> -->
 										<div class="col-md-6">
 											<label>NPWRD</label><br>
 											<input type="text" name="npwrd" id="npwrd" class="form-control" readonly>
@@ -116,7 +116,6 @@
 <script src="<?php echo base_url('template/js/jquery-3.2.1.min.js') ?>"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		// Menangani perubahan pada elemen dropdown pengajuan
 		$('#pengajuan').on('change', function() {
 			var id_pengajuan = $(this).val();
 
@@ -132,8 +131,6 @@
 				dataType: 'json',
 				success: function(response) {
 					if (response.length > 0) {
-
-
 						$("#nama").val(response[0].nama);
 						$("#npwrd").val(response[0].npwrd);
 						$("#nik").val(response[0].nik);

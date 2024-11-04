@@ -81,7 +81,7 @@ class Objek extends CI_Controller {
 			'judul'=>'Data Objek',
 			'subjudul'=>'Data Objek',
 			'dataop'=>$this->M_objek->tampilDetail($id)->result(),
-			'dataobjek'=>$this->M_objek->tampilObjek($id)->row(),
+			// 'dataobjek'=>$this->M_objek->tampilObjek($id)->row(),
 		];
 		
 		$this->template->load('pages/index','Dinas/v_objek/detail', $data); 

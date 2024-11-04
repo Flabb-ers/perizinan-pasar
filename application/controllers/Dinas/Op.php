@@ -11,6 +11,7 @@ class Op extends CI_Controller
 		$this->load->model('M_objek');
 		$this->load->model('M_baru');
 		$this->load->model('M_jenis');
+		$this->load->model('M_wp');
 
 		if ($this->session->userdata('level') !== 'Dinas') {
 			redirect('auth');
@@ -249,5 +250,189 @@ class Op extends CI_Controller
 		$this->output
 			->set_content_type('application/json')
 			->set_output(json_encode($pengajuan));
+	}
+
+
+	public function download_WP()
+	{
+		$this->load->library('dompdf_gen');
+
+		$data = [
+			'judul' => 'Data Objek Pajak',
+			'subjudul' => 'Edit Data Objek Pajak',
+			'datawp' => $this->M_wp->read()->result()
+		];
+		$this->load->view('dinas/v_op/printWP', $data);
+
+		$paper_size = 'A4';
+		$orientation = 'potraid';
+		$html = $this->output->get_output();
+		$this->dompdf->set_paper($paper_size, $orientation);
+
+		//comfort ke pdf
+		$this->dompdf->load_html($html);
+		$this->dompdf->render();
+		$this->dompdf->stream("Data Kode Wajib Retribusi", array('Attachment' => 0));
+	}
+
+	public function download_templateWP()
+	{
+		$templateFilePath = './assets/file/template/ObjekPajak.xlsx';
+		$outputFileName = 'template_ObjekPajak.xlsx';
+
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="' . $outputFileName . '"');
+		header('Cache-Control: max-age=0');
+		readfile($templateFilePath);
+	}
+
+	public function importWp()
+	{
+		$file = $_FILES['file_excel']['name'];
+		$extension = pathinfo($file, PATHINFO_EXTENSION);
+
+		if (!in_array($extension, ['xls', 'xlsx'])) {
+			$this->session->set_flashdata('pesan', '<div class="alert alert-danger">Format file tidak valid. Harap gunakan file Excel (.xls atau .xlsx).</div>');
+			redirect('Dinas/Objek');
+			return;
+		}
+
+		$reader = $extension == 'xls' ? new \PhpOffice\PhpSpreadsheet\Reader\Xls() : new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+		$spreadsheet = $reader->load($_FILES['file_excel']['tmp_name']);
+		$sheetdata = $spreadsheet->getActiveSheet()->toArray();
+
+		$data = [];
+		$sukses = false;
+
+		for ($i = 1; $i < count($sheetdata); $i++) {
+			if (isset($sheetdata[$i][1]) && $sheetdata[$i][1] != '') {
+				$data[] = ['id_wajib_pajak' => $sheetdata[$i][1]];
+			}
+		}
+
+		if (!empty($data)) {
+			$sukses = $this->M_op->addImportWp($data);
+			$sukses = true;
+		}
+
+		if ($sukses == false) {
+			$this->session->set_flashdata('pesan', '<div class="alert alert-danger">Data Gagal Di Import atau Tidak ada data valid.</div>');
+		} else {
+			$this->session->set_flashdata('pesan', '<div class="alert alert-success">Data Berhasil Di Import</div>');
+		}
+		redirect('Dinas/Objek');
+	}
+
+	public function importOp()
+	{
+		$file = $_FILES['file_excel']['name'];
+		$extension = pathinfo($file, PATHINFO_EXTENSION);
+
+		if ($extension == 'xls') {
+			$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+		} else if ($extension == 'xlsx') {
+			$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+		} else {
+			$reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+		}
+
+		$spreadsheet = $reader->load($_FILES['file_excel']['tmp_name']);
+		$sheetData = $spreadsheet->getActiveSheet()->toArray();
+
+		$sheetCount = count($sheetData);
+
+		if ($sheetCount > 1) {
+			foreach ($sheetData as $index => $row) {
+				if ($index == 0) continue;
+
+				$id_objek = $row[1];
+				$id_jenis = $row[2];
+				$id_kios = $row[3];
+				$npwrd = $row[4];
+				$nama = $row[5];
+				$alamat = $row[6];
+				$nama_pasar = $row[7];
+				$jenis = $row[8];
+				$nama_blok = $row[9];
+				$no_blok = $row[10];
+				$no_telp = $row[11];
+				$email = $row[12];
+				$tgl_daftar = $row[13];
+				$batas_berlaku = $row[14];
+
+				$getNPWRD = $this->M_op->getNPWRD($npwrd);
+				if ($getNPWRD > 3) {
+					$this->session->set_flashdata('pesan', "<div class='alert alert-danger'>NPWRD $npwrd telah memiliki 3 kios. Data tidak diimpor.</div>");
+					continue;
+				}
+
+				$data = [
+					'id_objek' => $id_objek,
+					'id_jenis' => $id_jenis,
+					'id_kios' => $id_kios,
+					'npwrd' => $npwrd,
+					'nama' => $nama,
+					'alamat' => $alamat,
+					'nama_pasar' => $nama_pasar,
+					'jenis' => $jenis,
+					'nama_blok' => $nama_blok,
+					'no_blok' => $no_blok,
+					'no_telp' => $no_telp,
+					'email' => $email,
+					'tgl_daftar' => $tgl_daftar,
+					'batas_berlaku' => $batas_berlaku,
+				];
+
+				$this->M_op->addData($data);
+
+				$data_pengajuan = [
+					'status_op' => 'Sudah',
+				];
+				$this->M_baru->editData($this->input->post('id_pengajuan'), $data_pengajuan);
+			}
+
+			$this->session->set_flashdata('pesan', '<div class="alert alert-success">Data Berhasil Diimpor</div>');
+		} else {
+			$this->session->set_flashdata('pesan', '<div class="alert alert-danger">Data Gagal Diimpor, Tolong Ulangi</div>');
+		}
+
+		redirect('Dinas/Objek/');
+	}
+
+	public function download_OP()
+	{
+		$this->load->library('dompdf_gen');
+
+		$data = [
+			'judul' => 'Data Objek Pajak',
+			'subjudul' => 'Edit Data Objek Pajak',
+			'dataop' => $this->M_op->getActiveOP()->result()
+		];
+		$this->load->view('Dinas/v_op/pintOP', $data);
+
+		$paper_size = 'A4';
+		$orientation = 'potraid';
+		$html = $this->output->get_output();
+		$this->dompdf->set_paper($paper_size, $orientation);
+
+		$this->dompdf->load_html($html);
+		$this->dompdf->render();
+		$this->dompdf->stream("Data Kode Objek Retribusi", array('Attachment' => 0));
+	}
+
+	public function download_template()
+	{
+		// Lokasi template file XLSX
+		$templateFilePath = './assets/file/template/DetailObjekPajak.xlsx';
+
+		// Nama file yang akan ditampilkan kepada pengguna
+		$outputFileName = 'template_DetailObjekPajak.xlsx';
+
+		// Set header untuk download file
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="' . $outputFileName . '"');
+		header('Cache-Control: max-age=0');
+
+		readfile($templateFilePath);
 	}
 }

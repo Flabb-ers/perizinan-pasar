@@ -51,8 +51,7 @@ class Op extends CI_Controller
 
 	public function save()
 	{
-
-		$source_path = FCPATH . 'template/img/syarat/'; //path lengkap ke direktori sumber
+		$source_path = FCPATH . 'template/img/syarat/';
 		$destination_path = FCPATH . 'template/img/gambarop/';
 
 		$pas_foto = $this->input->post('pas_foto');
@@ -211,44 +210,118 @@ class Op extends CI_Controller
 	}
 
 
+	// public function importOp()
+	// {
+
+	// 	$file = $_FILES['file_excel']['name'];
+	// 	$extension = pathinfo($file, PATHINFO_EXTENSION);
+
+	// 	if ($extension == 'xls') {
+	// 		$read = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+	// 	} else if ($extension == 'xlsx') {
+	// 		$read = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+	// 	} else {
+	// 		$read = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+	// 	}
+
+	// 	$spreadsheet = $read->load($_FILES['file_excel']['tmp_name']);
+	// 	$sheetdata = $spreadsheet->getActiveSheet()->toArray();
+
+	// 	$sheetcount = count($sheetdata);
+
+	// 	if ($sheetcount > 1) {
+	// 		$data = array();
+	// 		for ($i = 1; $i < $sheetcount; $i++) {
+	// 			$id_objek = $sheetdata[$i][1];
+	// 			$id_jenis = $sheetdata[$i][2];
+	// 			$id_kios = $sheetdata[$i][3];
+	// 			$npwrd = $sheetdata[$i][4];
+	// 			$nama = $sheetdata[$i][5];
+	// 			$alamat = $sheetdata[$i][6];
+	// 			$nama_pasar = $sheetdata[$i][7];
+	// 			$jenis = $sheetdata[$i][8];
+	// 			$nama_blok = $sheetdata[$i][9];
+	// 			$no_blok = $sheetdata[$i][10];
+	// 			$no_telp = $sheetdata[$i][11];
+	// 			$email = $sheetdata[$i][12];
+	// 			$tgl_daftar = $sheetdata[$i][13];
+	// 			$batas_berlaku = $sheetdata[$i][14];
+
+	// 			$data[] = array(
+	// 				'id_objek' => $id_objek,
+	// 				'id_jenis' => $id_jenis,
+	// 				'id_kios' => $id_kios,
+	// 				'npwrd' => $npwrd,
+	// 				'nama' => $nama,
+	// 				'alamat' => $alamat,
+	// 				'nama_pasar' => $nama_pasar,
+	// 				'jenis' => $jenis,
+	// 				'nama_blok' => $nama_blok,
+	// 				'no_blok' => $no_blok,
+	// 				'no_telp' => $no_telp,
+	// 				'email' => $email,
+	// 				'tgl_daftar' => $tgl_daftar,
+	// 				'batas_berlaku' => $batas_berlaku,
+	// 			);
+	// 		}
+	// 		$insertdata = $this->M_op->addDataImport($data);
+
+	// 		if ($insertdata) {
+	// 			$this->session->set_flashdata('pesan', '<div class= "alert alert-success"> 
+	//  			Data Berhasil Di Import</div>');
+	// 			redirect('Admin/Objek/');
+	// 		} else {
+	// 			$this->session->set_flashdata('pesan', '<div class= "alert alert-danger"> 
+	//  			Data Gagal Di Import, Tolong Ulangi</div>');
+	// 			redirect('Admin/Objek/');
+	// 		}
+	// 	}
+	// }
+
 	public function importOp()
 	{
-
 		$file = $_FILES['file_excel']['name'];
 		$extension = pathinfo($file, PATHINFO_EXTENSION);
 
 		if ($extension == 'xls') {
-			$read = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+			$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
 		} else if ($extension == 'xlsx') {
-			$read = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+			$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
 		} else {
-			$read = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+			$reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
 		}
 
-		$spreadsheet = $read->load($_FILES['file_excel']['tmp_name']);
-		$sheetdata = $spreadsheet->getActiveSheet()->toArray();
+		$spreadsheet = $reader->load($_FILES['file_excel']['tmp_name']);
+		$sheetData = $spreadsheet->getActiveSheet()->toArray();
 
-		$sheetcount = count($sheetdata);
+		$sheetCount = count($sheetData);
 
-		if ($sheetcount > 1) {
-			$data = array();
-			for ($i = 1; $i < $sheetcount; $i++) {
-				$id_objek = $sheetdata[$i][1];
-				$id_jenis = $sheetdata[$i][2];
-				$id_kios = $sheetdata[$i][3];
-				$npwrd = $sheetdata[$i][4];
-				$nama = $sheetdata[$i][5];
-				$alamat = $sheetdata[$i][6];
-				$nama_pasar = $sheetdata[$i][7];
-				$jenis = $sheetdata[$i][8];
-				$nama_blok = $sheetdata[$i][9];
-				$no_blok = $sheetdata[$i][10];
-				$no_telp = $sheetdata[$i][11];
-				$email = $sheetdata[$i][12];
-				$tgl_daftar = $sheetdata[$i][13];
-				$batas_berlaku = $sheetdata[$i][14];
+		if ($sheetCount > 1) {
+			foreach ($sheetData as $index => $row) {
+				if ($index == 0) continue;
 
-				$data[] = array(
+				$id_objek = $row[1];
+				$id_jenis = $row[2];
+				$id_kios = $row[3];
+				$npwrd = $row[4];
+				$nama = $row[5];
+				$alamat = $row[6];
+				$nama_pasar = $row[7];
+				$jenis = $row[8];
+				$nama_blok = $row[9];
+				$no_blok = $row[10];
+				$no_telp = $row[11];
+				$email = $row[12];
+				$tgl_daftar = $row[13];
+				$batas_berlaku = $row[14];
+
+				$getNPWRD = $this->M_op->getNPWRD($npwrd);
+				if ($getNPWRD > 3) {
+					$this->session->set_flashdata('pesan', "<div class='alert alert-danger'>NPWRD $npwrd telah memiliki 3 kios. Data tidak diimpor.</div>");
+					continue;
+				}
+
+				$data = [
 					'id_objek' => $id_objek,
 					'id_jenis' => $id_jenis,
 					'id_kios' => $id_kios,
@@ -263,21 +336,24 @@ class Op extends CI_Controller
 					'email' => $email,
 					'tgl_daftar' => $tgl_daftar,
 					'batas_berlaku' => $batas_berlaku,
-				);
-			}
-			$insertdata = $this->M_op->addDataImport($data);
+				];
 
-			if ($insertdata) {
-				$this->session->set_flashdata('pesan', '<div class= "alert alert-success"> 
-	 			Data Berhasil Di Import</div>');
-				redirect('Admin/Objek/');
-			} else {
-				$this->session->set_flashdata('pesan', '<div class= "alert alert-danger"> 
-	 			Data Gagal Di Import, Tolong Ulangi</div>');
-				redirect('Admin/Objek/');
+				$this->M_op->addData($data);
+
+				$data_pengajuan = [
+					'status_op' => 'Sudah',
+				];
+				$this->M_baru->editData($this->input->post('id_pengajuan'), $data_pengajuan);
 			}
+
+			$this->session->set_flashdata('pesan', '<div class="alert alert-success">Data Berhasil Diimpor</div>');
+		} else {
+			$this->session->set_flashdata('pesan', '<div class="alert alert-danger">Data Gagal Diimpor, Tolong Ulangi</div>');
 		}
+
+		redirect('Admin/Objek/');
 	}
+
 
 	public function importWp()
 	{
@@ -332,7 +408,6 @@ class Op extends CI_Controller
 		header('Content-Disposition: attachment;filename="' . $outputFileName . '"');
 		header('Cache-Control: max-age=0');
 
-		// Mengirimkan file template untuk di-download
 		readfile($templateFilePath);
 	}
 

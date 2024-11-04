@@ -21,7 +21,6 @@ class M_op extends CI_Model
 	public function getActiveOP()
 	{
 		$now = date('Y-m-d');
-
 		$this->db->select('tbl_op.*, tbl_jenis.*, tbl_kios.*, tbl_pasar.*, tbl_tarif.*');
 		$this->db->from('tbl_op');
 		$this->db->join('tbl_jenis', 'tbl_op.id_jenis = tbl_jenis.id_jenis');

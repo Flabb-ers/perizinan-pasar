@@ -29,4 +29,9 @@ class M_jenis extends CI_Model {
 	{
 		return $this->db->delete('tbl_jenis',['id_jenis' => $id] );
 	}
+
+	public function addDataBatch($data)
+    {
+        return $this->db->insert_batch('tbl_jenis', $data);
+    }
 }
