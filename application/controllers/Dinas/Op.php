@@ -146,9 +146,8 @@ class Op extends CI_Controller
 	}
 
 
-	public function edit($id)
+	public function update($id)
 	{
-
 		if (isset($_POST['edit'])) {
 
 			$tgl_daftar = $this->input->post('tgl_daftar');
@@ -165,16 +164,27 @@ class Op extends CI_Controller
 				'batas_berlaku' => $batas_berlaku,
 			];
 
-			$this->M_op->editData($id, $data);
-			$this->session->set_flashdata('pesan', '<div class= "alert alert-success"> 
-	 			Data Berhasil Diubah</div>');
-			redirect('Dinas/Objek/');
-		}
+			$id_objek = $this->M_op->getIdObjekFromWajibPajak($id);
 
+			if ($id_objek) {
+				$this->M_op->editData($id, $data);
+				$this->session->set_flashdata('pesan', '<div class="alert alert-success"> 
+                Data Berhasil Diubah</div>');
+				redirect('Dinas/Objek/detail/' . $id_objek);
+			} else {
+				$this->session->set_flashdata('pesan', '<div class="alert alert-danger"> 
+                ID Objek tidak ditemukan</div>');
+				redirect('Dinas/Objek');
+			}
+		}
+	}
+
+	public function edit($id)
+	{
 		$data = [
 			'judul' => 'Data Op',
 			'subjudul' => 'Edit Data Op',
-			'dataop' => $this->M_op->tampilData2($id)->row(),
+			'dataop' => $this->M_op->tampilData3($id),
 			'datapasar' => $this->M_op->tampilJoin()->result(),
 		];
 

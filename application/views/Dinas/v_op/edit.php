@@ -9,7 +9,7 @@
 				<div class="col-12">
 					<div class="box box-warning">
 						<div class="box-body">
-							<form action="<?php echo site_url('Dinas/op/edit/' . $dataop->id_objek_pajak) ?>" method="post">
+							<form action="<?php echo site_url('Dinas/op/update/' . $dataop->id_objek_pajak) ?>" method="post">
 								<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
 
 								<div class="modal-body">
