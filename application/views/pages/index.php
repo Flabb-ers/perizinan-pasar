@@ -48,7 +48,7 @@
 			<div id="content">
 				<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 					<ul class="navbar-nav ml-auto">
-						<?php if ($this->session->userdata('level') == 'Pasar' && (uri_string() == '' || uri_string() == 'Pasar/Welcome')) {
+						<?php if ($this->session->userdata('level') == 'Pasar' && (uri_string() == '' || uri_string() == 'Pasar/Welcome' || uri_string() == 'Pasar/welcome')) {
 							$jumlah_notif = 0; // Inisialisasi jumlah notifikasi
 							foreach ($dataop as $key) {
 								$tgl_sekarang = new DateTime();

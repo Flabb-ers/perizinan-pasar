@@ -85,8 +85,6 @@ class Objek extends CI_Controller
 			'subjudul' => 'Data Objek',
 			'dataop' => $this->M_objek->tampilDetail($id)->result(),
 			'dataobjek' => $this->M_objek->tampilObjek($id)->row(),
-
-
 		];
 
 		$this->template->load('pages/index', 'Admin/v_objek/detail', $data);

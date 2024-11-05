@@ -51,7 +51,6 @@ class M_objek extends CI_Model
 		$this->db->from('tbl_op');
 		$this->db->join('tbl_objek', 'tbl_op.id_objek = tbl_objek.id_objek');
 		$this->db->join('tbl_wp', 'tbl_objek.id_wajib_pajak = tbl_wp.id_wajib_pajak');
-
 		$this->db->join('tbl_jenis', 'tbl_op.id_jenis = tbl_jenis.id_jenis');
 		$this->db->join('tbl_kios', 'tbl_op.id_kios = tbl_kios.id_kios');
 		$this->db->join('tbl_pasar', 'tbl_kios.id_pasar = tbl_pasar.id_pasar');

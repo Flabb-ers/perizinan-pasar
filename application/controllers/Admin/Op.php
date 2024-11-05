@@ -301,8 +301,8 @@ class Op extends CI_Controller
 				if ($index == 0) continue;
 
 				$id_objek = $row[1];
-				$id_jenis = $row[2];
-				$id_kios = $row[3];
+				$id_kios = $row[2];
+				$id_jenis = $row[3];
 				$npwrd = $row[4];
 				$nama = $row[5];
 				$alamat = $row[6];
@@ -468,26 +468,49 @@ class Op extends CI_Controller
 		$this->dompdf->stream("Data Kode Jenis", array('Attachment' => 0));
 	}
 
+	// public function download_OP()
+	// {
+	// 	$this->load->library('dompdf_gen');
+
+	// 	$data = [
+	// 		'judul' => 'Data Objek Pajak',
+	// 		'subjudul' => 'Edit Data Objek Pajak',
+	// 		'dataop' => $this->M_op->getActiveOP()->result()
+	// 	];
+	// 	$this->load->view('Admin/v_op/pintOP', $data);
+
+	// 	$paper_size = 'A4';
+	// 	$orientation = 'potraid';
+	// 	$html = $this->output->get_output();
+	// 	$this->dompdf->set_paper($paper_size, $orientation);
+
+	// 	$this->dompdf->load_html($html);
+	// 	$this->dompdf->render();
+	// 	$this->dompdf->stream("Data Kode Objek Retribusi", array('Attachment' => 0));
+	// }
+
 	public function download_OP()
 	{
 		$this->load->library('dompdf_gen');
 
 		$data = [
 			'judul' => 'Data Objek Pajak',
-			'subjudul' => 'Edit Data Objek Pajak',
-			'dataop' => $this->M_op->getActiveOP()->result()
+			'subjudul' => 'Laporan Data Objek Pajak',
+			'dataop' => $this->M_op->getObjekWithNamaWp()
 		];
+
 		$this->load->view('Admin/v_op/pintOP', $data);
 
 		$paper_size = 'A4';
-		$orientation = 'potraid';
+		$orientation = 'portrait';
 		$html = $this->output->get_output();
-		$this->dompdf->set_paper($paper_size, $orientation);
 
+		$this->dompdf->set_paper($paper_size, $orientation);
 		$this->dompdf->load_html($html);
 		$this->dompdf->render();
-		$this->dompdf->stream("Data Kode Objek Retribusi", array('Attachment' => 0));
+		$this->dompdf->stream("Data_Obyek_Pajak.pdf", array('Attachment' => 0));
 	}
+
 
 	public function download_WP()
 	{

@@ -11,12 +11,12 @@
 			<a href="<?php echo site_url('Dinas/Objek/create') ?>"><button type="button" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>
 					Tambah Data
 				</button></a>
-			<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#importExcel2" onclick="return confirm('Siapkan data excel dengan header: \nKode Wajib Retribusi\nKlik Oke dan Download Kode Wajib Retibusi untuk menyesuaikan Kode Wajib Ret dan Download Template untuk penyesuaian format yang akan diimport  ')">
+			<!-- <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#importExcel2" onclick="return confirm('Siapkan data excel dengan header: \nKode Wajib Retribusi\nKlik Oke dan Download Kode Wajib Retibusi untuk menyesuaikan Kode Wajib Ret dan Download Template untuk penyesuaian format yang akan diimport  ')">
 				IMPORT OBJEK RETRIBUSI
 			</button>
 			<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#importExcel" onclick="return confirm('Siapkan data excel dengan header: \nKode Wajib Ret, Kode Kios, Kode Jenis, Nama Pasar, NPWRD, Nama, Alamat, No. Telepon, Email, Jenis, Nama Blok, No Blok, Tgl Daftar, Batas Berlaku, Status = Sudah\nKlik Oke dan Download Kode Objek Retribusi untuk menyesuaikan Kode Objek Ret dan Download Template untuk penyesuaian format yang akan diimport  ')">
 				IMPORT DETAIL OBJEK RETRIBUSI
-			</button>
+			</button> -->
 			<hr>
 			<br>
 
@@ -61,7 +61,7 @@
 	</div>
 </div>
 
-<div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<form method="post" action="<?php echo site_url('Dinas/Op/importOp'); ?>" enctype="multipart/form-data">
 		<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
@@ -125,4 +125,4 @@
 			</div>
 		</form>
 	</div>
-</div>
+</div> -->
