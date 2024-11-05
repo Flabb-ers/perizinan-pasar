@@ -48,72 +48,84 @@
 			<div id="content">
 				<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 					<ul class="navbar-nav ml-auto">
-						<?php
-						if ($this->session->userdata('level') == 'Pasar') { ?>
-							<!-- Nav Item - Alerts -->
+						<?php if ($this->session->userdata('level') == 'Pasar' && (uri_string() == '' || uri_string() == 'Pasar/Welcome')) {
+							$jumlah_notif = 0; // Inisialisasi jumlah notifikasi
+							foreach ($dataop as $key) {
+								$tgl_sekarang = new DateTime();
+								$tgl_batas = new DateTime($key->batas_berlaku);
+								$interval = $tgl_sekarang->diff($tgl_batas);
+								$jarak_hari = $interval->days;
+								$is_past = $interval->invert;
+
+								// Hitung jumlah notifikasi
+								if (!$is_past && $jarak_hari <= 31 && $jarak_hari >= 1) {
+									$jumlah_notif++;
+								}
+							}
+						?>
 							<li class="nav-item dropdown no-arrow mx-1">
-								<a class="nav-link dropdown-toggle" id="alertsDropdown" role="button"
-									data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<a class="nav-link dropdown-toggle" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									<i class="fas fa-bell fa-fw"></i>
-									<!--  Counter - Alerts  -->
 									<span class="badge badge-danger badge-counter">
-										<i class="fas fa-info"></i>
+										<?php echo $jumlah_notif; // Menampilkan jumlah notifikasi 
+										?>
 									</span>
 								</a>
-								<!-- Dropdown - Alerts -->
-								<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-									aria-labelledby="alertsDropdown">
+								<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
 									<h6 class="dropdown-header">
 										Pemberitahuan Batas Berlaku Surat Izin
 									</h6>
-
 									<table class="table" width="100%" cellspacing="0">
 										<tbody>
 											<?php
 											foreach ($dataop as $key) {
+												$tgl_sekarang = new DateTime();
+												$tgl_batas = new DateTime($key->batas_berlaku);
+												$interval = $tgl_sekarang->diff($tgl_batas);
 
-
-												$tgl = strtotime("now");
-												$batas_berlaku = strtotime($key->batas_berlaku);
-												$jarak_waktu = $batas_berlaku - $tgl;
-												$jarak_hari = $jarak_waktu / (60 * 60 * 24);
+												$jarak_hari = $interval->days;
+												$is_past = $interval->invert;
 
 												$nama = $key->nama;
 												$jenis = $key->jenis;
 												$nama_blok = $key->nama_blok;
 												$no_blok = $key->no_blok;
+
+												if (!$is_past && $jarak_hari <= 31 && $jarak_hari >= 1) {
 											?>
-												<tr>
-													<td></td>
-													<td>
-
-													<?php
-													if ($jarak_hari <= 31 && $jarak_hari >= 30) {
-														echo
-														"<a style='color:red'>" . $nama . "</a>, Masa Berlaku Surat Izin Menempati " . $jenis . " " . $nama_blok . " No" . $no_blok . " akan habis 1 Bulan lagi";
-													} elseif ($jarak_hari <= 30 && $jarak_hari >= 29) {
-														echo "<a style='color:red'>" . $nama . "</a>, Masa Berlaku Surat Izin Menempati " . $jenis . " " . $nama_blok . " No" . $no_blok . " Akan Habis Mohon Ditindak lanjuti";
-													} elseif ($jarak_hari <= 29 && $jarak_hari >= 28) {
-														echo "<a style='color:red'>" . $nama . "</a>, Masa Berlaku Surat Izin Menempati " . $jenis . " " . $nama_blok . " No" . $no_blok . " Akan Habis Mohon Ditindak lanjuti";
-													}
+													<tr>
+														<td></td>
+														<td>
+															<?php
+															if ($jarak_hari == 1) {
+																echo "<a style='color:red'>" . $nama . "</a>, Masa Berlaku Surat Izin Menempati " . $jenis . " " . $nama_blok . " No " . $no_blok . " Akan Habis Besok, Mohon Segera Perpanjang!";
+															} elseif ($jarak_hari <= 31 && $jarak_hari > 1) {
+																echo "<a style='color:red'>" . $nama . "</a>, Masa Berlaku Surat Izin Menempati " . $jenis . " " . $nama_blok . " No " . $no_blok . " Akan Habis dalam " . $jarak_hari . " Hari, Mohon Segera Perpanjang!";
+															}
+															?>
+														</td>
+													</tr>
+											<?php
 												}
-													?>
-													</td>
-												</tr>
-												<tr>
-													<td></td>
-													<td>
-														<a href="<?php echo site_url('Pasar/Download/print') ?>" target="_blank"><button type="button" class="btn btn-primary" data-dismiss="modal">Download</button></a>
-														<a href="<?php echo site_url('Pasar/Welcome') ?>"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></a>
-													</td>
-												</tr>
+											}
+											?>
+											<tr>
+												<td></td>
+												<td>
+													<a href="<?php echo site_url('Pasar/Download/print') ?>" target="_blank">
+														<button type="button" class="btn btn-primary" data-dismiss="modal">Download</button>
+													</a>
+													<a href="<?php echo site_url('Pasar/Welcome') ?>">
+														<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+													</a>
+												</td>
+											</tr>
 										</tbody>
-
 									</table>
-
 								</div>
 							</li>
 						<?php } ?>
+
 
 						<!-- Topbar -->
 

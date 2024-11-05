@@ -113,7 +113,7 @@ class Cetak2 extends CI_Controller
 		}
 
 		$tgl_mulai = date('d F Y', strtotime($data["dataop"]->tgl_daftar));
-		$tgl_akhir = date('d F Y', strtotime($data["dataop"]->tgl_daftar . ' +2 years -1 day'));
+		$tgl_akhir = date('d F Y', strtotime($data["dataop"]->tgl_daftar . ' +2 years'));
 
 		$bulan = array(
 			'January' => 'Januari',
