@@ -9,8 +9,8 @@
                 <div class="col-12">
                     <div class="box box-warning">
                         <div class="box-body">
-                            <form action="<?php echo site_url('Admin/op/edit/' . $dataop->id_objek_pajak) ?>" method="post">
-                            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+                            <form action="<?php echo site_url('Admin/op/update/' . $dataop->id_objek_pajak) ?>" method="post">
+                                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
                                 <div class="modal-body">
                                     <div class="form-group row">
                                         <label class="col-md-3 col-sm-3">Nama Wajib Retribusi</label>

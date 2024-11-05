@@ -103,47 +103,58 @@ class Op extends CI_Controller
 	}
 
 
-	public function edit($id)
-	{
+	public function update($id)
+{
+    if (isset($_POST['edit'])) {
 
-		if (isset($_POST['edit'])) {
+        $tgl_daftar = $this->input->post('tgl_daftar');
+        $batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tgl_daftar)));
 
-			$tgl_daftar = $this->input->post('tgl_daftar');
-			$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tgl_daftar)));
+        $data = [
+            'npwrd' => $this->input->post('npwrd'),
+            'nama' => $this->input->post('nama'),
+            'alamat' => $this->input->post('alamat'),
+            'nama_pasar' => $this->input->post('nama_pasar'),
+            'nama_blok' => $this->input->post('nama_blok'),
+            'no_blok' => $this->input->post('no_blok'),
+            'tgl_daftar' => $tgl_daftar,
+            'batas_berlaku' => $batas_berlaku,
+        ];
 
-			$data = [
-				'npwrd' => $this->input->post('npwrd'),
-				'nama' => $this->input->post('nama'),
-				'alamat' => $this->input->post('alamat'),
-				'nama_pasar' => $this->input->post('nama_pasar'),
-				'nama_blok' => $this->input->post('nama_blok'),
-				'no_blok' => $this->input->post('no_blok'),
-				'tgl_daftar' => $tgl_daftar,
-				'batas_berlaku' => $batas_berlaku,
-			];
+        $id_objek = $this->M_op->getIdObjekFromWajibPajak($id);
 
-			$this->M_op->editData($id, $data);
-			$this->session->set_flashdata('pesan', '<div class= "alert alert-success"> 
-	 			Data Berhasil Diubah</div>');
-			redirect('Admin/Objek/detail/' . $id);
-		}
+        if ($id_objek) {
+            $this->M_op->editData($id, $data);
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success"> 
+                Data Berhasil Diubah</div>');
+            redirect('Admin/Objek/detail/' . $id_objek);
+        } else {
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger"> 
+                ID Objek tidak ditemukan</div>');
+            redirect('Admin/Objek');
+        }
+    }
+}
 
+
+	public function edit($id){
 		$data = [
 			'judul' => 'Data Op',
 			'subjudul' => 'Edit Data Op',
-			'dataop' => $this->M_op->tampilData2($id)->row(),
+			'dataop' => $this->M_op->tampilData3($id),
 			'datapasar' => $this->M_op->tampilJoin()->result(),
 		];
 
 		$this->template->load('pages/index', 'Admin/v_op/edit', $data);
 	}
 
+
 	public function proses($id)
 	{
 
 		if (isset($_POST['proses'])) {
 
-			$source_path = FCPATH . 'template/img/syarat2/'; //path lengkap ke direktori sumber
+			$source_path = FCPATH . 'template/img/syarat2/';
 			$destination_path = FCPATH . 'template/img/gambarop/';
 
 			$pas_foto = $this->input->post('pas_foto');

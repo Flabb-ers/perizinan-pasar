@@ -18,31 +18,31 @@ class M_op extends CI_Model
 		return $query;
 	}
 
-	// public function getActiveOP()
-	// {
-	// 	$now = date('Y-m-d');
-	// 	$this->db->select('tbl_op.*, tbl_jenis.*, tbl_kios.*, tbl_pasar.*, tbl_tarif.*');
-	// 	$this->db->from('tbl_op');
-	// 	$this->db->join('tbl_jenis', 'tbl_op.id_jenis = tbl_jenis.id_jenis');
-	// 	$this->db->join('tbl_kios', 'tbl_op.id_kios = tbl_kios.id_kios');
-	// 	$this->db->join('tbl_pasar', 'tbl_kios.id_pasar = tbl_pasar.id_pasar');
-	// 	$this->db->join('tbl_tarif', 'tbl_kios.id_tarif = tbl_tarif.id_tarif');
-	// 	$this->db->where('tbl_op.batas_berlaku >=', $now);
-	// 	$this->db->order_by('tbl_op.id_objek_pajak', 'DESC');
-	// 	$query = $this->db->get();
+	public function getActiveOP()
+	{
+		$now = date('Y-m-d');
+		$this->db->select('tbl_op.*, tbl_jenis.*, tbl_kios.*, tbl_pasar.*, tbl_tarif.*');
+		$this->db->from('tbl_op');
+		$this->db->join('tbl_jenis', 'tbl_op.id_jenis = tbl_jenis.id_jenis');
+		$this->db->join('tbl_kios', 'tbl_op.id_kios = tbl_kios.id_kios');
+		$this->db->join('tbl_pasar', 'tbl_kios.id_pasar = tbl_pasar.id_pasar');
+		$this->db->join('tbl_tarif', 'tbl_kios.id_tarif = tbl_tarif.id_tarif');
+		$this->db->where('tbl_op.batas_berlaku >=', $now);
+		$this->db->order_by('tbl_op.id_objek_pajak', 'DESC');
+		$query = $this->db->get();
 
-	// 	return $query;
-	// }
+		return $query;
+	}
 
 	public function getObjekWithNamaWp()
-    {
-        $this->db->select('tbl_objek.id_objek, tbl_wp.nama');
-        $this->db->from('tbl_objek');
-        $this->db->join('tbl_wp', 'tbl_objek.id_wajib_pajak = tbl_wp.id_wajib_pajak');
-        
-        $query = $this->db->get();
-        return $query->result();
-    }
+	{
+		$this->db->select('tbl_objek.id_objek, tbl_wp.nama');
+		$this->db->from('tbl_objek');
+		$this->db->join('tbl_wp', 'tbl_objek.id_wajib_pajak = tbl_wp.id_wajib_pajak');
+
+		$query = $this->db->get();
+		return $query->result();
+	}
 
 	public function getActiveOPLevelPasar($id)
 	{
@@ -176,6 +176,34 @@ class M_op extends CI_Model
 
 		return $query;
 	}
+
+	public function getIdObjekFromWajibPajak($id_wajib_pajak)
+	{
+
+		$this->db->select('id_objek');
+		$this->db->from('tbl_op');
+		$this->db->where('id_objek_pajak', $id_wajib_pajak);
+		$query = $this->db->get();
+
+		return $query->row()->id_objek ?? null;
+	}
+
+
+	public function tampilData3($id)
+	{
+		$this->db->select('tbl_op.*, tbl_jenis.*,tbl_kios.*, tbl_pasar.*, tbl_tarif.*');
+		$this->db->from('tbl_op');
+		$this->db->join('tbl_jenis', 'tbl_op.id_jenis = tbl_jenis.id_jenis');
+		$this->db->join('tbl_kios', 'tbl_op.id_kios = tbl_kios.id_kios');
+		$this->db->join('tbl_pasar', 'tbl_kios.id_pasar = tbl_pasar.id_pasar');
+		$this->db->join('tbl_tarif', 'tbl_kios.id_tarif = tbl_tarif.id_tarif');
+		$this->db->where('tbl_op.id_objek_pajak', $id);
+		$this->db->order_by('tbl_op.id_objek_pajak', 'DESC');
+		$query = $this->db->get();
+
+		return $query->row();
+	}
+
 
 	public function editData($id, $data)
 	{
