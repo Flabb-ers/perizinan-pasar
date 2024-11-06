@@ -11,7 +11,6 @@
 						<div class="box-body">
 							<?php echo form_open_multipart('Admin/Pengajuan/update/' . $datapengajuan->id_pengajuan) ?>
 							<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
-
 							<div class="modal-body">
 								<div class="form-group row">
 									<div class="col-md-6 mb-6 mb-sm-0">
@@ -68,11 +67,17 @@
 								</div>
 
 								<div class="form-group row">
-									<div class="col-md-6 mb-6 mb-sm-0">
+									<!-- <div class="col-md-6 mb-6 mb-sm-0">
 										<label>SP Kepala</label><br>
 										<img src="<?= base_url('./template/img/syarat2/' . $datapengajuan->sp_kepala); ?>" class="img-rounded" width="100px">
 										<input type="file" name="sp_kepala" class="form-control">
 										<input type="hidden" name="sp_kepala_lama" value="<?php echo $datapengajuan->sp_kepala ?>" class="form-control">
+									</div> -->
+									<div class="col-md-6 mb-6 mb-sm-0">
+										<label>Pas Foto</label><br>
+										<img src="<?= base_url('./template/img/syarat2/' . $datapengajuan->pas_foto); ?>" class="img-rounded" width="100px">
+										<input type="file" name="pas_foto" class="form-control">
+										<input type="hidden" name="pas_foto_lama" value="<?php echo $datapengajuan->pas_foto ?>" class="form-control">
 									</div>
 									<div class="col-md-6">
 										<label>SP Pemilik</label><br>
@@ -99,12 +104,6 @@
 								</div>
 
 								<div class="form-group row">
-									<div class="col-md-6 mb-6 mb-sm-0">
-										<label>Pas Foto</label><br>
-										<img src="<?= base_url('./template/img/syarat2/' . $datapengajuan->pas_foto); ?>" class="img-rounded" width="100px">
-										<input type="file" name="pas_foto" class="form-control">
-										<input type="hidden" name="pas_foto_lama" value="<?php echo $datapengajuan->pas_foto ?>" class="form-control">
-									</div>
 									<div class="col-md-6">
 										<label class=" text-danger">Keterangan:<br>1. Semua persyaratan wajib diisi<br>2. Format yang digunakan adalah jpeg/jpg/png</label>
 									</div>

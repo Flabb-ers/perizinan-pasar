@@ -77,9 +77,13 @@
 								</div>
 
 								<div class="form-group row">
-									<label class="col-md-3 col-sm-3">Surat Permohonan Kepala Pasar</label><br>
+									<!-- <label class="col-md-3 col-sm-3">Surat Permohonan Kepala Pasar</label><br>
 									<div class="col-md-3 col-sm-3">
 										<img src="<?= base_url('./template/img/syarat2/' . $datapengajuan->sp_kepala); ?>" class="img-rounded" width="100px">
+									</div> -->
+									<label class="col-md-3 col-sm-3">Surat Permohonan Pemohon</label><br>
+									<div class="col-md-3 col-sm-3">
+										<img src="<?= base_url('./template/img/syarat2/' . $datapengajuan->sp_pemilik); ?>" class="img-rounded" width="100px">
 									</div>
 
 									<label class="col-md-3 col-sm-3">KTP Pemilik</label><br>
@@ -100,14 +104,11 @@
 
 									</div>
 								</div>
-
+<!-- 
 								<div class="form-group row">
 
-									<label class="col-md-3 col-sm-3">Surat Permohonan Pemohon</label><br>
-									<div class="col-md-3 col-sm-3">
-										<img src="<?= base_url('./template/img/syarat2/' . $datapengajuan->sp_pemilik); ?>" class="img-rounded" width="100px">
-									</div>
-								</div>
+									
+								</div> -->
 
 								<div class="form-group row">
 									<label class="col-md-3 col-sm-3">Status</label>

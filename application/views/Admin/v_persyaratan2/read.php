@@ -23,7 +23,10 @@
 				<h6 class="m-0 font-weight-bold text-primary">Form Permohonan Perpanjang</h6>
 			</div>
 			<div class="box-body">
-				<form class="" action="<?php echo site_url('Admin/Persyaratan2/create') ?>" method="post" enctype="multipart/form-data">
+				<form class="" action="<?php echo site_url('Admin/Persyaratan2/create') ?>"
+					method="post" enctype="multipart/form-data">
+					<input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" />
+
 					<div class="modal-body">
 
 						<div class="form-group row">
@@ -109,7 +112,7 @@
 														id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
 														aria-expanded="false"><i class="fa fa-download"></i>Cetak Form</button>
 													<div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
-														<a class="dropdown-item" href="<?php echo site_url('Admin/Persyaratan2/sp_kepala/' . $key->id_pengajuan) ?>" target="_blank">SP Kepala</a>
+														<!-- <a class="dropdown-item" href="<?php echo site_url('Admin/Persyaratan2/sp_kepala/' . $key->id_pengajuan) ?>" target="_blank">SP Kepala</a> -->
 														<a class="dropdown-item" href="<?php echo site_url('Admin/Persyaratan2/sp_pemilik/' . $key->id_pengajuan) ?>" target="_blank">SP Pemilik</a>
 														<a class="dropdown-item" href="<?php echo site_url('Admin/Persyaratan2/surat_pernyataan/' . $key->id_pengajuan) ?>" target="_blank">Surat Pernyataan</a>
 													</div>
