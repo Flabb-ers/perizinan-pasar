@@ -15,7 +15,6 @@ class Download extends CI_Controller {
 
 	public function print()
 	{
-		
 		$nama_pasar = $this->session->userdata('nama_pasar');
 		$dataop= $this->M_op->tampilWherePasar($nama_pasar)->result();
 

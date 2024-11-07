@@ -48,28 +48,18 @@
 			<div id="content">
 				<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 					<ul class="navbar-nav ml-auto">
-						<?php if ($this->session->userdata('level') == 'Pasar' && (uri_string() == '' || uri_string() == 'Pasar/Welcome' || uri_string() == 'Pasar/welcome')) {
-							$jumlah_notif = 0; // Inisialisasi jumlah notifikasi
-							foreach ($dataop as $key) {
-								$tgl_sekarang = new DateTime();
-								$tgl_batas = new DateTime($key->batas_berlaku);
-								$interval = $tgl_sekarang->diff($tgl_batas);
-								$jarak_hari = $interval->days;
-								$is_past = $interval->invert;
-
-								// Hitung jumlah notifikasi
-								if (!$is_past && $jarak_hari <= 31 && $jarak_hari >= 1) {
-									$jumlah_notif++;
-								}
-							}
-						?>
+						<?php if ($this->session->userdata('level') == 'Pasar'): ?>
 							<li class="nav-item dropdown no-arrow mx-1">
 								<a class="nav-link dropdown-toggle" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									<i class="fas fa-bell fa-fw"></i>
-									<span class="badge badge-danger badge-counter">
-										<?php echo $jumlah_notif; // Menampilkan jumlah notifikasi 
-										?>
-									</span>
+									<?php
+									$jumlah_notif = $this->session->userdata('jumlah_notif');
+									if (isset($jumlah_notif) && $jumlah_notif > 0):
+									?>
+										<span class="badge badge-danger badge-counter">
+											<?php echo $jumlah_notif; ?>
+										</span>
+									<?php endif; ?>
 								</a>
 								<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
 									<h6 class="dropdown-header">
@@ -78,54 +68,46 @@
 									<table class="table" width="100%" cellspacing="0">
 										<tbody>
 											<?php
-											foreach ($dataop as $key) {
-												$tgl_sekarang = new DateTime();
-												$tgl_batas = new DateTime($key->batas_berlaku);
-												$interval = $tgl_sekarang->diff($tgl_batas);
-
-												$jarak_hari = $interval->days;
-												$is_past = $interval->invert;
-
-												$nama = $key->nama;
-												$jenis = $key->jenis;
-												$nama_blok = $key->nama_blok;
-												$no_blok = $key->no_blok;
-
-												if (!$is_past && $jarak_hari <= 31 && $jarak_hari >= 1) {
+											$notif_data = $this->session->userdata('notif_data');
+											$has_notif = !empty($notif_data);
+											if ($has_notif) {
+												foreach ($notif_data as $notif):
+													if ($notif['jarak_hari'] == 0) {
+														$notif_message = "<a style='color:black; font-weight: bold;'>" . $notif['nama'] . "</a>, Masa Berlaku Surat Izin Menempati <span style='color:black; font-weight: bold;'>" . $notif['jenis'] . " " . $notif['nama_blok'] . " No " . $notif['no_blok'] . "</span> Akan Habis Hari Ini, Mohon Segera Perpanjang!";
+													} elseif ($notif['jarak_hari'] == 1) {
+														$notif_message = "<a style='color:red; font-weight: bold;'>" . $notif['nama'] . "</a>, Masa Berlaku Surat Izin Menempati <span style='color:black; font-weight: bold;'>" . $notif['jenis'] . " " . $notif['nama_blok'] . " No " . $notif['no_blok'] . "</span> Akan Habis <span style='color:black; font-weight: bold;'>Besok</span>, Mohon Segera Perpanjang!";
+													} elseif ($notif['jarak_hari'] > 1 && $notif['jarak_hari'] <= 30) {
+														$notif_message = "<a style='color:red; font-weight: bold;'>" . $notif['nama'] . "</a>, Masa Berlaku Surat Izin Menempati <span style='color:black; font-weight: bold;'>" . $notif['jenis'] . " " . $notif['nama_blok'] . " No " . $notif['no_blok'] . "</span> Akan Habis dalam <span style='color:black; font-weight: bold;'>" . $notif['jarak_hari'] . " Hari</span>, Mohon Segera Perpanjang!";
+													} elseif ($notif['jarak_hari'] < 0) {
+														$notif_message = "<a style='color:red; font-weight: bold;'>" . $notif['nama'] . "</a>, Masa Berlaku Surat Izin Menempati <span style='color:black; font-weight: bold;'>" . $notif['jenis'] . " " . $notif['nama_blok'] . " No " . $notif['no_blok'] . "</span> Sudah Habis, Segera Lakukan Tindakan!";
+													}
 											?>
 													<tr>
 														<td></td>
 														<td>
-															<?php
-															if ($jarak_hari == 1) {
-																echo "<a style='color:red'>" . $nama . "</a>, Masa Berlaku Surat Izin Menempati " . $jenis . " " . $nama_blok . " No " . $no_blok . " Akan Habis Besok, Mohon Segera Perpanjang!";
-															} elseif ($jarak_hari <= 31 && $jarak_hari > 1) {
-																echo "<a style='color:red'>" . $nama . "</a>, Masa Berlaku Surat Izin Menempati " . $jenis . " " . $nama_blok . " No " . $no_blok . " Akan Habis dalam " . $jarak_hari . " Hari, Mohon Segera Perpanjang!";
-															}
-															?>
+															<?php echo $notif_message; ?>
 														</td>
 													</tr>
-											<?php
-												}
-											}
-											?>
-											<tr>
-												<td></td>
-												<td>
-													<a href="<?php echo site_url('Pasar/Download/print') ?>" target="_blank">
-														<button type="button" class="btn btn-primary" data-dismiss="modal">Download</button>
-													</a>
-													<a href="<?php echo site_url('Pasar/Welcome') ?>">
-														<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-													</a>
-												</td>
-											</tr>
+											<?php endforeach;
+											} ?>
+											<?php if ($has_notif): ?>
+												<tr>
+													<td></td>
+													<td>
+														<a href="<?php echo site_url('Pasar/Download/print') ?>" target="_blank">
+															<button type="button" class="btn btn-primary" data-dismiss="modal">Download</button>
+														</a>
+														<a href="<?php echo site_url('Pasar/Welcome') ?>">
+															<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+														</a>
+													</td>
+												</tr>
+											<?php endif; ?>
 										</tbody>
 									</table>
 								</div>
 							</li>
-						<?php } ?>
-
+						<?php endif; ?>
 
 						<!-- Topbar -->
 
