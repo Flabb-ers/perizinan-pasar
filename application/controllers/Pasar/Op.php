@@ -7,6 +7,7 @@ class Op extends CI_Controller {
 	 {
 	 	parent::__construct();
 	 	$this->load->model('M_op');
+	 	$this->load->model('M_objek');
 	 	$this->load->model('M_baru');
 
 	 	if ($this->session->userdata('level')!=='Pasar') {
@@ -16,16 +17,30 @@ class Op extends CI_Controller {
 
 	public function index()
 	{	
-		$nama_pasar = $this->session->userdata('nama_pasar');
-		$dataop= $this->M_op->tampilWherePasar($nama_pasar)->result();
-
+		{	
+			$id_pasar = $this->session->userdata('id_pasar');
+			$dataop = $this->M_objek->readForPasar($id_pasar);
 		
+			$data = [ 
+				'judul' => 'Data Op',
+				'subjudul' => 'Data Op',
+				'dataop' => $dataop->result(),
+			];
+		
+			$this->template->load('pages/index', 'pasar/v_op/read', $data); 
+		}
+	}
+
+	public function detail($id)
+	{	
+
 		$data = [ 
-			'judul'=>'Data Op',
-			'subjudul'=>'Data Op',
-			'dataop'=>$dataop,
+			'judul'=>'Data Objek',
+			'subjudul'=>'Data Objek',
+			'dataop'=>$this->M_objek->tampilDetail($id)->result(),
+			// 'dataobjek'=>$this->M_objek->tampilObjek($id)->row(),
 		];
 		
-		$this->template->load('pages/index','pasar/v_op/read', $data); 
+		$this->template->load('pages/index','Pasar/v_objek/detail', $data); 
 	}
 }

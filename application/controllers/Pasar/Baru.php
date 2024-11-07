@@ -60,53 +60,55 @@ class Baru extends CI_Controller
 
 
 	public function update($id)
-	{
-		$allowed_types = ['image/jpeg', 'image/jpg', 'image/png'];
+{
+    $allowed_types = ['image/jpeg', 'image/jpg', 'image/png'];
 
-		$files = [
-			'sp_kepala',
-			'sp_pemilik',
-			'surat_pernyataan',
-			'ktp_pemilik',
-			'pas_foto'
-		];
+    $files = [
+        'sp_pemilik',
+        'surat_pernyataan',
+        'ktp_pemilik',
+        'pas_foto'
+    ];
 
-		$uploadedFiles = [];
+    $uploadedFiles = [];
 
-		foreach ($files as $file) {
-			if (!empty($_FILES[$file]['tmp_name'])) {
-				if (!in_array($_FILES[$file]['type'], $allowed_types)) {
-					echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
-					redirect($this->redirect, 'refresh');
-					exit;
-				}
-				$uploadedFiles[$file] = UploadImg($_FILES[$file], './template/img/syarat/', $file, 500);
-				unlink(FCPATH . 'template/img/syarat/' . $this->input->post($file . '_lama'));
-			}
-		}
+    foreach ($files as $file) {
+        if (!empty($_FILES[$file]['tmp_name'])) {
+            if (!in_array($_FILES[$file]['type'], $allowed_types)) {
+                echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
+                redirect($this->redirect, 'refresh');
+                exit;
+            }
+            $uploadedFiles[$file] = UploadImg($_FILES[$file], './template/img/syarat/', $file, 500);
+            unlink(FCPATH . 'template/img/syarat/' . $this->input->post($file . '_lama'));
+        }
+    }
 
-		$data = [
-			'id_kios' => $this->input->post('id_kios'),
-			'nama' => $this->input->post('nama'),
-			'tanggal' => $this->input->post('tanggal'),
-			'alamat' => $this->input->post('alamat'),
-			'nik' => $this->input->post('nik'),
-			'pekerjaan' => $this->input->post('pekerjaan'),
-			'no_telp' => $this->input->post('no_telp'),
-			'email' => $this->input->post('email'),
-			'npwrd' => $this->input->post('npwrd'),
-		];
+    $sp_kepala = $this->input->post('sp_kepala') == '1' ? 1 : 0;
 
-		$data = array_merge($data, $uploadedFiles);
+    $data = [
+        'id_kios' => $this->input->post('id_kios'),
+        'nama' => $this->input->post('nama'),
+        'tanggal' => $this->input->post('tanggal'),
+        'alamat' => $this->input->post('alamat'),
+        'nik' => $this->input->post('nik'),
+        'pekerjaan' => $this->input->post('pekerjaan'),
+        'no_telp' => $this->input->post('no_telp'),
+        'email' => $this->input->post('email'),
+        'npwrd' => $this->input->post('npwrd'),
+        'sp_kepala' => $sp_kepala, 
+    ];
 
-		$tanggal = date('Y-m-d');
-		$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
+    $data = array_merge($data, $uploadedFiles);
 
-		$this->M_baru->editData($id, $data);
-		$this->session->set_flashdata('pesan', '<div class= "alert alert-success"> 
-	Data Berhasil Ditambahkan</div>');
-		redirect('pasar/baru/index');
-	}
+    $tanggal = date('Y-m-d');
+    $batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tanggal)));
+
+    $this->M_baru->editData($id, $data);
+    $this->session->set_flashdata('pesan', '<div class= "alert alert-success">Data Berhasil Ditambahkan</div>');
+    redirect('pasar/baru/index');
+}
+
 
 	public function hapus($id)
 	{

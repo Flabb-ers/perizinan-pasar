@@ -241,8 +241,8 @@ class M_pengajuan extends CI_Model {
  		$this->db->join('tbl_tarif','tbl_kios.id_tarif = tbl_tarif.id_tarif');
  		$this->db->like('nama_pasar',  $id);
  		$this->db->where('tbl_pengajuan.jenis_pengajuan', 'Perpanjang');
- 		
-
+		 $this->db->order_by('tbl_pengajuan.id_pengajuan', 'DESC');
+ 	
  		$query = $this->db->get();
 
  		return $query;

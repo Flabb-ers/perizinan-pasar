@@ -213,6 +213,7 @@ class Pengajuan extends CI_Controller
 			'no_telp' => $this->input->post('no_telp'),
 			'email' => $this->input->post('email'),
 			'tanggal' => $this->input->post('tanggal'),
+			'sp_kepala' => $this->input->post('sp_kepala') ? 1 : 0
 		];
 
 		$data = array_merge($data, $uploadedFiles);

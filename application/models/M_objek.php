@@ -13,6 +13,19 @@ class M_objek extends CI_Model
 
 		return $query;
 	}
+
+	public function readForPasar($id)
+	{
+		$this->db->select('*');
+		$this->db->from('tbl_objek');
+		$this->db->join('tbl_wp', 'tbl_objek.id_wajib_pajak = tbl_wp.id_wajib_pajak');
+		$this->db->order_by('tbl_objek.id_objek', 'DESC');
+		$this->db->where('tbl_wp.id_pasar', $id);
+		$query = $this->db->get();
+
+		return $query;
+	}
+
 	public function addData($data)
 	{
 		return $this->db->insert('tbl_objek', $data);

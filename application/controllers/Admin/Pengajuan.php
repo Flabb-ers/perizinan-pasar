@@ -175,20 +175,28 @@ class Pengajuan extends CI_Controller
 
 	public function update($id)
 	{
-		$filesOpsional = ['sp_kepala', 'sp_pemilik', 'surat_pernyataan', 'ktp_pemilik', 'pas_foto'];
-		$allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+
+		$allowed_types = ['image/jpeg', 'image/jpg', 'image/png'];
+
+		$files = [
+			'sp_kepala',
+			'sp_pemilik',
+			'surat_pernyataan',
+			'ktp_pemilik',
+			'pas_foto'
+		];
+
 		$uploadedFiles = [];
 
-		foreach ($filesOpsional as $file) {
+		foreach ($files as $file) {
 			if (!empty($_FILES[$file]['tmp_name'])) {
-				if (in_array($_FILES[$file]['type'], $allowedTypes)) {
-					$uploadedFiles[$file] = UploadImg($_FILES[$file], './template/img/syarat2/', $file, 500);
-					unlink(FCPATH . 'template/img/syarat2/' . $this->input->post($file . '_lama2'));
-				} else {
-					echo "<script>alert('Format yang diizinkan hanya jpeg, jpg, png');</script>";
+				if (!in_array($_FILES[$file]['type'], $allowed_types)) {
+					echo "<script>alert('Format yang digunakan jpeg|jpg|png');</script>";
 					redirect($this->redirect, 'refresh');
 					exit;
 				}
+				$uploadedFiles[$file] = UploadImg($_FILES[$file], './template/img/syarat2/', $file, 500);
+				unlink(FCPATH . 'template/img/syarat2/' . $this->input->post($file . '_lama2'));
 			}
 		}
 
@@ -200,6 +208,7 @@ class Pengajuan extends CI_Controller
 			'no_telp' => $this->input->post('no_telp'),
 			'email' => $this->input->post('email'),
 			'tanggal' => $this->input->post('tanggal'),
+			'sp_kepala' => $this->input->post('sp_kepala') ? 1 : 0
 		];
 
 		$data = array_merge($data, $uploadedFiles);

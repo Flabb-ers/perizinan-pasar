@@ -1,15 +1,15 @@
 <div class="container-fluid">
-	<!-- DataTales Example -->
-	<div class="card shadow mb-6">
-		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary">Tambah Data Permohonan Baru</h6>
-		</div>
-		<div class="card-body">
-			<div class="row">
-				<div class="col-12">
-					<div class="box box-warning">
-						<div class="box-body">
-						<?php echo form_open_multipart('Admin/Baru/update/' . $databaru->id_pengajuan) ?>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-6">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Tambah Data Permohonan Baru</h6>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12">
+                    <div class="box box-warning">
+                        <div class="box-body">
+                            <?php echo form_open_multipart('Admin/Baru/update/' . $databaru->id_pengajuan) ?>
                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
 
                             <div class="modal-body">
@@ -124,10 +124,23 @@
                                         <img src="<?= base_url('./template/img/syarat/' . $databaru->ktp_pemilik); ?>" class="img-rounded" width="100px">
                                         <input type="file" name="ktp_pemilik" class="form-control">
                                         <input type="hidden" name="ktp_pemilik_lama" value="<?php echo $databaru->ktp_pemilik ?>" class="form-control">
-
                                     </div>
                                 </div>
-
+                                <div class="form-group row">
+                                    <div class="col-md-12 mb-6 mb-sm-0">
+                                        <label>Status Verifikasi Kepala Pasar</label>
+                                        <div class="form-control" style="min-height: 45px; display: flex; align-items: center;">
+                                            <div style="display: flex; align-items: center; gap: 8px;">
+                                                <input type="checkbox" name="sp_kepala" value="1"
+                                                    style="width: 18px; height: 18px;"
+                                                    <?php echo ($databaru->sp_kepala ? 'checked' : ''); ?>>
+                                                <label for="sp_kepala" style="margin-bottom: 0;">
+                                                    Setujui
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group row">
                                     <div class="col-md-12">
                                         <label class=" text-danger">Keterangan:<br>1. Semua persyaratan wajib diisi<br>2. Format yang digunakan adalah jpeg/jpg/png</label>
@@ -138,35 +151,35 @@
                                 <a href="<?php echo site_url('Admin/Baru') ?>"><button type="button" name="button" class="btn btn-warning">Cancel</button>
                             </div>
                             <?php echo form_close(); ?>
-						</div>
-					</div>
-					</section>
-				</div>
+                        </div>
+                    </div>
+                    </section>
+                </div>
 
-				<!-- /.container-fluid -->
-			</div>
-			<!-- End of Main Content -->
-		</div>
-		<!-- End of Content Wrapper -->
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+        </div>
+        <!-- End of Content Wrapper -->
 
-		<!-- Begin Page Content -->
+        <!-- Begin Page Content -->
 
-	</div>
+    </div>
 </div>
 <script src="<?php echo base_url('template/js/jquery-3.2.1.min.js') ?>"></script>
 <script type="text/javascript">
-	$(document).ready(function() {
-		const status_npwrd = document.getElementById("status_npwrd");
-		const npwrd = document.getElementById("npwrd");
+    $(document).ready(function() {
+        const status_npwrd = document.getElementById("status_npwrd");
+        const npwrd = document.getElementById("npwrd");
 
-		status_npwrd.addEventListener("change", function() {
-			if (status_npwrd.value === "Sudah") {
-				npwrd.style.display = "block";
-			} else {
-				npwrd.style.display = "none";
-			}
-		});
+        status_npwrd.addEventListener("change", function() {
+            if (status_npwrd.value === "Sudah") {
+                npwrd.style.display = "block";
+            } else {
+                npwrd.style.display = "none";
+            }
+        });
 
 
-	});
+    });
 </script>

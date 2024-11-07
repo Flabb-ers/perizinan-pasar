@@ -102,6 +102,21 @@
 										<input type="hidden" name="ktp_pemilik_lama" value="<?php echo $datapengajuan->ktp_pemilik ?>" class="form-control">
 									</div>
 								</div>
+								<div class="form-group row">
+									<div class="col-md-12 mb-6 mb-sm-0">
+										<label>Status Verifikasi Kepala Pasar</label>
+										<div class="form-control" style="min-height: 45px; display: flex; align-items: center;">
+											<div style="display: flex; align-items: center; gap: 8px;">
+												<input type="checkbox" name="sp_kepala" value="1"
+													style="width: 18px; height: 18px;"
+													<?php echo ($datapengajuan->sp_kepala ? 'checked' : ''); ?>>
+												<label for="sp_kepala" style="margin-bottom: 0;">
+													Setujui
+												</label>
+											</div>
+										</div>
+									</div>
+								</div>
 
 								<div class="form-group row">
 									<div class="col-md-6">

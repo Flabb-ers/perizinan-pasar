@@ -91,12 +91,6 @@
 
 
                                 <div class="form-group row">
-                                    <!-- <div class="col-md-6 mb-6 mb-sm-0">
-                 <label>SP Kepala</label><br>
-                 <img src="<?= base_url('./template/img/syarat/' . $databaru->sp_kepala); ?>" class="img-rounded" width="100px">
-                 <input type="file" name="sp_kepala" class="form-control" >
-                 <input type="hidden" name="sp_kepala_lama" value="<?php echo $databaru->sp_kepala ?>" class="form-control" >   
-            </div> -->
                                     <div class="col-md-6 mb-6 mb-sm-0">
                                         <label>Pas Foto</label><br>
                                         <img src="<?= base_url('./template/img/syarat/' . $databaru->pas_foto); ?>" class="img-rounded" width="100px">
@@ -126,8 +120,23 @@
                                         <input type="hidden" name="ktp_pemilik_lama" value="<?php echo $databaru->ktp_pemilik ?>" class="form-control">
 
                                     </div>
-                                </div>
 
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-12 mb-6 mb-sm-0">
+                                        <label>Status Verifikasi Kepala Pasar</label>
+                                        <div class="form-control" style="min-height: 45px; display: flex; align-items: center;">
+                                            <div style="display: flex; align-items: center; gap: 8px;">
+                                                <input type="checkbox" name="sp_kepala" value="1"
+                                                    style="width: 18px; height: 18px;"
+                                                    <?php echo ($databaru->sp_kepala ? 'checked' : ''); ?>>
+                                                <label for="sp_kepala" style="margin-bottom: 0;">
+                                                    Setujui
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group row">
                                     <div class="col-md-12">
                                         <label class=" text-danger">Keterangan:<br>1. Semua persyaratan wajib diisi<br>2. Format yang digunakan adalah jpeg/jpg/png</label>

@@ -36,7 +36,7 @@
 								<td>Kios</td>
 								<td>Jenis Dagangan</td>
 								<td>Tanggal Pengajuan</td>
-								<td>SP Kepala Pasar</td>
+								<td>Status Verifikasi Kepala Pasar</td>
 								<td>SP Pemohon</td>
 								<td>Surat Pernyataan</td>
 								<td>Ktp</td>
@@ -60,7 +60,10 @@
 									<td><?= $key->jenis ?> <?= $key->nama_blok ?> <?= $key->no_blok ?></td>
 									<td><?= $key->jenis_dagangan ?></td>
 									<td><?= date('d-m-Y', strtotime($key->tanggal)) ?></td>
-									<td><img src="<?= base_url('./template/img/syarat2/' . $key->sp_kepala); ?>" class="img-rounded" width="100px"></td>
+									<!-- <td><img src="<?= base_url('./template/img/syarat2/' . $key->sp_kepala); ?>" class="img-rounded" width="100px"></td> -->
+									<td>
+                                        <?= ($key->sp_kepala == 1) ? 'Disetujui' : 'Belum disetujui' ?>
+                                    </td>
 									<td><img src="<?= base_url('./template/img/syarat2/' . $key->sp_pemilik); ?>" class="img-rounded" width="100px"></td>
 									<td><img src="<?= base_url('./template/img/syarat2/' . $key->surat_pernyataan); ?>" class="img-rounded" width="100px"></td>
 									<td><img src="<?= base_url('./template/img/syarat2/' . $key->ktp_pemilik); ?>" class="img-rounded" width="100px"></td>

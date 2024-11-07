@@ -95,6 +95,7 @@ class Auth extends CI_Controller {
 					'nama_pegawai'=>$row->nama_pegawai,
 					'pass'=>$row->pass,
 					'nama_pasar'=>$row->nama_pasar,
+					'id_pasar' => $row->id_pasar,
 					'level'=>$row->level,
 					'is_active'=>1,
 				]

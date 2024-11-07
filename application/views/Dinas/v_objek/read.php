@@ -14,7 +14,7 @@
 			<!-- <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#importExcel2" onclick="return confirm('Siapkan data excel dengan header: \nKode Wajib Retribusi\nKlik Oke dan Download Kode Wajib Retibusi untuk menyesuaikan Kode Wajib Ret dan Download Template untuk penyesuaian format yang akan diimport  ')">
 				IMPORT OBJEK RETRIBUSI
 			</button>
-			<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#importExcel" onclick="return confirm('Siapkan data excel dengan header: \nKode Wajib Ret, Kode Kios, Kode Jenis, Nama Pasar, NPWRD, Nama, Alamat, No. Telepon, Email, Jenis, Nama Blok, No Blok, Tgl Daftar, Batas Berlaku, Status = Sudah\nKlik Oke dan Download Kode Objek Retribusi untuk menyesuaikan Kode Objek Ret dan Download Template untuk penyesuaian format yang akan diimport  ')">
+			<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#importExcel" onclick="return confirm('Siapkan data excel dengan header: \nKode Objek Ret, Kode Kios, Kode Jenis, Nama Pasar, NPWRD, Nama, Alamat, No. Telepon, Email, Jenis, Nama Blok, No Blok, Tgl Daftar, Batas Berlaku, Status = Sudah\nKlik Oke dan Download Kode Objek Retribusi untuk menyesuaikan Kode Objek Ret dan Download Template untuk penyesuaian format yang akan diimport  ')">
 				IMPORT DETAIL OBJEK RETRIBUSI
 			</button> -->
 			<hr>

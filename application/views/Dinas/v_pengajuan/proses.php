@@ -77,37 +77,39 @@
 								</div>
 
 								<div class="form-group row">
-									<!-- <label class="col-md-3 col-sm-3">Surat Permohonan Kepala Pasar</label><br>
-									<div class="col-md-3 col-sm-3">
-										<img src="<?= base_url('./template/img/syarat2/' . $datapengajuan->sp_kepala); ?>" class="img-rounded" width="100px">
-									</div> -->
-									<label class="col-md-3 col-sm-3">Surat Permohonan Pemohon</label><br>
-									<div class="col-md-3 col-sm-3">
-										<img src="<?= base_url('./template/img/syarat2/' . $datapengajuan->sp_pemilik); ?>" class="img-rounded" width="100px">
+									<div class="col-md-6 mb-6 mb-sm-0">
+										<label>Pas Foto</label><br>
+										<img src="<?= base_url('./template/img/syarat/' . $datapengajuan->pas_foto); ?>" class="img-rounded" width="100px">
 									</div>
-									<label class="col-md-3 col-sm-3">KTP Pemilik</label><br>
-									<div class="col-md-3 col-sm-3">
-										<img src="<?= base_url('./template/img/syarat2/' . $datapengajuan->ktp_pemilik); ?>" class="img-rounded" width="100px">
+									<div class="col-md-6">
+										<label>SP Pemilik</label><br>
+										<img src="<?= base_url('./template/img/syarat/' . $datapengajuan->sp_pemilik); ?>" class="img-rounded" width="100px">
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<div class="col-md-6 mb-6 mb-sm-0">
+										<label>Surat Pernyataan</label><br>
+										<img src="<?= base_url('./template/img/syarat/' . $datapengajuan->surat_pernyataan); ?>" class="img-rounded" width="100px">
+									</div>
+									<div class="col-md-6">
+										<label>KTP Pemilik</label><br>
+										<img src="<?= base_url('./template/img/syarat/' . $datapengajuan->ktp_pemilik); ?>" class="img-rounded" width="100px">
 									</div>
 								</div>
 
 
 								<div class="form-group row">
-									<label class="col-md-3 col-sm-3">Surat Pernyataan</label><br>
-									<div class="col-md-3 col-sm-3">
-										<img src="<?= base_url('./template/img/syarat2/' . $datapengajuan->surat_pernyataan); ?>" class="img-rounded" width="100px">
-									</div>
-									<label class="col-md-3 col-sm-3">Pas Foto</label><br>
-									<div class="col-md-3 col-sm-3">
-										<img src="<?= base_url('./template/img/syarat2/' . $datapengajuan->pas_foto); ?>" class="img-rounded" width="100px">
-
+									<label class="col-md-3 col-sm-3">Status Verifikasi Kepala Pasar</label>
+									<div class="col-md-9 col-sm-9">
+										<div class="form-control" style="min-height: 45px; display: flex; align-items: center; 
+            background-color: <?php echo ($datapengajuan->sp_kepala ? '#d4edda' : '#fff3cd'); ?>; 
+            border: 1px solid <?php echo ($datapengajuan->sp_kepala ? '#c3e6cb' : '#ffeeba'); ?>;
+            border-radius: 5px; padding: 8px; font-weight: bold; color: <?php echo ($datapengajuan->sp_kepala ? '#155724' : '#856404'); ?>;">
+											<?php echo ($datapengajuan->sp_kepala ? 'Disetujui' : 'Belum Disetujui'); ?>
+										</div>
 									</div>
 								</div>
-
-								<!-- <div class="form-group row">
-
-									
-								</div> -->
 
 								<div class="form-group row">
 									<label class="col-md-3 col-sm-3">Status</label>
