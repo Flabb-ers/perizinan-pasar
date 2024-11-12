@@ -48,18 +48,36 @@ class Cetak2 extends CI_Controller
 			'datapegawai' => $this->M_cetak->tampilPegawai()->result(),
 			'print' => $this->M_cetak->tampilData($id)->result()
 		];
-	
-		$tgl_mulai = date('d F Y', strtotime($data['dataop']->tgl_daftar));
-		$tgl_akhir = date('d F Y', strtotime($data['dataop']->tgl_daftar . ' +2 years'));
-	
+
+		$bulan = [
+			1 => 'Januari',
+			2 => 'Februari',
+			3 => 'Maret',
+			4 => 'April',
+			5 => 'Mei',
+			6 => 'Juni',
+			7 => 'Juli',
+			8 => 'Agustus',
+			9 => 'September',
+			10 => 'Oktober',
+			11 => 'November',
+			12 => 'Desember'
+		];
+
+		$bulanMulai = $bulan[date('n', strtotime($data['dataop']->tgl_daftar))];
+		$bulanAkhir = $bulan[date('n', strtotime($data['dataop']->tgl_daftar . ' +2 years'))];
+
+		$tgl_mulai = date('d', strtotime($data['dataop']->tgl_daftar)) . ' ' . $bulanMulai . ' ' . date('Y', strtotime($data['dataop']->tgl_daftar));
+		$tgl_akhir = date('d', strtotime($data['dataop']->tgl_daftar . ' +2 years')) . ' ' . $bulanAkhir . ' ' . date('Y', strtotime($data['dataop']->tgl_daftar . ' +2 years'));
+
 		$data['tgl_mulai'] = $tgl_mulai;
 		$data['tgl_akhir'] = $tgl_akhir;
-	
+
 		$this->load->view('Pasar/v_cetakbaru/print', $data);
 	}
-	
 
-	
+
+
 	// public function print($id)
 	// {
 	// 	$data = [
@@ -74,6 +92,7 @@ class Cetak2 extends CI_Controller
 
 	// 	$templatePath = FCPATH . 'template/surat/surat_izin.docx';
 	// 	$templateProcessor = new TemplateProcessor($templatePath);
+	// 	$templateProcessor->setValue('golongan', htmlspecialchars($data['datapimpinan']->golongan ?? ''));
 
 	// 	$templateProcessor->setValue('jenis', htmlspecialchars($data['dataop']->jenis ?? ''));
 	// 	$templateProcessor->setValue('jenisHead', htmlspecialchars(strtoupper($data['dataop']->jenis) ?? ''));
