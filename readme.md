@@ -5,3 +5,4 @@ To do
 [*] Fix bug data objek retribusi in pasar dinas
 [*] Add check kepala pasar
 [ ] Wait new revision
+[ ] Surat gambar 3x4 center qr code deleted
