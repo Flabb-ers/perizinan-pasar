@@ -9,9 +9,9 @@
 		</div>
 		<div class="card-body">
 
-			<!-- <a href="<?php echo site_url('Dinas/op/create/' . $dataobjek->id_objek) ?>"><button type="button" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>
+			<a href="<?php echo site_url('Dinas/op/create/' . $dataobjek->id_objek) ?>"><button type="button" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>
 					Tambah Data
-				</button></a> -->
+				</button></a>
 			<hr>
 			<br>
 

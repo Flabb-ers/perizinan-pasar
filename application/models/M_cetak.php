@@ -98,7 +98,7 @@ class M_cetak extends CI_Model
 		$this->db->where('tbl_pimpinan.status', 'Aktif');
 		$query = $this->db->get();
 
-		return $query->row();
+		return $query;
 	}
 
 

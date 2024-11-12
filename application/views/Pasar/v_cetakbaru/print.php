@@ -13,11 +13,13 @@
 	.rangkasurat {
 		background-color: #fff;
 		padding: 0px;
+		margin-top: 20px;
 	}
 
 	table {
-		padding: 0px
+		padding: 0px;
 	}
+
 
 	.hr {
 		border-bottom: 5px solid #000;
@@ -45,6 +47,25 @@
 	.uper {
 		text-transform: uppercase;
 	}
+
+	@media print {
+		@page {
+			size: legal;
+			margin: 30px 0 0 0;
+		}
+
+		body {
+			margin: 30px 40px 0 70px;
+		}
+
+		.rangkasurat {
+			margin-top: 20px;
+		}
+
+		table.hr {
+			margin-top: 30px;
+		}
+	}
 </style>
 
 <body> </body>
@@ -53,7 +74,7 @@
 		<thead>
 			<tr>
 				<td></td>
-				<td><img src="<?= base_url('template/img/logo.jpg'); ?>" width="80px"> </td>
+				<td><img src="<?= base_url('template/img/logo.jpg'); ?>" width="60px"> </td>
 				<td class="tengah">
 					<p>
 
@@ -65,8 +86,7 @@
 					<p>Email : dinkukmp@purworejokab.go.id Website : www.dinkukmp.purworejokab.go.id</p>
 				</td>
 				<td>
-					<p>
-						NO. SERI : K</p>
+					<p>NO. SERI : K</p>
 				</td>
 			</tr>
 		</thead>
@@ -84,7 +104,7 @@
 				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</td>
 
 				<?php foreach ($datapimpinan as $key) { ?>
-					<td> <?php echo $key->nama_pegawai ?> </td>
+					<td style="font-weight:bolder"> <?php echo strtoupper($key->nama_pegawai) ?> </td>
 				<?php  } ?>
 			</tr>
 			<tr>
@@ -153,7 +173,7 @@
 		<thead>
 			<tr>
 				<td>1.</td>
-				<td>Izin berlaku untuk jangka waktu 2 (dua) tahun terhitung sejak tanggal <?php echo date('d-m-Y', strtotime($dataop->tgl_daftar)) ?>; </td>
+				<td>Izin berlaku untuk jangka waktu 2 (dua) tahun terhitung sejak tanggal <?php echo $tgl_mulai; ?> s/d <?php echo $tgl_akhir; ?>;</td>
 			</tr>
 			<tr>
 				<td valign="top">2.</td>
@@ -227,8 +247,8 @@
 				<td>d. Pemegang Izin meninggal dunia</td>
 			</tr>
 			<tr>
-				<td>e. </td>
-				<td>Tempat diperlukan/digunakan oleh Pemerintah</td>
+				<td></td>
+				<td>e. Tempat diperlukan/digunakan oleh Pemerintah</td>
 			</tr>
 			</tr>
 			<tr>
@@ -265,7 +285,7 @@
 
 			<td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 			<td align="center">PURWOREJO, <?php echo date('d-m-Y') ?> <br>A.n BUPATI PURWOREJO<br>Kepala Dinas Koperasi Usaha Kecil<br> Menengah dan Perdagangan<br> Kabupaten Purworejo <br>
-				<p><img src="<?= base_url('./assets/images/' . $dataop->qrcode); ?>" class="img-rounded" width="80" height="80"></p>
+				<!-- <p><img src="<?= base_url('./assets/images/' . $dataop->qrcode); ?>" class="img-rounded" width="80" height="80"></p> -->
 				<p class="uper"><u><b>
 							<?php foreach ($datapimpinan as $key) { ?> <?php echo $key->nama_pegawai ?><?php  } ?></b></u><br></p>
 				<?php foreach ($datapimpinan as $key) { ?> <?php echo $key->golongan ?><?php  } ?><br>

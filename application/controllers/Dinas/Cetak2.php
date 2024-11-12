@@ -102,8 +102,8 @@ class Cetak2 extends CI_Controller
 		if (file_exists($imagePath)) {
 			$templateProcessor->setImageValue('pas_foto', [
 				'path' => $imagePath,
-				'width' => 50,
-				'height' => 70,
+				'width' => 113,
+				'height' => 151,
 				'ratio' => false
 			]);
 		} else {
