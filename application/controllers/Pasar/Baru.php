@@ -67,7 +67,8 @@ class Baru extends CI_Controller
         'sp_pemilik',
         'surat_pernyataan',
         'ktp_pemilik',
-        'pas_foto'
+        'pas_foto',
+		'ba_penunjukan'
     ];
 
     $uploadedFiles = [];

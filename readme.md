@@ -6,5 +6,5 @@ To do
 [*] Add check kepala pasar
 [ ] Wait new revision
 [x] Surat gambar 3x4 center qr code deleted
-[ ] Berita same with sp kepala old
+[x] Berita same with sp kepala old
 [ ] fillter los & kios

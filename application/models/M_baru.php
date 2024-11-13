@@ -112,6 +112,7 @@ class M_baru extends CI_Model
 		$this->db->where('tbl_pengajuan.jenis_pengajuan', 'Baru');
 		$this->db->where('tbl_pengajuan.status', 'Proses');
 		$this->db->like('nama_pasar',  $id);
+		$this->db->order_by('tbl_pengajuan.id_pengajuan', 'DESC');
 
 		$query = $this->db->get();
 

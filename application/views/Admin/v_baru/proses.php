@@ -116,18 +116,24 @@
                                     <img src="<?= base_url('./template/img/syarat/' . $databaru->ktp_pemilik); ?>" class="img-rounded" width="100px">
                                 </div>
                             </div>
+
                             <div class="form-group row">
-                                <label class="col-md-3 col-sm-3">Status Verifikasi Kepala Pasar</label>
-                                <div class="col-md-9 col-sm-9">
+                                <div class="col-md-6 mb-6 mb-sm-0">
+                                    <label>Berita Acara Penunjukan</label><br>
+                                    <img src="<?= base_url('./template/img/syarat/' . $databaru->ba_penunjukan); ?>" class="img-rounded" width="100px">
+                                </div>
+                                <div class="col-md-6 mb-6 mb-sm-0">
+                                    <label>Status Verifikasi Kepala Pasar</label>
                                     <div class="form-control" style="min-height: 45px; display: flex; align-items: center; 
-            background-color: <?php echo ($databaru->sp_kepala ? '#d4edda' : '#fff3cd'); ?>; 
-            border: 1px solid <?php echo ($databaru->sp_kepala ? '#c3e6cb' : '#ffeeba'); ?>;
-            border-radius: 5px; padding: 8px; font-weight: bold; color: <?php echo ($databaru->sp_kepala ? '#155724' : '#856404'); ?>;">
+        background-color: <?php echo ($databaru->sp_kepala ? '#d4edda' : '#fff3cd'); ?>; 
+        border: 1px solid <?php echo ($databaru->sp_kepala ? '#c3e6cb' : '#ffeeba'); ?>;
+        border-radius: 5px; padding: 8px; font-weight: bold; color: <?php echo ($databaru->sp_kepala ? '#155724' : '#856404'); ?>;">
                                         <?php echo ($databaru->sp_kepala ? 'Disetujui' : 'Belum Disetujui'); ?>
                                     </div>
                                 </div>
                             </div>
-                            
+
+
                             <div class="form-group row">
                                 <label class="col-md-3 col-sm-3">Status</label>
                                 <div class="col-md-9 col-sm-9">

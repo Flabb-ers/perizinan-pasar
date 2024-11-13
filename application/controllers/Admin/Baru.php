@@ -62,7 +62,8 @@ class Baru extends CI_Controller
         'sp_pemilik',
         'surat_pernyataan',
         'ktp_pemilik',
-        'pas_foto'
+        'pas_foto',
+		'ba_penunjukan'
     ];
 
     $uploadedFiles = [];
@@ -79,7 +80,6 @@ class Baru extends CI_Controller
         }
     }
 
-    // Mengambil status checkbox sp_kepala
     $sp_kepala = $this->input->post('sp_kepala') == '1' ? 1 : 0;
 
     $data = [
@@ -92,7 +92,7 @@ class Baru extends CI_Controller
         'no_telp' => $this->input->post('no_telp'),
         'email' => $this->input->post('email'),
         'npwrd' => $this->input->post('npwrd'),
-        'sp_kepala' => $sp_kepala, // Menambahkan status sp_kepala
+        'sp_kepala' => $sp_kepala,
     ];
 
     $data = array_merge($data, $uploadedFiles);

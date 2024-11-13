@@ -118,14 +118,19 @@
                                         <img src="<?= base_url('./template/img/syarat/' . $databaru->ktp_pemilik); ?>" class="img-rounded" width="100px">
                                         <input type="file" name="ktp_pemilik" class="form-control">
                                         <input type="hidden" name="ktp_pemilik_lama" value="<?php echo $databaru->ktp_pemilik ?>" class="form-control">
-
                                     </div>
 
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-md-12 mb-6 mb-sm-0">
+                                    <div class="col-md-6 mb-6 mb-sm-0">
+                                        <label>Berita Acara Penunjukan</label><br>
+                                        <img src="<?= base_url('./template/img/syarat/' . $databaru->ba_penunjukan); ?>" class="img-rounded" width="100px">
+                                        <input type="file" name="ba_penunjukan" class="form-control">
+                                        <input type="hidden" name="ba_penunjukan" value="<?php echo $databaru->ba_penunjukan ?>" class="form-control">
+                                    </div>
+                                    <div class="col-md-6 mb-6 mb-sm-0">
                                         <label>Status Verifikasi Kepala Pasar</label>
-                                        <div class="form-control" style="min-height: 45px; display: flex; align-items: center;">
+                                        <div class="form-control" style="min-height: 45px; display: flex; align-items: center;margin-top:20px">
                                             <div style="display: flex; align-items: center; gap: 8px;">
                                                 <input type="checkbox" name="sp_kepala" value="1"
                                                     style="width: 18px; height: 18px;"

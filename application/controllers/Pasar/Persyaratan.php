@@ -161,22 +161,33 @@ class Persyaratan extends CI_Controller {
 	 		$this->load->view('Pasar/v_persyaratan/surat_pernyataan', $data); 
 	}
 
-	public function sp_kepala($id)
-	{
+	// public function sp_kepala($id)
+	// {
 
-		$nama_pasar = $this->session->userdata('nama_pasar');
+	// 	$nama_pasar = $this->session->userdata('nama_pasar');
 	
 	 		
+	// 	$data = [ 
+	// 		'databaru'=>$this->M_baru->print($id)->row(),
+	// 		'datakios'=>$this->M_baru->tampilJoin()->result(),
+	// 		'datakepala'=>$this->M_baru->tampilKepala($nama_pasar)->row(),
+
+	// 	];
+
+	//  		$this->load->view('Pasar/v_persyaratan/sp_kepala', $data); 
+	// }
+
+	public function ba_penunjukan($id){
+		
+		$nama_pasar = $this->session->userdata('nama_pasar');
+
 		$data = [ 
 			'databaru'=>$this->M_baru->print($id)->row(),
 			'datakios'=>$this->M_baru->tampilJoin()->result(),
 			'datakepala'=>$this->M_baru->tampilKepala($nama_pasar)->row(),
 
 		];
+		$this->load->view('Pasar/v_persyaratan/ba_penunjukan', $data);
 
-	 		$this->load->view('Pasar/v_persyaratan/sp_kepala', $data); 
 	}
-
-
-
 }

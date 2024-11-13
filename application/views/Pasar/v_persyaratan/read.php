@@ -141,6 +141,7 @@
 													aria-expanded="false"><i class="fa fa-download"></i>Cetak Form</button>
 												<div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
 													<!-- <a class="dropdown-item" href="<?php echo site_url('Pasar/Persyaratan/sp_kepala/' . $key->id_pengajuan) ?>" target="_blank">SP Kepala</a> -->
+													<a class="dropdown-item" href="<?php echo site_url('Pasar/Persyaratan/ba_penunjukan/' . $key->id_pengajuan) ?>" target="_blank">Berita Acara Penunjukan</a>
 													<a class="dropdown-item" href="<?php echo site_url('Pasar/Persyaratan/sp_pemilik/' . $key->id_pengajuan) ?>" target="_blank">SP Pemilik</a>
 													<a class="dropdown-item" href="<?php echo site_url('Pasar/Persyaratan/surat_pernyataan/' . $key->id_pengajuan) ?>" target="_blank">Surat Pernyataan</a>
 												</div>

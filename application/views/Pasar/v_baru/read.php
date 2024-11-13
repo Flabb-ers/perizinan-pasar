@@ -40,6 +40,7 @@
                                 <td>Jenis Dagangan</td>
                                 <td>Tanggal Pengajuan</td>
                                 <td>Status Verifikasi Kepala Pasar</td>
+                                <td>Berita Acara Penunjukan</td>
                                 <td>SP Pemohon</td>
                                 <td>Surat Pernyataan</td>
                                 <td>Ktp</td>
@@ -67,6 +68,7 @@
                                     <td>
                                         <?= ($key->sp_kepala == 1) ? 'Disetujui' : 'Belum disetujui' ?>
                                     </td>
+                                    <td><img src="<?= base_url('./template/img/syarat/' . $key->ba_penunjukan); ?>" class="img-rounded" width="100px"></td>
                                     <td><img src="<?= base_url('./template/img/syarat/' . $key->sp_pemilik); ?>" class="img-rounded" width="100px"></td>
                                     <td><img src="<?= base_url('./template/img/syarat/' . $key->surat_pernyataan); ?>" class="img-rounded" width="100px"></td>
                                     <td><img src="<?= base_url('./template/img/syarat/' . $key->ktp_pemilik); ?>" class="img-rounded" width="100px"></td>
