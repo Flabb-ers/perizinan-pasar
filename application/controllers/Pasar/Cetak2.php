@@ -12,6 +12,7 @@ class Cetak2 extends CI_Controller
 		$this->load->model('M_cetak');
 		$this->load->model('M_pimpinan');
 		$this->load->model('M_pasar');
+		$this->load->model('M_baru');
 		$this->load->model('M_op');
 
 		if ($this->session->userdata('level') !== 'Pasar') {
@@ -75,7 +76,6 @@ class Cetak2 extends CI_Controller
 
 		$this->load->view('Pasar/v_cetakbaru/print', $data);
 	}
-
 
 
 	// public function print($id)
@@ -186,4 +186,17 @@ class Cetak2 extends CI_Controller
 	// 	readfile($outputPath);
 	// 	unlink($outputPath);
 	// }
+
+
+	public function ba_penunjukan($id){
+		$nama_pasar = $this->session->userdata('nama_pasar');
+		
+		$data = [
+			'dataop' => $this->M_cetak->tampilData($id)->row(),
+			'datakepala'=>$this->M_baru->tampilKepala($nama_pasar)->row(),
+		];
+
+		$this->load->view('pasar/v_cetakbaru/ba_penunjukan', $data);
+	}
+	
 }

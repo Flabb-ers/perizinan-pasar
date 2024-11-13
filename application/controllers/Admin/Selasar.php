@@ -7,6 +7,7 @@ class Selasar extends CI_Controller {
 	 {
 	 	parent::__construct();
 	 	$this->load->model('M_selasar');
+	 	$this->load->model('M_pasar');
 
 	 	if ($this->session->userdata('level')!=='Admin') {
  		redirect('Auth/index');
@@ -17,9 +18,12 @@ class Selasar extends CI_Controller {
 	{	
 
 		$dataselasar= $this->M_selasar->read2()->result();
+		$pasar= $this->M_pasar->pasarAll();
 
 		$data = [ 
 			'dataselasar'=>$dataselasar,
+			'allPasars'=>$pasar
+			
 		];
 		
 		$this->template->load('pages/index','Admin/v_selasar/read', $data); 

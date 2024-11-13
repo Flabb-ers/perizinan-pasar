@@ -21,11 +21,13 @@ class Kios extends CI_Controller {
 		$nama_pasar= $this->input->get('nama_pasar');
 
 		$datakios= $this->M_kios->tampilJoin()->result();
+		$pasar= $this->M_pasar->pasarAll();
 		
 		$data = [ 
 			'judul'=>'Data Kios',
 			'subjudul'=>'Data Kios',
 			'datakios'=>$datakios,
+			'allPasars'=>$pasar
 		];
 		
 		$this->template->load('pages/index','Kdinas/v_kios/read', $data); 

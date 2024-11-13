@@ -5,8 +5,13 @@ class M_pasar extends CI_Model
 
 	public function read()
 	{
-
 		$this->db->order_by('id_pasar', 'DESC');
+		$query = $this->db->get('tbl_pasar');
+		return $query->result();
+	}
+
+	public function pasarAll(){
+		$this->db->order_by('nama_pasar','ASC');
 		$query = $this->db->get('tbl_pasar');
 		return $query->result();
 	}

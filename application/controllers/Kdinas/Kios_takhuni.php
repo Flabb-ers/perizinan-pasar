@@ -21,11 +21,13 @@ class Kios_takhuni extends CI_Controller {
 		$nama_pasar= $this->input->get('nama_pasar');
 
 		$datakios= $this->M_kios->tampilJoinKiosTakHuni()->result();
+		$pasar= $this->M_pasar->pasarAll();
 		
 		$data = [ 
 			'judul'=>'Data Kios',
 			'subjudul'=>'Data Kios',
 			'datakios'=>$datakios,
+			'allPasars'=>$pasar
 		];
 		
 		$this->template->load('pages/index','Kdinas/v_kios_takhuni/read', $data); 

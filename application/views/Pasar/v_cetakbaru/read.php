@@ -47,6 +47,7 @@
 								<td><?= $key->batas_berlaku ?></td>
 								<td>
 									<a href="<?= base_url('Pasar/Cetak2/print/' . $key->id_objek_pajak); ?>" target="_blank" class="btn btn-danger"><i class="fa fa-download">Cetak</i></a>
+									<a href="<?= base_url('Pasar/Cetak2/ba_penunjukan/' . $key->id_objek_pajak); ?>" target="_blank" class="btn btn-danger"><i class="fa fa-download">Cetak</i></a>
 								</td>
 
 							</tr>

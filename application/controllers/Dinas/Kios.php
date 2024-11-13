@@ -7,6 +7,7 @@ class Kios extends CI_Controller {
 	 {
 	 	parent::__construct();
 	 	$this->load->model('M_kios');
+	 	$this->load->model('M_pasar');
 
 	 	if ($this->session->userdata('level')!=='Dinas') {
  		redirect('auth');
@@ -17,11 +18,13 @@ class Kios extends CI_Controller {
 	{	
 
 		$datakios= $this->M_kios->tampilJoin()->result();
+		$pasar= $this->M_pasar->pasarAll();
 		
 		$data = [ 
 			'judul'=>'Data Kios',
 			'subjudul'=>'Data Kios',
 			'datakios'=>$datakios,
+			'allPasars'=>$pasar
 		];
 		
 		$this->template->load('pages/index','dinas/v_kios/read', $data); 

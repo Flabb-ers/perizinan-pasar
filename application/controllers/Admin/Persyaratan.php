@@ -156,7 +156,7 @@ class Persyaratan extends CI_Controller
 	public function sp_kepala($id)
 	{
 
-		$nama_pasar = $this->M_baru->print($id)->row('nama_pasar');
+		$nama_pasar = $this->M_baru->print($id)->row()->nama_pasar;
 
 		$data = [
 			'databaru' => $this->M_baru->print($id)->row(),
@@ -170,7 +170,7 @@ class Persyaratan extends CI_Controller
 	public function ba_penunjukan($id)
 	{
 
-		$nama_pasar = $this->session->userdata('nama_pasar');
+		$nama_pasar = $this->M_baru->print($id)->row()->nama_pasar;
 
 		$data = [
 			'databaru' => $this->M_baru->print($id)->row(),

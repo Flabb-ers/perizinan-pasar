@@ -9,6 +9,7 @@ class Kios extends CI_Controller {
 	 	$this->load->model('M_kios');
 	 	$this->load->model('M_pasar');
 	 	$this->load->model('M_tarif');
+	 	$this->load->model('M_pasar');
 
 	 	if ($this->session->userdata('level')!=='Admin') {
  		redirect('Auth/index');
@@ -21,11 +22,13 @@ class Kios extends CI_Controller {
 		$nama_pasar= $this->input->get('nama_pasar');
 
 		$datakios= $this->M_kios->tampilJoin()->result();
+		$pasar= $this->M_pasar->pasarAll();
 		
 		$data = [ 
 			'judul'=>'Data Kios',
 			'subjudul'=>'Data Kios',
 			'datakios'=>$datakios,
+			'allPasars'=>$pasar
 		];
 		
 		$this->template->load('pages/index','admin/v_kios/read', $data); 

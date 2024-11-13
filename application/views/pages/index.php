@@ -283,8 +283,25 @@
 
 	<!-- Page level custom scripts -->
 	<script src="<?php echo base_url('template/'); ?>js/demo/datatables-demo.js"></script>
-	<script src="<?php echo base_url('template/'); ?> js/jquery-3.2.1.min.js "></script>
+	<!-- <script src="<?php echo base_url('template/js/jquery-3.2.1.min.js'); ?>"></script> -->
+	<script>
+		$(document).ready(function() {
+			var table = $('#dataTable').DataTable();
+			$('.filter-pasar').on('change', function() {
+				var selectedFilters = [];
+				$('.filter-pasar:checked').each(function() {
+					selectedFilters.push($(this).val().trim());
+				});
+				if (selectedFilters.length > 0) {
+					var filterString = selectedFilters.join('|');
+					table.column(1).search(filterString, true, false).draw();
+				} else {
+					table.column(1).search('').draw();
+				}
+			});
 
+		});
+	</script>
 </body>
 
 </html>
