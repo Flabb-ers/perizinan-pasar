@@ -67,9 +67,9 @@
 <body>
 	<table style="margin: 10px 20px;">
 		<tbody>
-			<!-- <tr>
+			<tr>
 				<td class="header">
-					<img class="header-img" src="http://perizinanpasar.test/template/img/atas.png" alt="logo-pasar">
+					<img src="<?= base_url('/template/img/atas.png'); ?>" alt="logo-pasar" width="60px">
 					<h1 class="header-text">Pemerintah Kabupaten Purworejo <br> <b>DINAS KOPERASI USAHA KECIL MENENGAH
 							DAN PERDAGANGAN</b>
 						<br>Jl. Jenderal Sudirman No.22 Purworejo Kode Pos: 54114 <br>Telp: (0275) 321018, 321028<br>
@@ -84,7 +84,7 @@
 				<td>
 					<hr>
 				</td>
-			</tr> -->
+			</tr>
 			<tr>
 				<td style="text-align: right;">Purworejo, <?php echo date('d F Y') ?></td>
 			</tr>
@@ -125,27 +125,27 @@
 						<tr>
 							<td>Nama</td>
 							<td>:</td>
-							<td><?php echo $databaru->nama ?></td>
+							<td><?php echo $datapengajuan->nama ?></td>
 						</tr>
 						<tr>
 							<td>Pekerjaan</td>
 							<td>:</td>
-							<td><?php echo $databaru->pekerjaan ?></td>
+							<td><?php echo $datapengajuan->pekerjaan ?></td>
 						</tr>
 						<tr>
 							<td>Alamat</td>
 							<td>:</td>
-							<td><?php echo $databaru->alamat ?></td>
+							<td><?php echo $datapengajuan->alamat ?></td>
 						</tr>
 						<tr>
 							<td>NIK</td>
 							<td>:</td>
-							<td><?php echo $databaru->nik ?></td>
+							<td><?php echo $datapengajuan->nik ?></td>
 						</tr>
 						<tr>
 							<td>NPWRD</td>
 							<td>:</td>
-							<td><?php echo $databaru->npwrd != '' ? $databaru->npwrd : '-' ?></td>
+							<td><?php echo $datapengajuan->npwrd != '' ? $datapengajuan->npwrd : '-' ?></td>
 						</tr>
 					</table>
 				</td>
@@ -155,7 +155,7 @@
 			</tr>
 			<tr>
 				<td style="text-align: justify; text-indent: 20px;">Bersama ini kami mengajukan Permohonan Baru untuk
-					menempati/ berjualan di <b><?php echo $databaru->nama_pasar ?></b> dalam <b><?php echo $databaru->jenis ?> Nomor <?php echo $databaru->no_blok ?></b> Blok <b><?php echo $databaru->nama_blok ?></b> dengan ukuran <b><?php echo $databaru->panjang ?>M</b> x <b><?php echo $databaru->lebar ?>M</b>. Sebagai bahan
+					menempati/ berjualan di <b><?php echo $datapengajuan->nama_pasar ?></b> dalam <b><?php echo $datapengajuan->jenis ?> Nomor <?php echo $datapengajuan->no_blok ?></b> Blok <b><?php echo $datapengajuan->nama_blok ?></b> dengan ukuran <b><?php echo $datapengajuan->panjang ?>M</b> x <b><?php echo $datapengajuan->lebar ?>M</b>. Sebagai bahan
 					pertimbangan kami lampirkan : </td>
 			</tr>
 			<tr>
@@ -190,7 +190,7 @@
 								<td style="text-align: center;">
 									Mengetahui
 									<br>
-									Kepala <?php echo $databaru->nama_pasar ?>
+									Kepala <?php echo $datapengajuan->nama_pasar ?>
 									<br>
 									<br>
 									<br>
@@ -209,7 +209,7 @@
 									<br>
 									<br>
 									<br>
-									<?php echo $databaru->nama ?>
+									<?php echo $datapengajuan->nama ?>
 								</td>
 							</tr>
 						</tbody>

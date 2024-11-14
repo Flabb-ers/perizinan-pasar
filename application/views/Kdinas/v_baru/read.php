@@ -57,10 +57,19 @@
 									<td><?= $key->jenis ?> <?= $key->nama_blok ?></td>
 									<td><?= $key->no_blok ?></td>
 									<td><?= $key->jenis_dagangan ?></td>
-									<td><?= $key->tgl_daftar ?></td>
+									<?php if ($key->jenis_pengajuan == "Baru") { ?>
+										<td><?= $key->tgl_daftar ?></td>
+										<?php } elseif ($key->jenis_pengajuan == "Perpanjang") { ?>
+											<td><?= $key->tanggal ?></td>
+										<?php } ?>
+								
 									<td>
+										<?php if ($key->jenis_pengajuan == "Baru") { ?>
+											<a href="<?php echo site_url('Kdinas/Pengajuan/generate/' . $key->id_objek_pajak) ?>" class="btn btn-primary">Proses</a>
+										<?php } elseif ($key->jenis_pengajuan == "Perpanjang") { ?>
+											<a href="<?php echo site_url('Kdinas/Pengajuan/perpanjang/' . $key->id_pengajuan) ?>" class="btn btn-warning">Perpanjang</a>
+										<?php } ?>
 
-										<a href="<?php echo site_url('Kdinas/Pengajuan/generate/' . $key->id_objek_pajak) ?>" class="btn btn-primary">Proses</a>
 									</td>
 								</tr>
 							<?php

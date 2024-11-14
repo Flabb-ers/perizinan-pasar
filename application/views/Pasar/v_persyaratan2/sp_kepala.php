@@ -1,5 +1,5 @@
 <?php
-$tgl_daftar = $databaru->tanggal;
+$tgl_daftar = $datapengajuan->tanggal;
 $batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tgl_daftar)));
 ?>
 
@@ -122,7 +122,7 @@ $batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tgl_daftar)));
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
-				<td style="text-align: justify; text-indent: 20px;">Bersama ini kami kirimkan berkas permohonan untuk mendapatkan izin menempati/berjualan di dalam kios/los <b><?php echo $databaru->nama_pasar ?></b> atas nama <b><?php echo $databaru->nama ?></b>. Surat Ijin berlaku selama <b>2(dua) tahun</b> mulai dari tanggal <b><?php echo date('d F Y', strtotime($databaru->tanggal)) ?></b> s.d <b><?php echo date('d F Y', strtotime($batas_berlaku)) ?></b>.</td>
+				<td style="text-align: justify; text-indent: 20px;">Bersama ini kami kirimkan berkas permohonan untuk mendapatkan izin menempati/berjualan di dalam kios/los <b><?php echo $datapengajuan->nama_pasar ?></b> atas nama <b><?php echo $datapengajuan->nama ?></b>. Surat Ijin berlaku selama <b>2(dua) tahun</b> mulai dari tanggal <b><?php echo date('d F Y', strtotime($datapengajuan->tanggal)) ?></b> s.d <b><?php echo date('d F Y', strtotime($batas_berlaku)) ?></b>.</td>
 			</tr>
 			<tr>
 				<td>&nbsp;</td>
@@ -144,7 +144,7 @@ $batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tgl_daftar)));
 									&nbsp;
 								</td>
 								<td style="text-align: center; text-transform: capitalize;">
-								Kepala <?php echo $databaru->nama_pasar ?>
+								Kepala <?php echo $datapengajuan->nama_pasar ?>
 									<br>
 									<br>
 									<br>

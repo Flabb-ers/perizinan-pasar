@@ -67,7 +67,7 @@
 <body>
 	<table style="margin: 10px 20px;">
 		<tbody>
-			<!-- <tr>
+			<tr>
 				<td class="header">
 					<img class="header-img" src="http://perizinanpasar.test/template/img/atas.png" alt="logo-pasar">
 					<h1 class="header-text">Pemerintah Kabupaten Purworejo <br> <b>DINAS KOPERASI USAHA KECIL MENENGAH
@@ -84,7 +84,7 @@
 				<td>
 					<hr>
 				</td>
-			</tr> -->
+			</tr>
 			<tr>
 				<td style="text-align: right;">Purworejo, <?php echo date('d F Y') ?></td>
 			</tr>
@@ -125,27 +125,27 @@
 						<tr>
 							<td>Nama</td>
 							<td>:</td>
-							<td><?php echo $databaru->nama ?></td>
+							<td><?php echo $datapengajuan->nama ?></td>
 						</tr>
 						<tr>
 							<td>Pekerjaan</td>
 							<td>:</td>
-							<td><?php echo $databaru->pekerjaan ?></td>
+							<td><?php echo $datapengajuan->pekerjaan ?></td>
 						</tr>
 						<tr>
 							<td>Alamat</td>
 							<td>:</td>
-							<td><?php echo $databaru->alamat ?></td>
+							<td><?php echo $datapengajuan->alamat ?></td>
 						</tr>
 						<tr>
 							<td>NIK</td>
 							<td>:</td>
-							<td><?php echo $databaru->nik ?></td>
+							<td><?php echo $datapengajuan->nik ?></td>
 						</tr>
 						<tr>
 							<td>NPWRD</td>
 							<td>:</td>
-							<td><?php echo $databaru->npwrd != '' ? $databaru->npwrd : '-' ?></td>
+							<td><?php echo $datapengajuan->npwrd != '' ? $datapengajuan->npwrd : '-' ?></td>
 						</tr>
 					</table>
 				</td>
@@ -190,7 +190,7 @@
 								<td style="text-align: center;">
 									Mengetahui
 									<br>
-									Kepala <?php echo $databaru->nama_pasar ?>
+									Kepala <?php echo $datapengajuan->nama_pasar ?>
 									<br>
 									<br>
 									<br>
@@ -209,7 +209,7 @@
 									<br>
 									<br>
 									<br>
-									<?php echo $databaru->nama ?>
+									<?php echo $datapengajuan->nama ?>
 								</td>
 							</tr>
 						</tbody>

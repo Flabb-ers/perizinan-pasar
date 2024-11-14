@@ -184,7 +184,6 @@ class Pengajuan extends CI_Controller
 		$allowed_types = ['image/jpeg', 'image/jpg', 'image/png'];
 
 		$files = [
-			'sp_kepala',
 			'sp_pemilik',
 			'surat_pernyataan',
 			'ktp_pemilik',

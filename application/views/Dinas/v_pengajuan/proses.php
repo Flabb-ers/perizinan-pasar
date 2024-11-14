@@ -79,22 +79,22 @@
 								<div class="form-group row">
 									<div class="col-md-6 mb-6 mb-sm-0">
 										<label>Pas Foto</label><br>
-										<img src="<?= base_url('./template/img/syarat/' . $datapengajuan->pas_foto); ?>" class="img-rounded" width="100px">
+										<img src="<?= base_url('./template/img/syarat2/' . $datapengajuan->pas_foto); ?>" class="img-rounded" width="100px">
 									</div>
 									<div class="col-md-6">
 										<label>SP Pemilik</label><br>
-										<img src="<?= base_url('./template/img/syarat/' . $datapengajuan->sp_pemilik); ?>" class="img-rounded" width="100px">
+										<img src="<?= base_url('./template/img/syarat2/' . $datapengajuan->sp_pemilik); ?>" class="img-rounded" width="100px">
 									</div>
 								</div>
 
 								<div class="form-group row">
 									<div class="col-md-6 mb-6 mb-sm-0">
 										<label>Surat Pernyataan</label><br>
-										<img src="<?= base_url('./template/img/syarat/' . $datapengajuan->surat_pernyataan); ?>" class="img-rounded" width="100px">
+										<img src="<?= base_url('./template/img/syarat2/' . $datapengajuan->surat_pernyataan); ?>" class="img-rounded" width="100px">
 									</div>
 									<div class="col-md-6">
 										<label>KTP Pemilik</label><br>
-										<img src="<?= base_url('./template/img/syarat/' . $datapengajuan->ktp_pemilik); ?>" class="img-rounded" width="100px">
+										<img src="<?= base_url('./template/img/syarat2/' . $datapengajuan->ktp_pemilik); ?>" class="img-rounded" width="100px">
 									</div>
 								</div>
 

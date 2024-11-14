@@ -8,4 +8,6 @@ To do
 [x] Surat gambar 3x4 center qr code deleted
 [x] Berita same with sp kepala old
 [x] fillter los & kios
-[ ] idk perpanjangan
+[ ] fix gambar perpanjangan
+[ ] surat downlaod dinas and upload ke pasar pasar downlaod seng sudah tanda tangan
+[ ] gambar perpanjang bug mungkin ambil gambar lama sendangkan lama pasti ke update

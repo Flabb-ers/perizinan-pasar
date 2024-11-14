@@ -24,6 +24,7 @@
 			</div>
 			<div class="box-body">
 				<form class="" action="<?php echo site_url('Pasar/Persyaratan2/create') ?>" method="post" enctype="multipart/form-data">
+					<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
 					<div class="modal-body">
 						<div class="form-group row">
 							<div class="col-md-6 mb-6 mb-sm-0">
@@ -108,12 +109,12 @@
 														id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
 														aria-expanded="false"><i class="fa fa-download"></i>Cetak Form</button>
 													<div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
-														<a class="dropdown-item" href="<?php echo site_url('Pasar/Persyaratan2/sp_kepala/' . $key->id_pengajuan) ?>" target="_blank">SP Kepala</a>
+														<!-- <a class="dropdown-item" href="<?php echo site_url('Pasar/Persyaratan2/sp_kepala/' . $key->id_pengajuan) ?>" target="_blank">SP Kepala</a> -->
 														<a class="dropdown-item" href="<?php echo site_url('Pasar/Persyaratan2/sp_pemilik/' . $key->id_pengajuan) ?>" target="_blank">SP Pemilik</a>
 														<a class="dropdown-item" href="<?php echo site_url('Pasar/Persyaratan2/surat_pernyataan/' . $key->id_pengajuan) ?>" target="_blank">Surat Pernyataan</a>
 													</div>
 													<br>
-													<!--  <a href="<?php echo site_url('Pasar/Persyaratan2/edit/' . $key->id_pengajuan) ?>" class="btn btn-success btn-sm"><i class="fa fa-edit"></i>Edit</a><br> -->
+													 <a href="<?php echo site_url('Pasar/Persyaratan2/edit/' . $key->id_pengajuan) ?>" class="btn btn-success btn-sm"><i class="fa fa-edit"></i>Edit</a><br>
 													<a href="<?php echo site_url('Pasar/Persyaratan2/hapus/' . $key->id_pengajuan) ?>" onclick="javascript: return confirm('Yakin Mau dihapus <?= $key->jenis ?> <?= $key->nama_blok ?> <?= $key->no_blok ?>')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i>Hapus</a><br>
 
 												</td>

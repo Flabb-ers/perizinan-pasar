@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 01 Agu 2024 pada 12.28
+-- Waktu pembuatan: 14 Nov 2024 pada 06.16
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 7.4.33
 
@@ -99,6 +99,16 @@ CREATE TABLE `tbl_objek` (
   `id_wajib_pajak` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data untuk tabel `tbl_objek`
+--
+
+INSERT INTO `tbl_objek` (`id_objek`, `id_wajib_pajak`) VALUES
+(2, 1),
+(3, 2),
+(5, 3),
+(6, 4);
+
 -- --------------------------------------------------------
 
 --
@@ -132,7 +142,10 @@ CREATE TABLE `tbl_op` (
 --
 
 INSERT INTO `tbl_op` (`nama`, `alamat`, `id_objek_pajak`, `id_pengajuan`, `id_jenis`, `id_objek`, `npwrd`, `id_kios`, `tgl_daftar`, `batas_berlaku`, `status_op`, `pas_foto`, `nama_blok`, `no_blok`, `nama_pasar`, `jenis`, `no_telp`, `email`, `qrcode`) VALUES
-('SASA', 'Kutoarjo', 4, 3, 2, 1, '33456789997655', 5, '2025-11-09', '2023-12-13', 'Sudah', '20231109024136_pas_foto.jpg', 'Melati', 23, 'Pasar Grabag  ', 'Kios', '0811887678', 'fatin@gmail.com', 'SASA.png');
+('SASA', 'Kutoarjo', 4, 3, 2, 2, '33456789997655', 5, '2024-11-07', '2024-11-12', 'Sudah', '20231109024136_pas_foto.jpg', 'Melati', 23, 'Pasar Grabag  ', 'Kios', '0811887678', 'fatin@gmail.com', 'SASA.png'),
+('Dhimas', 'Ajsjs', 12, 0, 2, 3, '99999999999', 5, '2024-11-07', '2024-11-06', 'Sudah', '', 'Melati', 23, 'Pasar Grabag  ', 'Kios', '85329931710', 'dhimasyulianto440@gmail.com', ''),
+('Gajah', 'wkwk', 15, 0, 2, 5, '99999999999', 5, '2024-11-07', '2024-11-08', 'Sudah', '', 'Melati', 23, 'Pasar Grabag  ', 'Kios', '85329931710', 'dhimasyulianto440@gmail.com', ''),
+('Fajar', 'kkkkk', 16, 20, 2, 6, '12121212121212', 1, '2024-01-11', '2026-11-11', 'Sudah', '20241111085823_pas_foto.png', 'Melati', 10, 'Pasar Grabag  ', 'Kios', '+6285329931719', 'email@email.com', 'Fajar.png');
 
 -- --------------------------------------------------------
 
@@ -201,6 +214,7 @@ CREATE TABLE `tbl_pengajuan` (
   `email` varchar(255) NOT NULL,
   `tanggal` date NOT NULL,
   `sp_kepala` varchar(60) NOT NULL,
+  `ba_penunjukan` varchar(60) NOT NULL,
   `sp_pemilik` varchar(60) NOT NULL,
   `surat_pernyataan` varchar(60) NOT NULL,
   `ktp_pemilik` varchar(60) NOT NULL,
@@ -211,6 +225,22 @@ CREATE TABLE `tbl_pengajuan` (
   `status` enum('Proses','Gagal','Selesai','Menunggu TTD') NOT NULL,
   `keterangan` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `tbl_pengajuan`
+--
+
+INSERT INTO `tbl_pengajuan` (`id_pengajuan`, `id_kios`, `id_jenis`, `jenis_pengajuan`, `nama`, `nik`, `alamat`, `pekerjaan`, `no_telp`, `email`, `tanggal`, `sp_kepala`, `ba_penunjukan`, `sp_pemilik`, `surat_pernyataan`, `ktp_pemilik`, `pas_foto`, `status_npwrd`, `npwrd`, `status_op`, `status`, `keterangan`) VALUES
+(9, 1, 2, 'Baru', 'Dhimas', '3306096008800006', 'Suren', '', '+6285329931710', 'dasa32@gmail.com', '2024-11-04', '0', '', '20241104155620_sp_pemilik.png', '20241104155620_surat_pernyataan.png', '20241104155620_ktp_pemilik.png', '20241104155620_pas_foto.png', 'Sudah', '99999999999999', 'Sudah', 'Selesai', ''),
+(10, 16, 2, 'Baru', 'Gajah', '3306096008800006', 'jsjs', 'Pedagang', '+6285329931711', 'dawda@add', '2024-11-04', '', '', '', '', '', '', 'Sudah', '99999999999999', 'Sudah', 'Proses', ''),
+(13, 1, 2, 'Baru', 'Gajah', '3306096008800006', 'jsjs', '', '+6284232123312', 'dasa32@gmail.com', '2024-11-05', '', '', '20241105162306_sp_pemilik.png', '20241105162306_surat_pernyataan.png', '20241105162306_ktp_pemilik.png', '20241105162307_pas_foto.png', 'Sudah', '12121212121212', 'Sudah', 'Proses', ''),
+(14, 5, 2, 'Perpanjang', 'SASA', '3300055120607022', 'Kutoarjo', '', '0811887678', 'fatin@gmail.com', '2024-11-06', '20241113122154_sp_kepala.png', '', '20241113122154_sp_pemilik.png', '20241113122155_surat_pernyataan.png', '20241113122155_ktp_pemilik.png', '20241113122155_pas_foto.png', 'Sudah', '33456789997655', 'Belum', 'Menunggu TTD', ''),
+(16, 1, 2, 'Baru', 'Coba', '3305080305489002', 'Kutoarjo', '', '+6285364726356', 'dasa32@gmail.com', '2024-11-06', '1', '', '20241106163449_sp_pemilik.png', '20241106163421_surat_pernyataan.png', '20241106164035_ktp_pemilik.png', '20241106163355_pas_foto.png', 'Belum', '', 'Belum', 'Menunggu TTD', ''),
+(17, 5, 2, 'Perpanjang', 'Gajah', '3306096008800006', 'wkwk', 'Pedagang', '85329931710', 'dhimasyulianto440@gmail.com', '2024-11-06', '', '', '', '', '', '', 'Sudah', '99999999999', 'Belum', 'Selesai', ''),
+(18, 5, 2, 'Perpanjang', 'Gajah', '3306096008800006', 'wkwk', '', '85329931710', 'dhimasyulianto440@gmail.com', '2024-11-06', '0', '', '', '', '', '', 'Sudah', '99999999999', 'Belum', 'Proses', ''),
+(19, 1, 2, 'Baru', 'HUaa', '3306091209050232', 'Suren', '', '+6285329931710', 'dasa32@gmail.com', '2024-11-07', '0', '', '', '', '', '', 'Belum', '', 'Belum', 'Proses', ''),
+(20, 1, 2, 'Baru', 'Fajar', '3306096008800005', 'kkkkk', '', '+6285329931719', 'email@email.com', '2024-11-11', '1', '', '20241111085823_sp_pemilik.png', '20241111085823_surat_pernyataan.png', '20241111085823_ktp_pemilik.png', '20241111085823_pas_foto.png', 'Sudah', '12121212121212', 'Sudah', 'Selesai', ''),
+(21, 11, 2, 'Baru', 'Coba', '3306091209050001', 'Suren', '', '+62000000000000', 'asdadsad@faf', '2024-11-13', '0', '20241113063718_ba_penunjukan.png', '20241113063718_sp_pemilik.png', '', '', '20241113063718_pas_foto.png', 'Belum', '', 'Belum', 'Menunggu TTD', '');
 
 -- --------------------------------------------------------
 
@@ -233,7 +263,7 @@ CREATE TABLE `tbl_pimpinan` (
 --
 
 INSERT INTO `tbl_pimpinan` (`id_pimpinan`, `id_pegawai`, `nip`, `jabatan`, `golongan`, `periode`, `status`) VALUES
-(11, 9, '19661223 199403 1 005', 'Kepala Dinas', 'Pembina Tk. I', '2023-2028', 'Aktif');
+(11, 9, '19661223 199403 1 005', 'Kepala Dinas', 'Pembina Utama Muda', '2023-2028', 'Aktif');
 
 -- --------------------------------------------------------
 
@@ -309,7 +339,10 @@ CREATE TABLE `tbl_wp` (
 --
 
 INSERT INTO `tbl_wp` (`id_wajib_pajak`, `id_pasar`, `kode_wp`, `npwrd`, `nama`, `nik`, `alamat`, `no_telp`, `email`, `nama_pasar`) VALUES
-(1, 2, 'WP001', '33456789997655', 'SASA', '3300055120607022', 'Kutoarjo', '0811887678', 'fatin@gmail.com', 'Pasar Grabag  ');
+(1, 2, 'WP001', '33456789997655', 'SASA', '3300055120607022', 'Kutoarjo', '0811887678', 'fatin@gmail.com', 'Pasar Grabag  '),
+(2, 2, 'WP002', '99999999999999', 'Dhimas', '3306096008800006', 'Suren', '+6285329931710', 'dasa32@gmail.com', 'Pasar Grabag  '),
+(3, 2, 'WP003', '12121212121212', 'Gajah', '3306096008800006', 'jsjs', '+6284232123312', 'dasa32@gmail.com', 'Pasar Grabag  '),
+(4, 2, 'WP004', '12121212121212', 'Fajar', '3306096008800005', 'kkkkk', '+6285329931719', 'email@email.com', 'Pasar Grabag  ');
 
 --
 -- Trigger `tbl_wp`
@@ -442,13 +475,13 @@ ALTER TABLE `tbl_kpasar`
 -- AUTO_INCREMENT untuk tabel `tbl_objek`
 --
 ALTER TABLE `tbl_objek`
-  MODIFY `id_objek` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_objek` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_op`
 --
 ALTER TABLE `tbl_op`
-  MODIFY `id_objek_pajak` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_objek_pajak` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_pasar`
@@ -466,7 +499,7 @@ ALTER TABLE `tbl_pegawai`
 -- AUTO_INCREMENT untuk tabel `tbl_pengajuan`
 --
 ALTER TABLE `tbl_pengajuan`
-  MODIFY `id_pengajuan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_pengajuan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_pimpinan`
@@ -490,7 +523,7 @@ ALTER TABLE `tbl_tarif`
 -- AUTO_INCREMENT untuk tabel `tbl_wp`
 --
 ALTER TABLE `tbl_wp`
-  MODIFY `id_wajib_pajak` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_wajib_pajak` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

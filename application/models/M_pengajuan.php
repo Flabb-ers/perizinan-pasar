@@ -521,24 +521,28 @@ class M_pengajuan extends CI_Model {
  	}
 
  	public function tampilAdminWPlevelPasar($id)
- 	{	
- 		$now = date('Y-m-d');
+{   
+    $now = date('Y-m-d');
 
- 		$this->db->select('tbl_op.*,tbl_wp.*, tbl_jenis.*,tbl_kios.*, tbl_pasar.*, tbl_tarif.*');
-		$this->db->from('tbl_op');
-		$this->db->join('tbl_jenis','tbl_op.id_jenis = tbl_jenis.id_jenis');
-		$this->db->join('tbl_kios','tbl_op.id_kios = tbl_kios.id_kios');
-		$this->db->join('tbl_pasar','tbl_kios.id_pasar = tbl_pasar.id_pasar');
-		$this->db->join('tbl_tarif','tbl_kios.id_tarif = tbl_tarif.id_tarif');
- 		$this->db->join('tbl_objek','tbl_op.id_objek = tbl_objek.id_objek');
-		$this->db->join('tbl_wp','tbl_objek.id_wajib_pajak = tbl_wp.id_wajib_pajak');
-		$this->db->where('tbl_op.batas_berlaku >=', $now);
-		$this->db->like('tbl_pasar.nama_pasar',  $id);
+    $this->db->select('tbl_op.*, tbl_wp.*, tbl_jenis.*, tbl_kios.*, tbl_pasar.*, tbl_tarif.*');
+    $this->db->from('tbl_op');
+    $this->db->join('tbl_jenis', 'tbl_op.id_jenis = tbl_jenis.id_jenis');
+    $this->db->join('tbl_kios', 'tbl_op.id_kios = tbl_kios.id_kios');
+    $this->db->join('tbl_pasar', 'tbl_kios.id_pasar = tbl_pasar.id_pasar');
+    $this->db->join('tbl_tarif', 'tbl_kios.id_tarif = tbl_tarif.id_tarif');
+    $this->db->join('tbl_objek', 'tbl_op.id_objek = tbl_objek.id_objek');
+    $this->db->join('tbl_wp', 'tbl_objek.id_wajib_pajak = tbl_wp.id_wajib_pajak');
 
- 		$query = $this->db->get();
+    $this->db->where('tbl_op.batas_berlaku >=', $now);
+    $this->db->where('tbl_op.batas_berlaku <=', date('Y-m-d', strtotime($now . ' + 30 days')));
 
- 		return $query;
- 	}
+    $this->db->like('tbl_pasar.nama_pasar', $id);
+
+    $query = $this->db->get();
+
+    return $query;
+}
+
 
  	public function tampilAdminWP2($id)
  	{

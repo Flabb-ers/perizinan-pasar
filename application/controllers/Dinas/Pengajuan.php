@@ -31,9 +31,7 @@ class Pengajuan extends CI_Controller {
 
 	public function proses($id)
 	{	
-
 		$data = [
-		
  		'judul'=>'Data Pengajuan',
 		'subjudul'=>'Tambah Data Pengajuan',
 		'datakios'=>$this->M_pengajuan->tampilKios()->result(),
