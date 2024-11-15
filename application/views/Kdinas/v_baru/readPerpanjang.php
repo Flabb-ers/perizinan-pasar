@@ -20,7 +20,7 @@
 		<!-- DataTales Example -->
 		<div class="card shadow mb-4">
 			<div class="card-header py-3">
-				<h6 class="m-0 font-weight-bold text-primary">Data Permohonan Menempati Kios dan Los</h6>
+				<h6 class="m-0 font-weight-bold text-primary">Data Permohonan Perpanjang Kios dan Los</h6>
 			</div>
 			<div class="card-body">
 
@@ -57,10 +57,9 @@
 									<td><?= $key->jenis ?> <?= $key->nama_blok ?></td>
 									<td><?= $key->no_blok ?></td>
 									<td><?= $key->jenis_dagangan ?></td>
-									<td><?= $key->tgl_daftar ?></td>
+									<td><?= $key->tanggal ?></td>
 									<td>
-										<a href="<?php echo site_url('Kdinas/Pengajuan/generate/' . $key->id_objek_pajak) ?>" class="btn btn-primary">Proses</a>
-
+										<a href="<?php echo site_url('Kdinas/Pengajuan/generatePerpanjang/' . $key->id_pengajuan) ?>" class="btn btn-warning">Perpanjang</a>
 									</td>
 								</tr>
 							<?php

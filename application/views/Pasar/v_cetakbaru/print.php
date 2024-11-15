@@ -364,7 +364,7 @@
 			<td class="left-column image-section">
 				<img src="<?= base_url('./template/img/gambarop/' . $dataop->pas_foto); ?>" class="img-rounded" width="113px" height="151px">
 			</td>
-			<td class="right-column"><?= $dataop->pas_foto?></td>
+			<td class="right-column"></td>
 		</tr>
 
 

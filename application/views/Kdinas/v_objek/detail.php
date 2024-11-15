@@ -8,14 +8,6 @@
 			<h6 class="m-0 font-weight-bold text-primary">Detail Objek Retribusi</h6>
 		</div>
 		<div class="card-body">
-
-			<a href="<?php echo site_url('Dinas/op/create/' . $dataobjek->id_objek) ?>"><button type="button" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>
-					Tambah Data
-				</button></a>
-			<hr>
-			<br>
-
-
 			<div class="table-responsive">
 				<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 					<thead>
@@ -31,7 +23,6 @@
 							<td>Tanggal Daftar /Perpanjang</td>
 							<td>Batas Berlaku</td>
 							<td>Status</td>
-							<td>Aksi</td>
 						</tr>
 					</thead>
 					<tbody>
@@ -53,14 +44,6 @@
 								<td><?php echo date('d-m-Y', strtotime($key->batas_berlaku)) ?></td>
 
 								<td>Aktif</td>
-
-								<td>
-									<a href="<?php echo site_url('Dinas/Op/edit/' . $key->id_objek_pajak) ?>" class="btn btn-success"><i class="fa fa-edit">Edit</i></a>
-									<!-- <a href="<?php echo site_url('Dinas/Op/proses/' . $key->id_objek_pajak) ?>" class="btn btn-warning">Proses</a> -->
-
-									<a href="<?php echo site_url('Dinas/Op/hapus/' . $key->id_objek_pajak) ?>" onclick="javascript: return confirm('Yakin Mau dihapus <?php echo $key->nama ?>')" class="btn btn-danger"><i class="fa fa-trash">Hapus</i></a>
-								</td>
-
 							</tr>
 						<?php
 							$no++;

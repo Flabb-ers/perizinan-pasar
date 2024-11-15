@@ -22,17 +22,14 @@ class Cetak2 extends CI_Controller
 
 	public function index()
 	{
-
-		$nama_pasar = $this->session->userdata('nama_pasar');
-		$pengajuan = $this->M_cetak->readPasar($nama_pasar)->result();
-		$dataop = $this->M_op->tampilWherePasar($nama_pasar)->result();
+		$pengajuan = $this->M_cetak->readAllPasar()->result();
+		$dataop = $this->M_op->tampilAllPasar()->result();
 
 		$data = [
 			'judul' => 'Data Pengajuan',
 			'subjudul' => 'Data Pengajuan',
 			'databaru' => $pengajuan,
 			'dataop' => $dataop,
-
 		];
 
 		$this->template->load('pages/index', 'Admin/v_cetakbaru/read', $data);
@@ -187,16 +184,16 @@ class Cetak2 extends CI_Controller
 	// 	unlink($outputPath);
 	// }
 
-	public function ba_penunjukan($id){
+	public function ba_penunjukan($id)
+	{
 
 		$nama_pasar = $this->M_baru->print($id)->row()->nama_pasar;
 
 		$data = [
 			'dataop' => $this->M_cetak->tampilData($id)->row(),
-			'datakepala'=>$this->M_baru->tampilKepala($nama_pasar)->row(),
+			'datakepala' => $this->M_baru->tampilKepala($nama_pasar)->row(),
 		];
 
 		$this->load->view('pasar/v_cetakbaru/ba_penunjukan', $data);
 	}
-	
 }

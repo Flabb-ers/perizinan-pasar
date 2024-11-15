@@ -14,11 +14,10 @@ $batasBerlaku = $tanggal->format('Y-m-d');
 				<div class="col-12">
 					<div class="box box-warning">
 						<div class="box-body">
-							<?php echo form_open_multipart('Kdinas/Pengajuan/generate/' . $dataop->id_objek_pajak) ?>
+							<?php echo form_open_multipart('Kdinas/Pengajuan/generatePerpanjang/' . $dataop->id_objek_pajak) ?>
 							<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
-
+							<input type="hidden" name="pas_foto" value="<?=$dataop->pas_foto?>" id="pas_foto">
 							<div class="modal-body">
-
 								<div class="form-group row">
 									<label class="col-md-3 col-sm-3">Nama </label>
 									<div class="col-md-9 col-sm-9">
@@ -70,6 +69,7 @@ $batasBerlaku = $tanggal->format('Y-m-d');
 										<input type="date" name="tgl_daftar" id="tgl_daftar" value="<?php echo $dataop->tanggal ?>" class="form-control" readonly>
 									</div>
 								</div>
+								
 								<div class="form-group row">
 									<label class="col-md-3 col-sm-3">Batas Berlaku</label>
 									<div class="col-md-9 col-sm-9">

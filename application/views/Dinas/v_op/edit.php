@@ -70,7 +70,7 @@
 									</div>
 
 									<button type="submit" name="edit" class="btn btn-primary">Submit</button>
-									<a href="<?php echo site_url('Dinas/Op') ?>"><button type="button" name="button" class="btn btn-warning">Cancel</button>
+									<a href="<?php echo site_url('Dinas/Objek/detail/' . $dataop->id_objek) ?>"><button type="button" name="button" class="btn btn-warning">Cencel</button>
 							</form>
 						</div>
 					</div>

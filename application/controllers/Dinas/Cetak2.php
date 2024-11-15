@@ -20,22 +20,20 @@ class Cetak2 extends CI_Controller
 	}
 
 	public function index()
-	{
+{
+    $pengajuan = $this->M_cetak->readAllPasar()->result();
+    $dataop = $this->M_op->tampilAllPasar()->result();
 
-		$nama_pasar = $this->session->userdata('nama_pasar');
-		$pengajuan = $this->M_cetak->readPasar($nama_pasar)->result();
-		$dataop = $this->M_op->tampilWherePasar($nama_pasar)->result();
+    $data = [
+        'judul' => 'Data Pengajuan',
+        'subjudul' => 'Data Pengajuan',
+        'databaru' => $pengajuan,
+        'dataop' => $dataop,
+    ];
 
-		$data = [
-			'judul' => 'Data Pengajuan',
-			'subjudul' => 'Data Pengajuan',
-			'databaru' => $pengajuan,
-			'dataop' => $dataop,
+    $this->template->load('pages/index', 'dinas/v_cetakbaru/read', $data);
+}
 
-		];
-
-		$this->template->load('pages/index', 'dinas/v_cetakbaru/read', $data);
-	}
 
 
 	public function print($id)
@@ -187,4 +185,32 @@ class Cetak2 extends CI_Controller
 	// 	readfile($outputPath);
 	// 	unlink($outputPath);
 	// }
+	public function upload($id) {
+		if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
+			$file_extension = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
+			
+			if (strtolower($file_extension) == 'pdf') {
+				$filename = 'gambar_' . $id . '.pdf';
+				$upload_path = FCPATH . 'template/surat/img/' . $filename;
+				
+				if (file_exists($upload_path)) {
+					unlink($upload_path);
+				}
+
+				if (move_uploaded_file($_FILES['foto']['tmp_name'], $upload_path)) {
+					$this->session->set_flashdata('pesan', 'PDF berhasil diupload');
+				} else {
+					$this->session->set_flashdata('pesan', 'Gagal upload PDF');
+				}
+			} else {
+				$this->session->set_flashdata('pesan', 'Hanya file PDF yang diperbolehkan');
+			}
+		} else {
+			$this->session->set_flashdata('pesan', 'Tidak ada file yang diupload');
+		}
+
+		redirect('Dinas/Cetak2');
+	}
+	
+	
 }

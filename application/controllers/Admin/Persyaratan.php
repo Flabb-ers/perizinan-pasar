@@ -178,6 +178,6 @@ class Persyaratan extends CI_Controller
 			'datakepala' => $this->M_baru->tampilKepala($nama_pasar)->row(),
 
 		];
-		$this->load->view('Pasar/v_persyaratan/ba_penunjukan', $data);
+		$this->load->view('Admin/v_persyaratan/ba_penunjukan', $data);
 	}
 }

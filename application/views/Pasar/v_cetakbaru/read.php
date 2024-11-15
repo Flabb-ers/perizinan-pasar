@@ -32,26 +32,35 @@
 						<?php
 						$no = 1;
 						foreach ($databaru as $key) {
-						?>
-							<tr>
-								<td><?php echo $no ?></td>
-								<td><?= $key->npwrd ?></td>
-								<td><?= $key->nama ?></td>
-								<td><?= $key->nik ?></td>
-								<td><?= $key->alamat ?></td>
-								<td><?= $key->nama_pasar ?></td>
-								<td><?= $key->nama_blok ?></td>
-								<td><?= $key->no_blok ?></td>
-								<td><?= $key->jenis_dagangan ?></td>
-								<td><?= $key->tgl_daftar ?></td>
-								<td><?= $key->batas_berlaku ?></td>
-								<td>
-									<a href="<?= base_url('Pasar/Cetak2/print/' . $key->id_objek_pajak); ?>" target="_blank" class="btn btn-danger"><i class="fa fa-download">Cetak</i></a>
-								</td>
+							// Tentukan nama file PDF berdasarkan id_objek_pajak dan ekstensi .pdf
+							$filename = 'gambar_' . $key->id_objek_pajak . '.pdf';
+							// Tentukan path tempat file PDF disimpan
+							$upload_path = FCPATH . 'template/surat/img/' . $filename;
 
-							</tr>
+							// Periksa apakah file PDF ada di path tersebut
+							if (file_exists($upload_path)):
+						?>
+								<tr>
+									<td><?php echo $no ?></td>
+									<td><?= $key->npwrd ?></td>
+									<td><?= $key->nama ?></td>
+									<td><?= $key->nik ?></td>
+									<td><?= $key->alamat ?></td>
+									<td><?= $key->nama_pasar ?></td>
+									<td><?= $key->nama_blok ?></td>
+									<td><?= $key->no_blok ?></td>
+									<td><?= $key->jenis_dagangan ?></td>
+									<td><?= $key->tgl_daftar ?></td>
+									<td><?= $key->batas_berlaku ?></td>
+									<td>
+										<a href="<?= base_url('Pasar/Cetak2/downloadSurat/' . $key->id_objek_pajak); ?>" class="btn btn-success">
+											<i class="fa fa-download"></i> Download Surat
+										</a>
+									</td>
+								</tr>
 						<?php
-							$no++;
+								$no++;
+							endif;
 						}
 						?>
 					</tbody>

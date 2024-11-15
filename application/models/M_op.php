@@ -20,19 +20,19 @@ class M_op extends CI_Model
 
 	public function getActiveOP()
 	{
-		$now = date('Y-m-d');
-		$this->db->select('tbl_op.*, tbl_jenis.*, tbl_kios.*, tbl_pasar.*, tbl_tarif.*');
+		$this->db->select('tbl_op.*, tbl_jenis.*, tbl_kios.*, tbl_pasar.*, tbl_tarif.*, DATEDIFF(tbl_op.batas_berlaku, CURDATE()) as jarak_hari');
 		$this->db->from('tbl_op');
 		$this->db->join('tbl_jenis', 'tbl_op.id_jenis = tbl_jenis.id_jenis');
 		$this->db->join('tbl_kios', 'tbl_op.id_kios = tbl_kios.id_kios');
 		$this->db->join('tbl_pasar', 'tbl_kios.id_pasar = tbl_pasar.id_pasar');
 		$this->db->join('tbl_tarif', 'tbl_kios.id_tarif = tbl_tarif.id_tarif');
-		$this->db->where('tbl_op.batas_berlaku >=', $now);
+		$this->db->where("DATEDIFF(tbl_op.batas_berlaku, CURDATE()) <= 30");
 		$this->db->order_by('tbl_op.id_objek_pajak', 'DESC');
 		$query = $this->db->get();
 
 		return $query;
 	}
+
 
 	public function getObjekWithNamaWp()
 	{
@@ -91,6 +91,11 @@ class M_op extends CI_Model
 
 		return $query;
 	}
+	public function getByNPWRD($npwrd)
+	{
+		return $this->db->get_where('tbl_op', ['npwrd' => $npwrd]);
+	}
+
 
 	public function getNPWRD($id)
 	{
@@ -270,20 +275,30 @@ class M_op extends CI_Model
 	{
 		$this->db->select('tbl_op.*, tbl_pengajuan.*, tbl_jenis.*, tbl_kios.*, tbl_pasar.*, tbl_tarif.*');
 		$this->db->from('tbl_op');
-		// Menggunakan npwrd sebagai penghubung antar tabel
+		$this->db->join('tbl_pengajuan', 'tbl_op.id_pengajuan = tbl_pengajuan.id_pengajuan');
+		$this->db->join('tbl_jenis', 'tbl_pengajuan.id_jenis = tbl_jenis.id_jenis');
+		$this->db->join('tbl_kios', 'tbl_op.id_kios = tbl_kios.id_kios');
+		$this->db->join('tbl_pasar', 'tbl_kios.id_pasar = tbl_pasar.id_pasar');
+		$this->db->join('tbl_tarif', 'tbl_kios.id_tarif = tbl_tarif.id_tarif');
+		$this->db->where('tbl_pengajuan.status', 'Menunggu TTD');
+		$this->db->order_by('tbl_kios.id_kios', 'DESC');
+		$query = $this->db->get();
+
+		return $query;
+	}
+	public function tampilPerpanjang()
+	{
+		$this->db->select('tbl_op.*, tbl_pengajuan.*, tbl_jenis.*, tbl_kios.*, tbl_pasar.*, tbl_tarif.*');
+		$this->db->from('tbl_op');
 		$this->db->join('tbl_pengajuan', 'tbl_op.npwrd = tbl_pengajuan.npwrd');
 		$this->db->join('tbl_jenis', 'tbl_pengajuan.id_jenis = tbl_jenis.id_jenis');
 		$this->db->join('tbl_kios', 'tbl_op.id_kios = tbl_kios.id_kios');
 		$this->db->join('tbl_pasar', 'tbl_kios.id_pasar = tbl_pasar.id_pasar');
 		$this->db->join('tbl_tarif', 'tbl_kios.id_tarif = tbl_tarif.id_tarif');
-
-		// Kondisi status pengajuan yang sedang menunggu TTD
 		$this->db->where('tbl_pengajuan.status', 'Menunggu TTD');
-
-		// Urutkan berdasarkan id_kios secara menurun
+		$this->db->where('tbl_pengajuan.jenis_pengajuan', 'Perpanjang');
+		$this->db->where('tbl_pengajuan.status_op', 'Belum');
 		$this->db->order_by('tbl_kios.id_kios', 'DESC');
-
-		// Ambil hasil query
 		$query = $this->db->get();
 
 		return $query;
@@ -294,21 +309,16 @@ class M_op extends CI_Model
 		$this->db->select('tbl_op.*, tbl_pengajuan.*, tbl_jenis.*, tbl_kios.*, tbl_pasar.*, tbl_tarif.*');
 		$this->db->from('tbl_op');
 
-		// Menggunakan npwrd sebagai penghubung antar tabel
 		$this->db->join('tbl_pengajuan', 'tbl_op.npwrd = tbl_pengajuan.npwrd');
 		$this->db->join('tbl_jenis', 'tbl_pengajuan.id_jenis = tbl_jenis.id_jenis');
 		$this->db->join('tbl_kios', 'tbl_op.id_kios = tbl_kios.id_kios');
 		$this->db->join('tbl_pasar', 'tbl_kios.id_pasar = tbl_pasar.id_pasar');
 		$this->db->join('tbl_tarif', 'tbl_kios.id_tarif = tbl_tarif.id_tarif');
 
-		// Kondisi status pengajuan yang sedang menunggu TTD dan id_pengajuan sesuai parameter $id_pengajuan
 		$this->db->where('tbl_pengajuan.status', 'Menunggu TTD');
-		$this->db->where('tbl_pengajuan.id_pengajuan', $id_pengajuan); // Menambahkan kondisi id_pengajuan
-
-		// Urutkan berdasarkan id_kios secara menurun
+		$this->db->where('tbl_pengajuan.id_pengajuan', $id_pengajuan);
 		$this->db->order_by('tbl_kios.id_kios', 'DESC');
 
-		// Ambil hasil query
 		$query = $this->db->get();
 
 		return $query;
@@ -352,7 +362,7 @@ class M_op extends CI_Model
 		return $query;
 	}
 
-	public function tampilWherePasar($id)
+	public function tampilWherePasar($nama_pasar)
 	{
 		$this->db->select('tbl_op.*, tbl_jenis.*, tbl_kios.*, tbl_pasar.*, tbl_tarif.*, DATEDIFF(tbl_op.batas_berlaku, CURDATE()) as jarak_hari');
 		$this->db->from('tbl_op');
@@ -362,11 +372,23 @@ class M_op extends CI_Model
 		$this->db->join('tbl_tarif', 'tbl_kios.id_tarif = tbl_tarif.id_tarif');
 
 		$this->db->where("DATEDIFF(tbl_op.batas_berlaku, CURDATE()) <= 30");
-		$this->db->like('tbl_pasar.nama_pasar', $id);
+		$this->db->like('tbl_pasar.nama_pasar', $nama_pasar);
 
 		$query = $this->db->get();
 		return $query;
 	}
+
+	public function tampilAllPasar()
+{
+    $this->db->select('tbl_op.*, tbl_jenis.*, tbl_kios.*, tbl_pasar.*, tbl_tarif.*, DATEDIFF(tbl_op.batas_berlaku, CURDATE()) as jarak_hari');
+    $this->db->from('tbl_op');
+    $this->db->join('tbl_jenis', 'tbl_op.id_jenis = tbl_jenis.id_jenis');
+    $this->db->join('tbl_kios', 'tbl_op.id_kios = tbl_kios.id_kios');
+    $this->db->join('tbl_pasar', 'tbl_kios.id_pasar = tbl_pasar.id_pasar');
+    $this->db->join('tbl_tarif', 'tbl_kios.id_tarif = tbl_tarif.id_tarif');
+    $query = $this->db->get();
+    return $query;
+}
 
 
 	public function tampilAdminOP()
@@ -414,7 +436,6 @@ class M_op extends CI_Model
 		$this->db->where('status_op', 'Belum');
 		$this->db->where('status_npwrd', 'Sudah');
 		$query = $this->db->get();
-
 		return $query;
 	}
 
@@ -430,7 +451,6 @@ class M_op extends CI_Model
 		$this->db->where('status_npwrd', 'Sudah');
 		$this->db->where('jenis_pengajuan', 'Perpanjang');
 		$query = $this->db->get();
-
 		return $query;
 	}
 
