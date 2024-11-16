@@ -52,7 +52,7 @@
 								<td>
 
 									<a href="<?php echo site_url('Dinas/Op/edit/' . $key->id_objek_pajak) ?>" class="btn btn-success"><i class="fa fa-edit">Edit</i></a>
-									<a href="<?php echo site_url('Dinas/Op/proses/' . $key->id_objek_pajak) ?>" class="btn btn-warning">Proses</a>
+									<!-- <a href="<?php echo site_url('Dinas/Op/proses/' . $key->id_objek_pajak) ?>" class="btn btn-warning">Proses</a> -->
 									<!-- <a href="<?php echo site_url('Dinas/Op/perbarui_tgl/' . $key->id_objek_pajak) ?>" name="perbarui" class="btn btn-warning"><i class="fa "> Perbarui</i></a> -->
 									<a href="<?php echo site_url('Dinas/Op/hapus/' . $key->id_objek_pajak) ?>" onclick="javascript: return confirm('Yakin Mau dihapus <?php echo $key->nama ?>')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
 								</td>

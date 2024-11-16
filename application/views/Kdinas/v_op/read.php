@@ -8,12 +8,7 @@
             <h6 class="m-0 font-weight-bold text-primary">Data Objek Retribusi</h6>
         </div>
         <div class="card-body">
-            <!-- <a href="<?php echo site_url('Dinas/Op/create') ?>"><button type="button" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>
-              Tambah Data
-            </button></a> -->
         <hr>
-        <br>
-
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>

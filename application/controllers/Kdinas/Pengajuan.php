@@ -26,6 +26,17 @@ class Pengajuan extends CI_Controller
 
 		$this->template->load('pages/index', 'Kdinas/v_baru/read', $data);
 	}
+	public function readPerpanjang()
+	{
+		$dataop = $this->M_op->tampilPerpanjang()->result();
+		$data = [
+			'judul' => 'Data Op',
+			'subjudul' => 'Data Op',
+			'dataop' => $dataop,
+		];
+
+		$this->template->load('pages/index', 'Kdinas/v_baru/readPerpanjang', $data);
+	}
 
 
 	public function generate($id)
@@ -66,12 +77,43 @@ class Pengajuan extends CI_Controller
 
 		$this->template->load('pages/index', 'Kdinas/v_baru/proses', $data);
 	}
-	public function perpanjang($id)
+	public function generatePerpanjang($id)
 	{
 		if (isset($_POST['simpan'])) {
+			$npwrd = $this->input->post('npwrd');
+
+			$data_op = $this->M_op->getByNPWRD($npwrd)->row();
+			$pas_foto_lama = $data_op ? $data_op->pas_foto : null;
+			$surat_izin_lama = $data_op ? $data_op->id_objek_pajak : null;
+
+			$pas_foto_baru = $this->input->post('pas_foto');
+			$source_dir = FCPATH . 'template/img/syarat2/' . $pas_foto_baru;
+			$destination_dir = FCPATH . 'template/img/gambarop/' . $pas_foto_baru;
+
+			if ($pas_foto_lama) {
+				$old_file_path = FCPATH . 'template/img/gambarop/' . $pas_foto_lama;
+				if (file_exists($old_file_path)) {
+					unlink($old_file_path);
+				}
+			}
+
+			if ($surat_izin_lama) {
+				$path_surat_izin_lama = FCPATH . 'template/surat/pdf/surat_' . $surat_izin_lama . '.pdf';
+				if (file_exists($path_surat_izin_lama)) {
+					unlink($path_surat_izin_lama);
+				}
+			}
+
+
+			if (file_exists($source_dir)) {
+				copy($source_dir, $destination_dir);
+			} else {
+				$this->session->set_flashdata('pesan', '<div class="alert alert-danger">Gambar baru tidak ditemukan.</div>');
+			}
+			date_default_timezone_set('Asia/Jakarta');
 			$data = [
 				'id_pengajuan' => $this->input->post('id_pengajuan'),
-				'npwrd' => $this->input->post('npwrd'),
+				'npwrd' => $npwrd,
 				'nama' => $this->input->post('nama'),
 				'alamat' => $this->input->post('alamat'),
 				'nama_pasar' => $this->input->post('nama_pasar'),
@@ -79,19 +121,20 @@ class Pengajuan extends CI_Controller
 				'no_blok' => $this->input->post('no_blok'),
 				'tgl_daftar' => $this->input->post('tgl_daftar'),
 				'batas_berlaku' => $this->input->post('batas_berlaku'),
+				'pas_foto' => $pas_foto_baru,
+				'updated_at' => date('Y-m-d H:i:s'),
 			];
 
-			$data_pengajuan = array(
+			$data_pengajuan = [
 				'status' => 'Selesai',
-			);
+				'status_op' => 'Sudah',
+			];
 
 			$id_pengajuan = $this->input->post('id_pengajuan');
-
 			$this->M_baru->editData($id_pengajuan, $data_pengajuan);
-
 			$this->M_op->editData($id, $data);
-			$this->session->set_flashdata('pesan', '<div class= "alert alert-success"> 
-				Data Berhasil Diubah</div>');
+
+			$this->session->set_flashdata('pesan', '<div class="alert alert-success">Data Berhasil Diperpanjang</div>');
 			redirect('Kdinas/Pengajuan/index');
 		}
 

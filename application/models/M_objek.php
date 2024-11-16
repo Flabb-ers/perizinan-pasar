@@ -102,4 +102,11 @@ class M_objek extends CI_Model
 
 		return $query;
 	}
+
+	public function getById($id_objek)
+	{
+		$this->db->where('id_objek', $id_objek);
+		$query = $this->db->get('tbl_objek'); 
+		return $query->row(); 
+	}
 }

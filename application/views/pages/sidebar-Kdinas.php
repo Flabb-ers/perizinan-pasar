@@ -24,10 +24,18 @@
         	<div class="sidebar-heading">
         		Pengajuan
         	</div>
-        	<li class="nav-item">
-        		<a class="nav-link" href="<?php echo site_url('Kdinas/Pengajuan') ?>">
+			<li class="nav-item">
+        		<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages3"
+        			aria-expanded="true" aria-controls="collapsePages3">
         			<i class="fas fa-fw fa-folder"></i>
-        			<span>Pengajuan</span></a>
+        			<span>Pengajuan</span>
+        		</a>
+        		<div id="collapsePages3" class="collapse" data-parent="#accordionSidebar">
+        			<div class="bg-white py-2 collapse-inner rounded">
+        				<a class="collapse-item" href="<?php echo site_url('Kdinas/Pengajuan') ?>">Baru</a>
+        				<a class="collapse-item" href="<?php echo site_url('Kdinas/Pengajuan/readPerpanjang') ?>">Perpanjang</a>
+        			</div>
+        		</div>
         	</li>
         	</hr>
 
@@ -43,7 +51,7 @@
         			<span>Data Kios Tak Huni</span></a>
         	</li>
         	<li class="nav-item">
-        		<a class="nav-link" href="<?php echo site_url('Kdinas/Op') ?>">
+        		<a class="nav-link" href="<?php echo site_url('Kdinas/Objek') ?>">
         			<i class="fas fa-fw fa-table"></i>
         			<span>Data Objek Retribusi</span></a>
         	</li>

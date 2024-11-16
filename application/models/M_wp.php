@@ -135,4 +135,11 @@ class M_wp extends CI_Model {
 
     	return $new_code;
     }
+
+	public function getById($id_wajib_pajak)
+	{
+		$this->db->where('id_wajib_pajak', $id_wajib_pajak);
+		$query = $this->db->get('tbl_wp'); 
+		return $query->row(); 
+	}
 }

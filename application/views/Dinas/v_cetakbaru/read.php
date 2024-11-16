@@ -45,19 +45,20 @@
 								<td><?= $key->jenis_dagangan ?></td>
 								<td><?= $key->tgl_daftar ?></td>
 								<td><?= $key->batas_berlaku ?></td>
-								<td>
-									<a href="<?= base_url('Dinas/Cetak2/print/' . $key->id_objek_pajak); ?>" target="_blank" class="btn btn-danger"><i class="fa fa-download">Cetak</i></a>
-								</td>
 
+								<td>
+									<a href="<?= base_url('Dinas/Cetak2/uploadPage/' . $key->id_objek_pajak); ?>" class="btn btn-primary">
+										<i class="fa fa-wrench"></i> Kelola Surat
+									</a>
+								</td>
 							</tr>
 						<?php
 							$no++;
 						}
 						?>
+
 					</tbody>
-
 				</table>
-
 			</div>
 		</div>
 	</div>

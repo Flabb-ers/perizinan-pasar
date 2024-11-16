@@ -94,7 +94,7 @@ class Op extends CI_Controller
 	public function save()
 	{
 
-		$source_path = FCPATH . 'template/img/syarat/'; //path lengkap ke direktori sumber
+		$source_path = FCPATH . 'template/img/syarat/';
 		$destination_path = FCPATH . 'template/img/gambarop/';
 
 		$pas_foto = $this->input->post('pas_foto');
@@ -102,7 +102,8 @@ class Op extends CI_Controller
 
 		$tgl_daftar = $this->input->post('tgl_daftar');
 		$batas_berlaku = date('Y-m-d', strtotime('+2 years', strtotime($tgl_daftar)));
-
+		
+		date_default_timezone_set('Asia/Jakarta');
 		$data = [
 			'id_pengajuan' => $this->input->post('id_pengajuan'),
 			'id_jenis' => $this->input->post('id_jenis'),
@@ -120,6 +121,7 @@ class Op extends CI_Controller
 			'tgl_daftar' => $tgl_daftar,
 			'batas_berlaku' => $batas_berlaku,
 			'pas_foto' => $pas_foto,
+			'updated_at' => date('Y-m-d H:i:s'),
 		];
 
 		$data_pengajuan = array(
@@ -196,7 +198,7 @@ class Op extends CI_Controller
 
 		if (isset($_POST['proses'])) {
 
-			$source_path = FCPATH . 'template/img/syarat2/'; //path lengkap ke direktori sumber
+			$source_path = FCPATH . 'template/img/syarat2/'; 
 			$destination_path = FCPATH . 'template/img/gambarop/';
 
 			$pas_foto = $this->input->post('pas_foto');

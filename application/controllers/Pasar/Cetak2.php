@@ -38,44 +38,44 @@ class Cetak2 extends CI_Controller
 		$this->template->load('pages/index', 'pasar/v_cetakbaru/read', $data);
 	}
 
-	public function print($id)
-	{
-		$data = [
-			'dataop' => $this->M_cetak->tampilData($id)->row(),
-			'datakios' => $this->M_cetak->tampilKios($id)->row(),
-			'datapasar' => $this->M_cetak->tampilPasar()->result(),
-			'datatarif' => $this->M_cetak->tampiltarif()->result(),
-			'datapimpinan' => $this->M_cetak->tampilPimpinan()->result(),
-			'datapegawai' => $this->M_cetak->tampilPegawai()->result(),
-			'print' => $this->M_cetak->tampilData($id)->result()
-		];
+	// public function print($id)
+	// {
+	// 	$data = [
+	// 		'dataop' => $this->M_cetak->tampilData($id)->row(),
+	// 		'datakios' => $this->M_cetak->tampilKios($id)->row(),
+	// 		'datapasar' => $this->M_cetak->tampilPasar()->result(),
+	// 		'datatarif' => $this->M_cetak->tampiltarif()->result(),
+	// 		'datapimpinan' => $this->M_cetak->tampilPimpinan()->result(),
+	// 		'datapegawai' => $this->M_cetak->tampilPegawai()->result(),
+	// 		'print' => $this->M_cetak->tampilData($id)->result()
+	// 	];
 
-		$bulan = [
-			1 => 'Januari',
-			2 => 'Februari',
-			3 => 'Maret',
-			4 => 'April',
-			5 => 'Mei',
-			6 => 'Juni',
-			7 => 'Juli',
-			8 => 'Agustus',
-			9 => 'September',
-			10 => 'Oktober',
-			11 => 'November',
-			12 => 'Desember'
-		];
+	// 	$bulan = [
+	// 		1 => 'Januari',
+	// 		2 => 'Februari',
+	// 		3 => 'Maret',
+	// 		4 => 'April',
+	// 		5 => 'Mei',
+	// 		6 => 'Juni',
+	// 		7 => 'Juli',
+	// 		8 => 'Agustus',
+	// 		9 => 'September',
+	// 		10 => 'Oktober',
+	// 		11 => 'November',
+	// 		12 => 'Desember'
+	// 	];
 
-		$bulanMulai = $bulan[date('n', strtotime($data['dataop']->tgl_daftar))];
-		$bulanAkhir = $bulan[date('n', strtotime($data['dataop']->tgl_daftar . ' +2 years'))];
+	// 	$bulanMulai = $bulan[date('n', strtotime($data['dataop']->tgl_daftar))];
+	// 	$bulanAkhir = $bulan[date('n', strtotime($data['dataop']->tgl_daftar . ' +2 years'))];
 
-		$tgl_mulai = date('d', strtotime($data['dataop']->tgl_daftar)) . ' ' . $bulanMulai . ' ' . date('Y', strtotime($data['dataop']->tgl_daftar));
-		$tgl_akhir = date('d', strtotime($data['dataop']->tgl_daftar . ' +2 years')) . ' ' . $bulanAkhir . ' ' . date('Y', strtotime($data['dataop']->tgl_daftar . ' +2 years'));
+	// 	$tgl_mulai = date('d', strtotime($data['dataop']->tgl_daftar)) . ' ' . $bulanMulai . ' ' . date('Y', strtotime($data['dataop']->tgl_daftar));
+	// 	$tgl_akhir = date('d', strtotime($data['dataop']->tgl_daftar . ' +2 years')) . ' ' . $bulanAkhir . ' ' . date('Y', strtotime($data['dataop']->tgl_daftar . ' +2 years'));
 
-		$data['tgl_mulai'] = $tgl_mulai;
-		$data['tgl_akhir'] = $tgl_akhir;
+	// 	$data['tgl_mulai'] = $tgl_mulai;
+	// 	$data['tgl_akhir'] = $tgl_akhir;
 
-		$this->load->view('Pasar/v_cetakbaru/print', $data);
-	}
+	// 	$this->load->view('Pasar/v_cetakbaru/print', $data);
+	// }
 
 
 	// public function print($id)
@@ -198,5 +198,41 @@ class Cetak2 extends CI_Controller
 
 		$this->load->view('pasar/v_cetakbaru/ba_penunjukan', $data);
 	}
+
+	public function downloadSurat($id) {
+
+		$extensions = ['pdf'];
+		
+		$file_found = false;
+		foreach ($extensions as $ext) {
+
+			$filename = 'surat_' . $id . '.' . $ext;
+			$upload_path = FCPATH . 'template/surat/pdf/' . $filename;
+	
+			if (file_exists($upload_path)) {
+				$file_found = true;
+				break;
+			}
+		}
+
+		if ($file_found) {
+			header('Content-Description: File Transfer');
+			header('Content-Type: application/pdf'); 
+			header('Content-Disposition: attachment; filename="' . basename($upload_path) . '"');
+			header('Content-Length: ' . filesize($upload_path));
+			header('Cache-Control: no-cache, no-store, must-revalidate');
+			header('Pragma: no-cache');
+			header('Expires: 0');
+
+			readfile($upload_path);
+			exit;
+		} else {
+			$this->session->set_flashdata('pesan', 'File PDF tidak ditemukan');
+			redirect('Pasar/Cetak2');
+		}
+	}
+	
+	
+	
 	
 }

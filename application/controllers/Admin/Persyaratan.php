@@ -53,7 +53,7 @@ class Persyaratan extends CI_Controller
 				'email' => $this->input->post('email'),
 				'id_jenis' => $this->input->post('id_jenis'),
 				'tanggal' => $tanggal,
-				'status_npwrd' => $this->input->post('status_npwrd'),
+				'status_npwrd' => "Belum",
 				'npwrd' => $this->input->post('npwrd'),
 				'jenis_pengajuan' => 'Baru',
 				'status_op' => 'Belum',
@@ -178,6 +178,6 @@ class Persyaratan extends CI_Controller
 			'datakepala' => $this->M_baru->tampilKepala($nama_pasar)->row(),
 
 		];
-		$this->load->view('Pasar/v_persyaratan/ba_penunjukan', $data);
+		$this->load->view('Admin/v_persyaratan/ba_penunjukan', $data);
 	}
 }

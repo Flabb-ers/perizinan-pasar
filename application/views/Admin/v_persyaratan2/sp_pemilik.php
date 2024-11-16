@@ -69,7 +69,7 @@
 		<tbody>
 			<tr>
 				<td class="header">
-					<img class="header-img" src="http://perizinanpasar.test/template/img/atas.png" alt="logo-pasar">
+				<img src="<?= base_url('/template/img/atas.png'); ?>" alt="logo-pasar" width="60px">
 					<h1 class="header-text">Pemerintah Kabupaten Purworejo <br> <b>DINAS KOPERASI USAHA KECIL MENENGAH
 							DAN PERDAGANGAN</b>
 						<br>Jl. Jenderal Sudirman No.22 Purworejo Kode Pos: 54114 <br>Telp: (0275) 321018, 321028<br>

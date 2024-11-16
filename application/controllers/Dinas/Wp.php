@@ -29,42 +29,47 @@ class Wp extends CI_Controller
 
 	public function create()
 	{
+		$this->load->library('form_validation');
 
 		if (isset($_POST['simpan'])) {
-			$data = [
-				'npwrd' => $this->input->post('npwrd'),
-				'id_pasar' => $this->input->post('id_pasar'),
-				'nama' => $this->input->post('nama'),
-				'alamat' => $this->input->post('alamat'),
-				'nama_pasar' => $this->input->post('nama_pasar'),
-				'nik' => $this->input->post('nik'),
-				'no_telp' => $this->input->post('no_telp'),
-				'email' => $this->input->post('email'),
+			$this->form_validation->set_rules('npwrd', 'NPWRD', 'exact_length[14]|is_unique[tbl_wp.npwrd]', [
+				'exact_length' => 'NPWRD harus terdiri dari 14 karakter.',
+				'is_unique' => 'NPWRD ini sudah terdaftar.'
+			]);
 
-			];
+			if ($this->form_validation->run() == FALSE) {
+				$this->session->set_flashdata('pesan', '<div class="alert alert-danger">Ada beberapa kesalahan dalam input data.</div>');
+			} else {
+				$data = [
+					'npwrd' => $this->input->post('npwrd'),
+					'id_pasar' => $this->input->post('id_pasar'),
+					'nama' => $this->input->post('nama'),
+					'alamat' => $this->input->post('alamat'),
+					'nama_pasar' => $this->input->post('nama_pasar'),
+					'nik' => $this->input->post('nik'),
+					'no_telp' => $this->input->post('no_telp'),
+					'email' => $this->input->post('email'),
+				];
 
-			$data_pengajuan = array(
-				'npwrd' => $this->input->post('npwrd'),
-				'status_npwrd' => "Sudah",
-			);
+				$data_pengajuan = array(
+					'npwrd' => $this->input->post('npwrd'),
+					'status_npwrd' => "Sudah",
+				);
 
-			$id_pengajuan = $this->input->post('id_pengajuan');
+				$id_pengajuan = $this->input->post('id_pengajuan');
 
+				$this->M_wp->addData($data);
 
+				$this->M_baru->editData($id_pengajuan, $data_pengajuan);
 
-			$this->M_wp->addData($data);
-
-			$this->M_baru->editData($id_pengajuan, $data_pengajuan);
-
-
-			$this->session->set_flashdata('pesan', '<div class= "alert alert-success"> 
-	 			Data Berhasil Ditambahkan</div>');
-			redirect('Dinas/wp/index');
+				$this->session->set_flashdata('pesan', '<div class="alert alert-success">Data Berhasil Ditambahkan</div>');
+				redirect('Dinas/wp/index');
+			}
 		}
 
 		$data = [
 			'judul' => 'Data Wajib Pajak',
-			'subjudul' => 'Tambah Data Wajib Pajak)',
+			'subjudul' => 'Tambah Data Wajib Pajak',
 			'kode_wp' => $this->M_wp->get_kode(),
 			'datapengajuan' => $this->M_wp->tampilPengajuan()->result(),
 		];
@@ -72,34 +77,53 @@ class Wp extends CI_Controller
 		$this->template->load('pages/index', 'dinas/v_wp/create', $data);
 	}
 
+
 	public function edit($id)
 	{
+		$this->load->library('form_validation');
+
+		$datawp = $this->M_wp->tampilData($id)->row();
+		$current_npwrd = $datawp->npwrd;
 
 		if (isset($_POST['edit'])) {
-			$data = [
-				'npwrd' => $this->input->post('npwrd'),
-				'nama' => $this->input->post('nama'),
-				'alamat' => $this->input->post('alamat'),
-				'nik' => $this->input->post('nik'),
-				'no_telp' => $this->input->post('no_telp'),
-				'email' => $this->input->post('email'),
+			$this->form_validation->set_rules('npwrd', 'NPWRD', 'exact_length[14]|is_unique[tbl_wp.npwrd]', [
+				'exact_length' => 'NPWRD harus terdiri dari 14 karakter.',
+				'is_unique' => 'NPWRD ini sudah terdaftar.'
+			]);
 
-			];
+			if ($this->input->post('npwrd') == $current_npwrd) {
+				$this->form_validation->set_rules('npwrd', 'NPWRD', 'exact_length[14]');
+			}
 
-			$this->M_wp->editData($id, $data);
-			$this->session->set_flashdata('pesan', '<div class= "alert alert-success"> 
-	 			Data Berhasil Diubah</div>');
-			redirect('Dinas/wp/index');
+			if ($this->form_validation->run() == FALSE) {
+				$this->session->set_flashdata('pesan', '<div class="alert alert-danger">Ada beberapa kesalahan dalam input data.</div>');
+			} else {
+				$data = [
+					'npwrd' => $this->input->post('npwrd') ?: $current_npwrd,
+					'nama' => $this->input->post('nama'),
+					'alamat' => $this->input->post('alamat'),
+					'nik' => $this->input->post('nik'),
+					'no_telp' => $this->input->post('no_telp'),
+					'email' => $this->input->post('email'),
+				];
+
+				$this->M_wp->editData($id, $data);
+
+				$this->session->set_flashdata('pesan', '<div class="alert alert-success">Data Berhasil Diubah</div>');
+				redirect('Dinas/wp/index');
+			}
 		}
 
 		$data = [
 			'judul' => 'Data Wajib Pajak',
 			'subjudul' => 'Edit Data Wajib Pajak',
-			'datawp' => $this->M_wp->tampilData($id)->row(),
+			'datawp' => $datawp,
 		];
 
 		$this->template->load('pages/index', 'dinas/v_wp/edit', $data);
 	}
+
+
 
 	public function hapus($id)
 	{

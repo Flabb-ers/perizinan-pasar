@@ -57,7 +57,7 @@
 
 								<td>
 									<a href="<?php echo site_url('Admin/Op/edit/' . $key->id_objek_pajak) ?>" class="btn btn-success"><i class="fa fa-edit">Edit</i></a>
-									<a href="<?php echo site_url('Admin/Op/proses/' . $key->id_objek_pajak) ?>" class="btn btn-warning">Proses</a>
+									<!-- <a href="<?php echo site_url('Admin/Op/proses/' . $key->id_objek_pajak) ?>" class="btn btn-warning">Proses</a> -->
 
 									<a href="<?php echo site_url('Admin/Op/hapus/' . $key->id_objek_pajak) ?>" onclick="javascript: return confirm('Yakin Mau dihapus <?php echo $key->nama ?>')" class="btn btn-danger"><i class="fa fa-trash">Hapus</i></a>
 								</td>
