@@ -36,6 +36,55 @@ class Cetak2 extends CI_Controller
 	}
 
 
+	public function uploadPage($id_objek_pajak)
+	{
+		$objek_pajak = $this->M_op->getById($id_objek_pajak);
+
+		$data = [
+			'judul' => 'Upload Gambar',
+			'subjudul' => 'Form Upload Gambar',
+			'objek_pajak' => $objek_pajak
+		];
+
+		$this->template->load('pages/index', 'admin/v_surat/upload', $data);
+	}
+
+	public function downloadSurat($id)
+	{
+
+		$extensions = ['pdf'];
+
+		$file_found = false;
+		foreach ($extensions as $ext) {
+
+			$filename = 'surat_' . $id . '.' . $ext;
+			$upload_path = FCPATH . 'template/surat/pdf/' . $filename;
+
+			if (file_exists($upload_path)) {
+				$file_found = true;
+				break;
+			}
+		}
+
+		if ($file_found) {
+			header('Content-Description: File Transfer');
+			header('Content-Type: application/pdf');
+			header('Content-Disposition: attachment; filename="' . basename($upload_path) . '"');
+			header('Content-Length: ' . filesize($upload_path));
+			header('Cache-Control: no-cache, no-store, must-revalidate');
+			header('Pragma: no-cache');
+			header('Expires: 0');
+
+			readfile($upload_path);
+			exit;
+		} else {
+			$this->session->set_flashdata('pesan', 'File PDF tidak ditemukan');
+			redirect('Pasar/Cetak2');
+		}
+	}
+
+
+
 	public function print($id)
 	{
 		$data = [
@@ -195,5 +244,38 @@ class Cetak2 extends CI_Controller
 		];
 
 		$this->load->view('pasar/v_cetakbaru/ba_penunjukan', $data);
+	}
+
+	public function upload($id)
+	{
+		if (isset($_FILES['surat']) && $_FILES['surat']['error'] == 0) {
+			$file_extension = pathinfo($_FILES['surat']['name'], PATHINFO_EXTENSION);
+
+			if (strtolower($file_extension) == 'pdf') {
+				$filename = 'surat_' . $id . '.pdf';
+				$upload_path = FCPATH . 'template/surat/pdf/' . $filename;
+
+				if (file_exists($upload_path)) {
+					unlink($upload_path);
+				}
+				if (move_uploaded_file($_FILES['surat']['tmp_name'], $upload_path)) {
+					date_default_timezone_set('Asia/Jakarta');
+					$data = [
+						'updated_at' => date('Y-m-d H:i:s'),
+					];
+					$this->M_op->editData($id, $data);
+
+					$this->session->set_flashdata('pesan', 'PDF berhasil diupload');
+				} else {
+					$this->session->set_flashdata('pesan', 'Gagal upload PDF');
+				}
+			} else {
+				$this->session->set_flashdata('pesan', 'Hanya file PDF yang diperbolehkan');
+			}
+		} else {
+			$this->session->set_flashdata('pesan', 'Tidak ada file yang diupload');
+		}
+
+		redirect('Admin/Cetak2/uploadPage/' . $id);
 	}
 }

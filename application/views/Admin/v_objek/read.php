@@ -11,10 +11,30 @@
 			<a href="<?php echo site_url('Admin/Objek/create') ?>"><button type="button" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>
 					Tambah Data
 				</button></a>
-			<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#importExcel2" onclick="return confirm('Siapkan data excel dengan header: \nKode Wajib Retribusi\nKlik Oke dan Download Kode Wajib Retibusi untuk menyesuaikan Kode Wajib Ret dan Download Template untuk penyesuaian format yang akan diimport  ')">
+			<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#importExcel2"
+				onclick="return confirm(
+            'Siapkan data excel dengan header berikut: \n\n' +
+            '1. No \n\n' +
+            '2. Kode Wajib Retribusi \n\n' +
+            'Klik Oke untuk Download Kode Wajib Retribusi untuk menyesuaikan Kode Wajib Ret, ' +
+            'dan Download Template untuk penyesuaian format yang akan diimpor.'
+        )">
 				IMPORT OBJEK RETRIBUSI
 			</button>
-			<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#importExcel" onclick="return confirm('Siapkan data excel dengan header: \nKode Objek Ret, Kode Kios, Kode Jenis, Nama Pasar, NPWRD, Nama, Alamat, No. Telepon, Email, Jenis, Nama Blok, No Blok, Tgl Daftar, Batas Berlaku, Status = Sudah\nKlik Oke dan Download Kode Objek Retribusi untuk menyesuaikan Kode Objek Ret dan Download Template untuk penyesuaian format yang akan diimport  ')">
+
+			<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#importExcel"
+				onclick="return confirm(
+            'Siapkan data excel dengan header berikut: \n\n' +
+            '1. No \n' +
+            '2. Kode Objek Retribusi \n' +
+            '3. Kode Kios \n' +
+            '4. Kode Jenis \n' +
+            '5. Jenis (isi dengan Kios/Los) \n' +
+            '6. Tanggal Daftar \n' +
+            '7. Batas Berlaku \n\n' +
+            'Klik Oke untuk Download Kode Objek Retribusi untuk menyesuaikan Kode Objek Ret, ' +
+            'dan Download Template untuk penyesuaian format yang akan diimpor.'
+        )">
 				IMPORT DETAIL OBJEK RETRIBUSI
 			</button>
 			<hr>
@@ -64,7 +84,7 @@
 <div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<form method="post" action="<?php echo site_url('Admin/Op/importOp'); ?>" enctype="multipart/form-data">
-		<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+			<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
@@ -72,7 +92,7 @@
 				<div class="modal-body">
 					<label>Pilih file excel</label>
 					<div class="form-group">
-						<input type="file" name="file_excel" required="required">
+						<input type="file" name="excel_file" required="required">
 					</div>
 
 				</div>
@@ -99,7 +119,7 @@
 <div class="modal fade" id="importExcel2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<form method="post" action="<?php echo site_url('Admin/Op/importWp'); ?>" enctype="multipart/form-data">
-		<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+			<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>

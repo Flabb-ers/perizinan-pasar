@@ -24,6 +24,9 @@
                          
                               <th>Kode Objek Retribusi</th>
                               <th>Nama Wajib Retribusi</th>
+                              <th>NPWRD</th>
+                              <th>Alamat</th>
+                              <th>Telepone</th>
                         </tr></thead>
                        
                         <?php
@@ -33,6 +36,9 @@
                          <tbody><tr>
                          <td><?= $key->id_objek ?></td>
                          <td><?= $key->nama ?></td>
+                         <td><?= $key->npwrd ?></td>
+                         <td><?= $key->alamat ?></td>
+                         <td><?= $key->no_telp ?></td>
                          </tr></tbody>
                          <?php
                          $no++;

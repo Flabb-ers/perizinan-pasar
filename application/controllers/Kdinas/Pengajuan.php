@@ -84,6 +84,7 @@ class Pengajuan extends CI_Controller
 
 			$data_op = $this->M_op->getByNPWRD($npwrd)->row();
 			$pas_foto_lama = $data_op ? $data_op->pas_foto : null;
+			$surat_izin_lama = $data_op ? $data_op->id_objek_pajak : null;
 
 			$pas_foto_baru = $this->input->post('pas_foto');
 			$source_dir = FCPATH . 'template/img/syarat2/' . $pas_foto_baru;
@@ -95,6 +96,14 @@ class Pengajuan extends CI_Controller
 					unlink($old_file_path);
 				}
 			}
+
+			if ($surat_izin_lama) {
+				$path_surat_izin_lama = FCPATH . 'template/surat/pdf/surat_' . $surat_izin_lama . '.pdf';
+				if (file_exists($path_surat_izin_lama)) {
+					unlink($path_surat_izin_lama);
+				}
+			}
+
 
 			if (file_exists($source_dir)) {
 				copy($source_dir, $destination_dir);
@@ -125,7 +134,7 @@ class Pengajuan extends CI_Controller
 			$this->M_baru->editData($id_pengajuan, $data_pengajuan);
 			$this->M_op->editData($id, $data);
 
-			$this->session->set_flashdata('pesan', '<div class="alert alert-success">Data Berhasil Diubah</div>');
+			$this->session->set_flashdata('pesan', '<div class="alert alert-success">Data Berhasil Diperpanjang</div>');
 			redirect('Kdinas/Pengajuan/index');
 		}
 

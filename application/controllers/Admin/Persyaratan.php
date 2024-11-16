@@ -53,7 +53,7 @@ class Persyaratan extends CI_Controller
 				'email' => $this->input->post('email'),
 				'id_jenis' => $this->input->post('id_jenis'),
 				'tanggal' => $tanggal,
-				'status_npwrd' => $this->input->post('status_npwrd'),
+				'status_npwrd' => "Belum",
 				'npwrd' => $this->input->post('npwrd'),
 				'jenis_pengajuan' => 'Baru',
 				'status_op' => 'Belum',

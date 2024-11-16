@@ -9,56 +9,63 @@
 				<div class="col-12">
 					<div class="box box-warning">
 						<div class="box-body">
-							<form class="" action="<?php echo site_url('Admin/Wp/create') ?>" method="post">
+						<form class="" action="<?php echo site_url('Admin/Wp/create') ?>" method="post">
 								<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
 
 								<div class="modal-body">
 									<input type="hidden" name="kode_wp" id="kode_wp" class="form-control" value="<?= $kode_wp ?>" readonly>
+
 									<div class="form-group row">
 										<div class="col-md-6 mb-6 mb-sm-0">
 											<label>Nama</label>
 											<select class="form-control select2bs4" name="id_pengajuan" id="pengajuan" style="width: 100%;" required>
-												<option value="">PILIH NAMA </option>
-												<?php foreach ($datapengajuan as $key) { ?>
-													<option value="<?= $key->id_pengajuan ?>"> <?= $key->nama ?></option>
-												<?php } ?>
+												<option value="">PILIH NAMA</option>
+												<?php foreach ($datapengajuan as $key): ?>
+													<option value="<?= $key->id_pengajuan ?>" <?php echo set_select('id_pengajuan', $key->id_pengajuan); ?>>
+														<?= $key->nama ?>
+													</option>
+												<?php endforeach; ?>
 											</select>
 										</div>
 										<div class="col-md-6">
 											<label>NPWRD</label><br>
-											<input type="text" name="npwrd" id="npwrd" pattern="[0-9]{14}" class="form-control">
-											<input type="hidden" name="nama" id="nama" class="form-control">
-											<input type="hidden" name="nama_pasar" id="nama_pasar" class="form-control">
-											<input type="hidden" name="id_pasar" id="id_pasar" class="form-control">
+											<input type="text" name="npwrd" id="npwrd" pattern="[0-9]{14}" class="form-control" value="<?php echo set_value('npwrd'); ?>">
+											<input type="hidden" name="nama" id="nama" class="form-control" value="<?php echo set_value('nama'); ?>">
+											<input type="hidden" name="nama_pasar" id="nama_pasar" class="form-control" value="<?php echo set_value('nama_pasar'); ?>">
+											<input type="hidden" name="id_pasar" id="id_pasar" class="form-control" value="<?php echo set_value('id_pasar'); ?>">
+											<?php if (form_error('npwrd')): ?>
+												<div class="text-danger">
+													<?php echo form_error('npwrd'); ?>
+												</div>
+											<?php endif; ?>
 										</div>
 									</div>
 
 									<div class="form-group row">
 										<div class="col-md-6 mb-6 mb-sm-0">
 											<label>NIK</label><br>
-											<input type="text" name="nik" id="nik" class="form-control" pattern="[0-9]{16}" readonly>
+											<input type="text" name="nik" id="nik" class="form-control" pattern="[0-9]{16}" readonly value="<?php echo set_value('nik'); ?>">
 										</div>
 										<div class="col-md-6">
 											<label>Alamat</label><br>
-											<input type="text" name="alamat" id="alamat" class="form-control" readonly>
+											<input type="text" name="alamat" id="alamat" pattern="[A-Za-z ,.]+" class="form-control" readonly value="<?php echo set_value('alamat'); ?>">
 										</div>
 									</div>
+
 									<div class="form-group row">
 										<div class="col-md-6 mb-6 mb-sm-0">
 											<label>No. Telp</label><br>
-											<input type="tel" name="no_telp" id="no_telp" class="form-control" pattern="(\+62|62|0)8[1-9][0-9]{6,9}$" readonly>
+											<input type="tel" name="no_telp" id="no_telp" class="form-control" pattern="(\+62|62|0)8[1-9][0-9]{6,9}$" readonly value="<?php echo set_value('no_telp'); ?>">
 										</div>
 										<div class="col-md-6">
-
 											<label>Email</label><br>
-											<input type="email" name="email" id="email" class="form-control" readonly>
+											<input type="email" name="email" id="email" class="form-control" readonly value="<?php echo set_value('email'); ?>">
 										</div>
 									</div>
 
-
 									<a href="<?php echo site_url('Admin/Wp') ?>"><button name="simpan" type="submit" class="btn btn-primary">Submit</button></a>
 									<button type="reset" name="reset" class="btn btn-danger">Reset</button>
-									<a href="<?php echo site_url('Admin/Wp') ?>"><button type="button" name="button" class="btn btn-warning">Cancel</button>
+									<a href="<?php echo site_url('Admin/Wp') ?>"><button type="button" name="button" class="btn btn-warning">Cancel</button></a>
 								</div>
 							</form>
 						</div>

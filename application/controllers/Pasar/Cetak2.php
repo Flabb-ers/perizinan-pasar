@@ -200,37 +200,33 @@ class Cetak2 extends CI_Controller
 	}
 
 	public function downloadSurat($id) {
-		// Tentukan ekstensi yang ingin dicari
-		$extensions = ['pdf']; // Hanya mencari file PDF
+
+		$extensions = ['pdf'];
 		
 		$file_found = false;
 		foreach ($extensions as $ext) {
-			// Tentukan nama file berdasarkan id dan ekstensi
-			$filename = 'gambar_' . $id . '.' . $ext;
-			$upload_path = FCPATH . 'template/surat/img/' . $filename;
+
+			$filename = 'surat_' . $id . '.' . $ext;
+			$upload_path = FCPATH . 'template/surat/pdf/' . $filename;
 	
-			// Periksa apakah file dengan ekstensi yang sesuai ada
 			if (file_exists($upload_path)) {
 				$file_found = true;
-				break; // Keluar dari loop setelah menemukan file yang cocok
+				break;
 			}
 		}
-	
-		// Jika file ditemukan, lakukan proses download
+
 		if ($file_found) {
 			header('Content-Description: File Transfer');
-			header('Content-Type: application/pdf'); // Pastikan header untuk PDF
+			header('Content-Type: application/pdf'); 
 			header('Content-Disposition: attachment; filename="' . basename($upload_path) . '"');
 			header('Content-Length: ' . filesize($upload_path));
 			header('Cache-Control: no-cache, no-store, must-revalidate');
 			header('Pragma: no-cache');
 			header('Expires: 0');
-			
-			// Membaca file dan mengirimkan isinya untuk diunduh
+
 			readfile($upload_path);
 			exit;
 		} else {
-			// Jika file tidak ditemukan, tampilkan pesan
 			$this->session->set_flashdata('pesan', 'File PDF tidak ditemukan');
 			redirect('Pasar/Cetak2');
 		}

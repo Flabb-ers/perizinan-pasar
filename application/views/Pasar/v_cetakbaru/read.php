@@ -32,12 +32,9 @@
 						<?php
 						$no = 1;
 						foreach ($databaru as $key) {
-							// Tentukan nama file PDF berdasarkan id_objek_pajak dan ekstensi .pdf
-							$filename = 'gambar_' . $key->id_objek_pajak . '.pdf';
-							// Tentukan path tempat file PDF disimpan
-							$upload_path = FCPATH . 'template/surat/img/' . $filename;
+							$filename = 'surat_' . $key->id_objek_pajak . '.pdf';
+							$upload_path = FCPATH . 'template/surat/pdf/' . $filename;
 
-							// Periksa apakah file PDF ada di path tersebut
 							if (file_exists($upload_path)):
 						?>
 								<tr>

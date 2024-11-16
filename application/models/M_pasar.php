@@ -45,4 +45,11 @@ class M_pasar extends CI_Model
 	{
 		return $this->db->insert_batch('tbl_pasar', $data);
 	}
+
+	public function getById($id_pasar)
+	{
+		$this->db->where('id_pasar', $id_pasar);
+		$query = $this->db->get('tbl_pasar');
+		return $query->row();
+	}
 }

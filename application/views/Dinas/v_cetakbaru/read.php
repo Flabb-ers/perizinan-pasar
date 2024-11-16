@@ -45,41 +45,13 @@
 								<td><?= $key->jenis_dagangan ?></td>
 								<td><?= $key->tgl_daftar ?></td>
 								<td><?= $key->batas_berlaku ?></td>
+
 								<td>
-									<a href="<?= base_url('Dinas/Cetak2/print/' . $key->id_objek_pajak); ?>" target="_blank" class="btn btn-danger"><i class="fa fa-download">Cetak</i></a>
-									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal-<?= $key->id_objek_pajak; ?>">
-										<i class="fa fa-upload"></i> Upload Gambar
-									</button>
+									<a href="<?= base_url('Dinas/Cetak2/uploadPage/' . $key->id_objek_pajak); ?>" class="btn btn-primary">
+										<i class="fa fa-wrench"></i> Kelola Surat
+									</a>
 								</td>
 							</tr>
-
-							<!-- Modal Upload Gambar -->
-							<div class="modal fade" id="uploadModal-<?= $key->id_objek_pajak; ?>" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
-								<div class="modal-dialog" role="document">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h5 class="modal-title" id="uploadModalLabel">Upload Gambar</h5>
-											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-											</button>
-										</div>
-										<div class="modal-body">
-											<!-- Menampilkan NPWRD dan Nama di Modal -->
-											<p><strong>NPWRD:</strong> <?= $key->npwrd ?></p>
-											<p><strong>Nama Wajib Pajak:</strong> <?= $key->nama ?></p>
-											<form action="<?= base_url('Dinas/Cetak2/upload/' . $key->id_objek_pajak); ?>" method="POST" enctype="multipart/form-data">
-											<input type="hidden" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" style="display: none">
-												<div class="form-group">
-													<label for="foto">Pilih Gambar</label>
-													<input type="file" class="form-control-file" id="foto" name="foto" required>
-												</div>
-												<button type="submit" class="btn btn-success">Upload</button>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-
 						<?php
 							$no++;
 						}

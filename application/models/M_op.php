@@ -36,7 +36,7 @@ class M_op extends CI_Model
 
 	public function getObjekWithNamaWp()
 	{
-		$this->db->select('tbl_objek.id_objek, tbl_wp.nama');
+		$this->db->select('tbl_objek.id_objek, tbl_wp.*');
 		$this->db->from('tbl_objek');
 		$this->db->join('tbl_wp', 'tbl_objek.id_wajib_pajak = tbl_wp.id_wajib_pajak');
 
@@ -389,6 +389,19 @@ class M_op extends CI_Model
     $query = $this->db->get();
     return $query;
 }
+public function getById($id_objek_pajak)
+{
+    $this->db->select('tbl_op.*, tbl_jenis.*, tbl_kios.*, tbl_pasar.*, tbl_tarif.*, DATEDIFF(tbl_op.batas_berlaku, CURDATE()) as jarak_hari');
+    $this->db->from('tbl_op');
+    $this->db->join('tbl_jenis', 'tbl_op.id_jenis = tbl_jenis.id_jenis');
+    $this->db->join('tbl_kios', 'tbl_op.id_kios = tbl_kios.id_kios');
+    $this->db->join('tbl_pasar', 'tbl_kios.id_pasar = tbl_pasar.id_pasar');
+    $this->db->join('tbl_tarif', 'tbl_kios.id_tarif = tbl_tarif.id_tarif');
+    $this->db->where('tbl_op.id_objek_pajak', $id_objek_pajak); 
+    $query = $this->db->get();
+    return $query->row(); 
+}
+
 
 
 	public function tampilAdminOP()
@@ -545,16 +558,16 @@ class M_op extends CI_Model
 		return $query;
 	}
 
-	public function addDataImport($data)
-	{
-		$this->db->insert_batch('tbl_op', $data);
-
+	public function addDataImport($data) {
+		$this->db->insert('tbl_op', $data);
 		if ($this->db->affected_rows() > 0) {
-			return 1;
+			return true;
 		} else {
-			return 0;
+			return false;
 		}
 	}
+	
+	
 
 	public function addImportWp($data)
 	{
